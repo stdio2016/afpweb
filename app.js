@@ -6,6 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var jianpuRouter = require('./routes/jianpu');
+var qbshRouter = require('./routes/qbsh');
+var pastQueriesRouter = require('./routes/pastQueries');
+var songListRouter = require('./routes/songList');
 
 var app = express();
 
@@ -21,6 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/jianpu', jianpuRouter);
+app.use('/qbsh', qbshRouter);
+app.use('/pastQueries', pastQueriesRouter);
+app.use('/songList', songListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

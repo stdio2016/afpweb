@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { place: 'main' });
+  res.render('qbsh', { place: 'qbsh' });
 });
 
 module.exports = router;

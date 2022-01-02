@@ -1,7 +1,25 @@
 doctype html
 html
   head
-    title= title
+    meta(charset='utf-8')
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    block title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    nav.navigation.cyan-bg
+      span#banner afpweb
+      span.split
+      ul.menu
+        li(class=(place=='main' ? 'selected' : ''))
+          a(href='.') 主畫面
+        li(class=(place=='jianpu' ? 'selected' : ''))
+          a(href='jianpu') 簡譜搜尋
+        li(class=(place=='qbsh' ? 'selected' : ''))
+          a(href='qbsh') 哼唱搜尋
+        li(class=(place=='pastQueries' ? 'selected' : ''))
+          a(href='pastQueries') 搜尋紀錄
+        li(class=(place=='songList' ? 'selected' : ''))
+          a(href='songList') 歌曲清單
+      span.split-right
+    section
+      block content
