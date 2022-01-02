@@ -5,4 +5,12 @@ block title
 
 block content
   h1 簡譜搜尋
-  p TODO
+  p
+    | 只要輸入簡譜的數字 1~7 就可以找到歌曲
+    br
+    | 如小蜜蜂：
+    a(href=PREFIX+'/jianpu/search?jianpu=5334221234555') 5334221234555
+  form(method='GET' action=PREFIX+'/jianpu/search')
+    | 簡譜：
+    input(name='jianpu' pattern='[0-9]*' required)
+    button.button.blue(type='submit') 搜尋

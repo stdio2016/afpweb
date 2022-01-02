@@ -1,4 +1,5 @@
 doctype html
+- PREFIX=''
 html
   head
     meta(charset='utf-8')
@@ -11,15 +12,15 @@ html
       span.split
       ul.menu
         li(class=(place=='main' ? 'selected' : ''))
-          a(href='.') 主畫面
+          a(href=PREFIX+'/') 主畫面
         li(class=(place=='jianpu' ? 'selected' : ''))
-          a(href='jianpu') 簡譜搜尋
+          a(href=PREFIX+'/jianpu') 簡譜搜尋
         li(class=(place=='qbsh' ? 'selected' : ''))
-          a(href='qbsh') 哼唱搜尋
+          a(href=PREFIX+'/qbsh') 哼唱搜尋
         li(class=(place=='pastQueries' ? 'selected' : ''))
-          a(href='pastQueries') 搜尋紀錄
+          a(href=PREFIX+'/pastQueries') 搜尋紀錄
         li(class=(place=='songList' ? 'selected' : ''))
-          a(href='songList') 歌曲清單
+          a(href=PREFIX+'/songList') 歌曲清單
       span.split-right
     section
       block content
