@@ -11,4 +11,6 @@ block content
     button.button.blue(type='submit') 搜尋
   ol
     for i in result
-      li #{i.song.name}，配對分數：#{i.score.toFixed(2)}
+      li
+        a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
+        | ，配對分數：#{i.score.toFixed(2)}

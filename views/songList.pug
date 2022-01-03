@@ -12,6 +12,7 @@ block content
       th 語言
     for song in Object.values(songs)
       tr
-        td= song.name
+        td
+          a(href=PREFIX+'/songList/'+song.id)= song.name
         td= song.singer || '無'
         td= song.language || '無'

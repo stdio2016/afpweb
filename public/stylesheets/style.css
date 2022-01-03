@@ -278,3 +278,17 @@ textarea {
   50%  {background-position:10px 0px;}
   100% {background-position:20px 0px;}
 }
+
+/* jianpu */
+.accidental {
+	font-size:12px;
+}
+text {
+	text-anchor:middle;
+}
+.to-jianpu svg {
+	vertical-align: top;
+}
+.playing {
+	fill: red;
+}
