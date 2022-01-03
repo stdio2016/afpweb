@@ -9,4 +9,6 @@ block content
     | 簡譜：
     input(name='jianpu' pattern='[0-9]*' required value=query)
     button.button.blue(type='submit') 搜尋
-  p TODO
+  ol
+    for i in result
+      li #{i.song.name}，配對分數：#{i.score.toFixed(2)}
