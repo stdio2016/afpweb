@@ -70,4 +70,42 @@ router.post('/([0-9]+)', function(req, res, next) {
   }
 });
 
+// add song
+router.get('/add', function(req, res, next) {
+  res.render('songAdd', { place: 'songList' });
+});
+
+// confirm add
+router.post('/add', function(req, res, next) {
+  const form = req.body;
+  connection.query(
+    'INSERT INTO songs(name,singer,language,jianpu) VALUES(?,?,?,?)',
+    [form.name, form.singer||null, form.language||null, form.jianpu||null],
+    callback
+  );
+  function callback(err, result) {
+    if (err) {
+      console.error(err);
+      res.redirect('?failed');
+      return;
+    }
+    console.log(result);
+    const songID = result.insertId;
+    const me = {
+      id: songID,
+      name: form.name,
+      singer: form.singer,
+      language: form.language,
+      jianpu: form.jianpu
+    };
+    if (form.jianpu) {
+      const {pitch, duration} = jianpu_to_pitch(form.jianpu);
+      me.pitch = pitch;
+      me.duration = duration;
+    }
+    jianpuDB[songID] = me;
+    res.redirect(songID);
+  }
+});
+
 module.exports = router;

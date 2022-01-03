@@ -2,7 +2,7 @@ extends layout
 
 block title
   if song
-    title 歌曲 #{song.name}
+    title 編輯歌曲 #{song.name}
   else
     title 找不到歌曲
 
@@ -11,7 +11,7 @@ block content
     h1 編輯歌曲 #{song.name}
     form(method='POST' action='./')
       p 歌名：
-        input(name='name' value=song.name)
+        input(name='name' value=song.name required)
       p 歌手：
         input(name='singer' value=(song.singer || ''))
       p 語言：

@@ -1,0 +1,17 @@
+extends layout
+
+block title
+  title 新增歌曲
+
+block content
+  h1 新增歌曲
+  form(method='POST')
+    p 歌名：
+      input(name='name' required)
+    p 歌手：
+      input(name='singer')
+    p 語言：
+      input(name='language')
+    p 簡譜（選擇性）：
+      textarea(name='jianpu' style='width:100%')
+    button.button.blue(type=submit) 確定
