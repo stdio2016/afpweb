@@ -6,6 +6,7 @@ var db_option = {
     user: 'nodejs',
     password: 'nodejs',
     database: 'afpweb',
+    charset : 'utf8mb4',
     port: 3306
 };
 
@@ -19,7 +20,7 @@ conn.query(
         language varchar(50) DEFAULT NULL,
         jianpu text DEFAULT NULL,
         PRIMARY KEY (id)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`,
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
     [],
     function (err, results, fields) {
         if (err) throw err;
