@@ -20,6 +20,7 @@ router.get('/search', function(req, res, next) {
   const result = [];
   for (var i in jianpuDB) {
     const song = jianpuDB[i];
+    if (!song.pitch) continue;
     const score = match_score(song.pitch, jianpu, song.duration);
     if (score < 999999)
       result.push({score: 1000/(score+10), songId: i, song: jianpuDB[i]});

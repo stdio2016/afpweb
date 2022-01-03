@@ -5,4 +5,13 @@ block title
 
 block content
   h1 歌曲清單
-  p TODO
+  table
+    thead.cyan-bg
+      th 歌名
+      th 歌手
+      th 語言
+    for song in Object.values(songs)
+      tr
+        td= song.name
+        td= song.singer || '無'
+        td= song.language || '無'

@@ -29,20 +29,25 @@ conn.query(
 let jianpuDB = {};
 
 conn.query(
-    'SELECT id, name, jianpu FROM songs',
+    'SELECT * FROM songs',
     [],
     function (err, results, _fields) {
         if (err) throw err;
         results.forEach(row => {
+            let song = {
+                name: row.name,
+                id: row.id,
+                singer: row.singer,
+                language: row.language,
+                jianpu: row.jianpu,
+            };
             if (row.jianpu) {
                 let {pitch, duration} = jianpu_to_pitch(row.jianpu);
-                jianpuDB[row.id] = {
-                    name: row.name,
-                    pitch: pitch,
-                    duration: duration
-                };
-                console.log(row.name);
+                song.pitch = pitch;
+                song.duration = duration;
             }
+            jianpuDB[row.id] = song;
+            console.log(row.name);
         });
     }
 );
