@@ -52,23 +52,42 @@ function match_score(song, query, song_dur) {
         return 999999
     let dp1 = Array(ns+1).fill(0)
     let dp2 = Array(ns+1).fill(0)
+    let bt1 = []
+    let bt2 = Array(ns+1).fill(0)
     const avg = song_dur.reduce((p, v) => p+v, 0) / ns
     for (var i = 1; i < ns; i++)
         dp1[i] = Math.max(1.2 - song_dur[i-1] / avg, 0) * 2
+    for (var i = 0; i <= ns; i++)
+        bt1.push(i);
     dp1[ns] = 999999
     for (var i = 0; i < nq; i++) {
         dp2[0] = 999999
         for (var j = 0; j < ns; j++) {
             let diff = Math.abs(song[j] - query[i])
             if (diff > 6) diff = 12 - diff
-            dp2[j+1] = Math.min(dp1[j] + diff, dp1[j+1] + 4, dp2[j] + 4)
+            let nxt = Math.min(dp1[j] + diff, dp1[j+1] + 4, dp2[j] + 4)
+            dp2[j+1] = nxt;
+            if (dp2[j] + 4 == nxt)
+                bt2[j+1] = bt2[j];
+            else if (dp1[j] + diff == nxt)
+                bt2[j+1] = bt1[j];
+            else
+                bt2[j+1] = bt1[j+1];
         }
-        [dp1, dp2] = [dp2, dp1]
+        [dp1, dp2] = [dp2, dp1];
+        [bt1, bt2] = [bt2, bt1]
     }
     for (var i = 0; i < ns; i++)
         dp1[i+1] += Math.max(1.2 - song_dur[i] / avg, 0) * 2
     let best = dp1.reduce((p, v) => Math.min(p, v), 999999)
-    return best
+    let from = 0, to = 0;
+    for (var i = 0; i <= ns; i++) {
+        if (dp1[i] == best) {
+            from = bt1[i];
+            to = i;
+        }
+    }
+    return [best, from, to];
 }
 
 module.exports = {jianpu_to_pitch, match_score};

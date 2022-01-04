@@ -3,6 +3,10 @@ extends layout
 block title
   title 簡譜搜尋結果
 
+block scripts
+  script(src='../javascripts/je.js')
+  script(src='../javascripts/songShow.js')
+
 block content
   h1 簡譜搜尋結果
   form(method='GET' action='search')
@@ -14,3 +18,4 @@ block content
       li
         a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
         | ，配對分數：#{i.score.toFixed(2)}
+        div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu

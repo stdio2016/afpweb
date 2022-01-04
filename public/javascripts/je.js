@@ -200,10 +200,12 @@ function parseBar (ctx) {
 	return null;
 }
 
-function parseJianpu(txt) {
+function parseJianpu(txt, from, to) {
 	var ctx = {text: txt, i: 0};
 	var meas = [];
 	var sco = [meas];
+	var nodeN = 0;
+	var fromMeas = -1, toMeas = -1;
 	while (ctx.i < txt.length) {
 		var item;
 		item = parseNote(ctx);
@@ -214,15 +216,31 @@ function parseJianpu(txt) {
 			meas = [];
 			sco.push(meas);
 		}
-		else if (item) meas.push(item);
+		else if (item) {
+			if (item instanceof Note && item.pitch.step >= '1' && item.pitch.step <= '7') {
+				if (nodeN >= from && nodeN < to) {
+					item.mark = true;
+					if (fromMeas == -1) fromMeas = sco.length;
+					toMeas = sco.length;
+				}
+				nodeN++;
+			}
+			meas.push(item);
+		}
 		else ctx.i++;
+	}
+	if (from != null) {
+		console.log('measure', fromMeas, toMeas);
+		sco = sco.slice(fromMeas - 1, toMeas + 1);
 	}
 	return sco;
 }
 
 function renderJianpu(hack) {
 	var t = hack.innerText;
-	t = parseJianpu(t);
+	var from = hack.dataset.from;
+	var to = hack.dataset.to;
+	t = parseJianpu(t, from, to);
 	hack.innerHTML = '';
 	for (var i = 0; i < t.length; i++) {
 		var meas = t[i];
@@ -234,8 +252,10 @@ function renderJianpu(hack) {
 		for (var j = 0; j < meas.length; j++) {
 			if (meas[j] instanceof Note) {
 				beat = beat + meas[j].duration.getBeat();
-				var connectR = beat - Math.floor(beat) != 0;
-				img.appendChild(meas[j].render(x, 34, connect, connectR));
+				var connectR = beat - Math.floor(beat) != 0
+				var render = meas[j].render(x, 34, connect, connectR);
+				if (meas[j].mark) render.classList.add('playing');
+				img.appendChild(render);
 				connect = connectR;
 				y = Math.max(y, meas[j].getMaxY());
 			}
