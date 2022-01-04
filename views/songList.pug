@@ -5,14 +5,15 @@ block title
 
 block content
   h1 歌曲清單
-  p
-    a(href=PREFIX+'/songList/add')
+  form(action=PREFIX+'/songList/add' method='GET')
+    p
       button.button.cyan 新增
   table
     thead.cyan-bg
-      th 歌名
-      th 歌手
-      th 語言
+      tr
+        th 歌名
+        th 歌手
+        th 語言
     for song in Object.values(songs)
       tr
         td

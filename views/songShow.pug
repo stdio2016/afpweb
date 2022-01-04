@@ -17,8 +17,8 @@ block scripts
 block content
   if song
     h1 歌曲 #{song.name}
-    p
-      a(href=PREFIX+'/songList/'+song.id+'/edit') 編輯
+    form(action=PREFIX+'/songList/'+song.id+'/edit' method='GET')
+      button.button.cyan 編輯
     p 歌手：#{song.singer || '無'}
     p 語言：#{song.language || '無'}
     if song.jianpu
