@@ -230,8 +230,7 @@ function parseJianpu(txt, from, to) {
 		else ctx.i++;
 	}
 	if (from != null) {
-		console.log('measure', fromMeas, toMeas);
-		sco = sco.slice(fromMeas - 1, toMeas + 1);
+		sco = sco.slice(Math.max(fromMeas - 2, 0), toMeas + 1);
 	}
 	return sco;
 }

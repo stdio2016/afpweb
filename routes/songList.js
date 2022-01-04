@@ -89,7 +89,6 @@ router.post('/add', function(req, res, next) {
       res.redirect('?failed');
       return;
     }
-    console.log(result);
     const songID = result.insertId;
     const me = {
       id: songID,
