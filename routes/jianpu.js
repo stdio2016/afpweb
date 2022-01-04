@@ -13,12 +13,13 @@ router.get('/', function(req, res, next) {
 router.get('/search', function(req, res, next) {
   const jianpu = jianpu_to_pitch(req.query.jianpu).pitch;
   const result = [];
+  const max = jianpu.length * 2;
   for (var i in jianpuDB) {
     const song = jianpuDB[i];
     if (!song.pitch) continue;
     const [score, from, to] = match_score(song.pitch, jianpu, song.duration);
     if (score < 999999)
-      result.push({score: 1000/(score+10), songId: i, song: jianpuDB[i],
+      result.push({score: Math.max(0, 100*(max-score)/max), songId: i, song: jianpuDB[i],
         from: from, to: to});
   }
   result.sort((a,b) => b.score - a.score);

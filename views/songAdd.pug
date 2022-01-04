@@ -3,6 +3,22 @@ extends layout
 block title
   title 新增歌曲
 
+block scripts
+  script.
+    // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position/34278578
+    function insert(ch) {
+      var elt = document.getElementsByName('jianpu')[0];
+      if (elt.selectionStart != null) {
+        var start = elt.selectionStart;
+        var end = elt.selectionEnd;
+        var txt = elt.value;
+        elt.value = txt.substring(0, start) + ch + txt.substring(end, txt.length);
+        elt.selectionStart = start + 1;
+        elt.selectionEnd = start + 1;
+        elt.focus();
+      }
+    }
+
 block content
   h1 新增歌曲
   form(method='POST')
@@ -13,5 +29,14 @@ block content
     p 語言：
       input(name='language')
     p 簡譜（選擇性）：
+      br
+      button(type='button' onclick='insert("#")') #
+      button(type='button' onclick='insert("\'")') '
+      button(type='button' onclick='insert(",")') ,
+      button(type='button' onclick='insert("-")') -
+      button(type='button' onclick='insert("_")') _
+      button(type='button' onclick='insert("=")') =
+      button(type='button' onclick='insert(".")') .
+      button(type='button' onclick='insert("|")') |
       textarea(name='jianpu' style='width:100%')
     button.button.blue(type=submit) 確定
