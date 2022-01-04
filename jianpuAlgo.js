@@ -49,7 +49,7 @@ function jianpu_to_pitch(jianpu) {
 function match_score(song, query, song_dur) {
     const ns = song.length, nq = query.length
     if (ns == 0 || nq == 0)
-        return 999999
+        return [999999, null, null];
     let dp1 = Array(ns+1).fill(0)
     let dp2 = Array(ns+1).fill(0)
     let bt1 = []
