@@ -1,5 +1,5 @@
 function jianpu_to_pitch(jianpu) {
-    const pitch_steps = [0, 2, 4, 5, 7, 9, 11]
+    const pitch_steps = [0, 1, 2, 3, 4, 5, 6]
     const code = []
     const dur = []
     let du_type = 0
@@ -12,7 +12,7 @@ function jianpu_to_pitch(jianpu) {
             let pitch = pitch_steps[ch.charCodeAt(0) - 49]
             if (i > 0) {
                 ch = jianpu[i-1]
-                if (ch == '#') {
+                /*if (ch == '#') {
                     pitch += 1
                     if (i > 1 && jianpu[i-2] == '#')
                         pitch += 1
@@ -21,7 +21,7 @@ function jianpu_to_pitch(jianpu) {
                     pitch -= 1
                     if (i > 1 && jianpu[i-2] == 'b')
                         pitch -= 1
-                }
+                }*/
             }
             code.push(pitch % 12)
             du += 0.5**du_type * (2 - 0.5**du_dots) * (du_mul+1)
@@ -64,10 +64,10 @@ function match_score(song, query, song_dur) {
         dp2[0] = 999999
         for (var j = 0; j < ns; j++) {
             let diff = Math.abs(song[j] - query[i])
-            if (diff > 6) diff = 12 - diff
-            let nxt = Math.min(dp1[j] + diff, dp1[j+1] + 4, dp2[j] + 4)
+            if (diff > 3) diff = 7 - diff
+            let nxt = Math.min(dp1[j] + diff, dp1[j+1] + 2, dp2[j] + 2)
             dp2[j+1] = nxt;
-            if (dp2[j] + 4 == nxt)
+            if (dp2[j] + 2 == nxt)
                 bt2[j+1] = bt2[j];
             else if (dp1[j] + diff == nxt)
                 bt2[j+1] = bt1[j];
@@ -85,6 +85,7 @@ function match_score(song, query, song_dur) {
         if (dp1[i] == best) {
             from = bt1[i];
             to = i;
+            break;
         }
     }
     return [best, from, to];
