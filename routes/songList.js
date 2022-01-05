@@ -5,38 +5,63 @@ const { jianpu_to_pitch } = require('../jianpuAlgo');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('songList', { place: 'songList', songs: jianpuDB });
+  connection().query('SELECT id,name,singer,language FROM songs', function (err, result) {
+    if (err) {
+      console.error(err);
+      res.status(500);
+      res.render('error', {error: err});
+      return;
+    }
+    res.render('songList', { place: 'songList', songs: result });
+    return;
+  });
 });
 
 // show single song
 router.get('/([0-9]+)', function(req, res, next) {
   let songID = req.path.match(/^\/([0-9]+)/)[1]
-  if (songID in jianpuDB) {
-    res.render('songShow', { place: 'songList', song: jianpuDB[songID]});
-  }
-  else {
-    res.render('songShow', { place: 'songList', song: null});
-    res.status(404);
-  }
+  connection().query('SELECT * FROM songs WHERE id=?', [songID], function (err, result) {
+    if (err) {
+      console.error(err);
+      res.status(500);
+      res.render('error', {error: err});
+      return;
+    }
+    if (result.length > 0)
+      res.render('songShow', { place: 'songList', song: result[0] });
+    else {
+      res.render('songShow', { place: 'songList', song: null});
+      res.status(404);
+    }
+    return;
+  });
 });
 
 // edit song
 router.get('/([0-9]+)/edit', function(req, res, next) {
   let songID = req.path.match(/^\/([0-9]+)/)[1]
-  if (songID in jianpuDB) {
-    res.render('songEdit', { place: 'songList', song: jianpuDB[songID]});
-  }
-  else {
-    res.render('songEdit', { place: 'songList', song: null});
-    res.status(404);
-  }
+  connection().query('SELECT * FROM songs WHERE id=?', [songID], function (err, result) {
+    if (err) {
+      console.error(err);
+      res.status(500);
+      res.render('error', {error: err});
+      return;
+    }
+    if (result.length > 0)
+      res.render('songEdit', { place: 'songList', song: result[0] });
+    else {
+      res.render('songEdit', { place: 'songList', song: null});
+      res.status(404);
+    }
+    return;
+  });
 });
 
 // confirm edit
 router.post('/([0-9]+)', function(req, res, next) {
   let songID = req.path.match(/^\/([0-9]+)/)[1];
   const form = req.body;
-  connection.query(
+  connection().query(
     'UPDATE songs SET name=?,singer=?,language=?,jianpu=? WHERE id=?',
     [form.name, form.singer||null, form.language||null, form.jianpu||null, +songID],
     callback
@@ -78,7 +103,7 @@ router.get('/add', function(req, res, next) {
 // confirm add
 router.post('/add', function(req, res, next) {
   const form = req.body;
-  connection.query(
+  connection().query(
     'INSERT INTO songs(name,singer,language,jianpu) VALUES(?,?,?,?)',
     [form.name, form.singer||null, form.language||null, form.jianpu||null],
     callback
