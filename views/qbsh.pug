@@ -3,6 +3,32 @@ extends layout
 block title
   title 哼唱搜尋
 
+block scripts
+  script(src='javascripts/libflac.min.wasm.js')
+
 block content
   h1 哼唱搜尋
-  p TODO
+  p 請對著電腦的麥克風，哼出旋律10秒
+  div.main-controls
+    canvas.visualizer(height="120" width='600')
+    div
+      button#btnRecord.button.cyan 錄音
+      button#btnStop.button.red 停止
+    p
+      | 上傳檔案
+      input#inFile(type='file')
+      button#btnUpload.button.blue(onclick="uploadFile()") 上傳
+  div.progress(style='margin-top:15px;margin-bottom:15px;')
+    div.progress-bg
+      div.progress-bar(style='width:0%')
+    div#progressMessage(style='height:1em;')
+  div.query-results
+    table(style='table-layout: auto;')
+      thead
+        tr(class='cyan-bg')
+          th 歌名
+          th 歌手
+          th 相似度
+          th 試聽
+      tbody
+  script(type="text/javascript" src="javascripts/record.js")
