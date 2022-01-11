@@ -23,6 +23,9 @@ router.get('/search', function(req, res, next) {
         from: from, to: to});
   }
   result.sort((a,b) => b.score - a.score);
+  querySQL('INSERT INTO past_queries(method,top_song,details) VALUES(?,?,?)',
+    ['jianpu', result.length > 0 ? result[0].song.name : null, JSON.stringify(result)]
+  );
   res.render('jianpuSearch', { place: 'jianpu', query: req.query.jianpu, result: result });
 });
 

@@ -6,10 +6,22 @@ block title
 block content
   h1 搜尋紀錄
   div
-    table(style='table-layout: auto;')
+    table(style='table-layout: auto;')#pastQueries
       thead
         tr(class='cyan-bg')
           th 查詢時間
-          th 查詢
-          th 結果
+          th 方法
+          th 查詢結果
       tbody
+        for i in queries
+          tr
+            td
+              a(href=PREFIX+'/pastQueries/'+i.id) #{i.query_time.valueOf()}
+            td= i.method
+            td= i.top_song
+  script.
+    var table = document.getElementById('pastQueries')
+    for (var i = 1; i < table.rows.length; i++) {
+      var cell = table.rows[i].cells[0]
+      cell.children[0].innerHTML = new Date(parseInt(cell.textContent)).toLocaleString()
+    }

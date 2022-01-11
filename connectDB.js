@@ -35,6 +35,21 @@ conn.query(
         if (err) throw err;
     }
 );
+conn.query(
+    `CREATE TABLE IF NOT EXISTS past_queries (
+        id int(11) NOT NULL AUTO_INCREMENT,
+        query_time timestamp DEFAULT CURRENT_TIMESTAMP,
+        method varchar(50) NOT NULL,
+        top_song varchar(255),
+        details text,
+        deleted int NOT NULL DEFAULT 0,
+        PRIMARY KEY (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+    [],
+    function (err, results, fields) {
+        if (err) throw err;
+    }
+);
 
 let jianpuDB = {};
 
