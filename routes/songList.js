@@ -21,8 +21,8 @@ router.get('/([0-9]+)', function(req, res, next) {
     if (result.length > 0)
       res.render('songShow', { place: 'songList', song: result[0] });
     else {
-      res.render('songShow', { place: 'songList', song: null});
       res.status(404);
+      res.render('songShow', { place: 'songList', song: null});
     }
   }).catch(err => {
     console.error(err);
@@ -38,8 +38,8 @@ router.get('/([0-9]+)/edit', function(req, res, next) {
     if (result.length > 0)
       res.render('songEdit', { place: 'songList', song: result[0] });
     else {
-      res.render('songEdit', { place: 'songList', song: null});
       res.status(404);
+      res.render('songEdit', { place: 'songList', song: null});
     }
     return;
   }).catch(err => {
