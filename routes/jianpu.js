@@ -3,7 +3,7 @@ var router = express.Router();
 
 const {jianpu_to_pitch, match_score} = require('../jianpuAlgo');
 
-const {connention, jianpuDB} = require('../connectDB');
+const {querySQL, jianpuDB} = require('../connectDB');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

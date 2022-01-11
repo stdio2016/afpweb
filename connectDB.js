@@ -10,32 +10,15 @@ var db_option = {
     port: 3306
 };
 
-var conn;
+var conn = mysql.createPool(db_option);
 
-// https://medium.com/一個小小工程師的隨手筆記/nodejs-解決mysql-error-connection-lost-the-server-closed-the-connection的方法-d374bdddf9c1
-function connectError(err) {
-    console.log('db error, retry');
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-        buildConnection();
-    }
-    else {
-        console.error(err);
-        setTimeout(buildConnection, 1000);
-    }
-}
-
-function buildConnection() {
-    conn = mysql.createConnection(db_option);
-    conn.connect(err => {
-        (err) && setTimeout(buildConnection, 2000);
+function querySQL(sql, values) {
+    return new Promise((resolve, reject) => {
+        conn.query(sql, values, function (err, rows) {
+            if (err) reject(err);
+            else resolve(rows);
+        });
     });
-    conn.on('error', connectError);
-}
-
-buildConnection();
-
-function getConnection() {
-    return conn;
 }
 
 conn.query(
@@ -80,6 +63,6 @@ conn.query(
 );
 
 module.exports = {
-    connection: getConnection,
+    querySQL: querySQL,
     jianpuDB: jianpuDB
 };

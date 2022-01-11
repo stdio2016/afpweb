@@ -1,52 +1,40 @@
 var express = require('express');
 var router = express.Router();
-const {connection, jianpuDB} = require('../connectDB');
+const {querySQL, jianpuDB} = require('../connectDB');
 const { jianpu_to_pitch } = require('../jianpuAlgo');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  connection().query('SELECT id,name,singer,language FROM songs', function (err, result) {
-    if (err) {
-      console.error(err);
-      res.status(500);
-      res.render('error', {error: err});
-      return;
-    }
+  querySQL('SELECT id,name,singer,language FROM songs', []).then(result => {
     res.render('songList', { place: 'songList', songs: result });
-    return;
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
   });
 });
 
 // show single song
 router.get('/([0-9]+)', function(req, res, next) {
   let songID = req.path.match(/^\/([0-9]+)/)[1]
-  connection().query('SELECT * FROM songs WHERE id=?', [songID], function (err, result) {
-    if (err) {
-      console.error(err);
-      res.status(500);
-      res.render('error', {error: err});
-      return;
-    }
+  querySQL('SELECT * FROM songs WHERE id=?', [songID]).then(result => {
     if (result.length > 0)
       res.render('songShow', { place: 'songList', song: result[0] });
     else {
       res.render('songShow', { place: 'songList', song: null});
       res.status(404);
     }
-    return;
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
   });
 });
 
 // edit song
 router.get('/([0-9]+)/edit', function(req, res, next) {
   let songID = req.path.match(/^\/([0-9]+)/)[1]
-  connection().query('SELECT * FROM songs WHERE id=?', [songID], function (err, result) {
-    if (err) {
-      console.error(err);
-      res.status(500);
-      res.render('error', {error: err});
-      return;
-    }
+  querySQL('SELECT * FROM songs WHERE id=?', [songID]).then(result => {
     if (result.length > 0)
       res.render('songEdit', { place: 'songList', song: result[0] });
     else {
@@ -54,6 +42,10 @@ router.get('/([0-9]+)/edit', function(req, res, next) {
       res.status(404);
     }
     return;
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
   });
 });
 
@@ -61,17 +53,10 @@ router.get('/([0-9]+)/edit', function(req, res, next) {
 router.post('/([0-9]+)', function(req, res, next) {
   let songID = req.path.match(/^\/([0-9]+)/)[1];
   const form = req.body;
-  connection().query(
+  querySQL(
     'UPDATE songs SET name=?,singer=?,language=?,jianpu=? WHERE id=?',
-    [form.name, form.singer||null, form.language||null, form.jianpu||null, +songID],
-    callback
-  );
-  function callback(err, result) {
-    if (err) {
-      console.error(err);
-      res.redirect('../'+songID+'/edit?failed');
-      return;
-    }
+    [form.name, form.singer||null, form.language||null, form.jianpu||null, +songID]
+  ).then(result => {
     const me = jianpuDB[songID];
     me.name = form.name;
     me.singer = form.singer;
@@ -92,7 +77,11 @@ router.post('/([0-9]+)', function(req, res, next) {
     else {
       res.redirect('../'+songID);
     }
-  }
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
+  });
 });
 
 // add song
@@ -103,17 +92,10 @@ router.get('/add', function(req, res, next) {
 // confirm add
 router.post('/add', function(req, res, next) {
   const form = req.body;
-  connection().query(
+  querySQL(
     'INSERT INTO songs(name,singer,language,jianpu) VALUES(?,?,?,?)',
-    [form.name, form.singer||null, form.language||null, form.jianpu||null],
-    callback
-  );
-  function callback(err, result) {
-    if (err) {
-      console.error(err);
-      res.redirect('?failed');
-      return;
-    }
+    [form.name, form.singer||null, form.language||null, form.jianpu||null]
+  ).then(result => {
     const songID = result.insertId;
     const me = {
       id: songID,
@@ -129,7 +111,11 @@ router.post('/add', function(req, res, next) {
     }
     jianpuDB[songID] = me;
     res.redirect(songID);
-  }
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
+  });
 });
 
 module.exports = router;
