@@ -1,0 +1,14 @@
+extends layout
+
+block title
+  title 搜尋紀錄
+
+block content
+  h1 搜尋紀錄
+  p 簡譜：#{query}
+  ol
+    for i in result
+      li
+        a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
+        | ，配對分數：#{i.score.toFixed(2)}
+        div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu

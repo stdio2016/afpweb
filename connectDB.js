@@ -41,6 +41,7 @@ conn.query(
         query_time timestamp DEFAULT CURRENT_TIMESTAMP,
         method varchar(50) NOT NULL,
         top_song varchar(255),
+        query text,
         details text,
         deleted int NOT NULL DEFAULT 0,
         PRIMARY KEY (id)

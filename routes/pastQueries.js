@@ -11,4 +11,19 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/([0-9]+)', function(req, res, next) {
+  let songID = req.path.match(/^\/([0-9]+)/)[1];
+  querySQL('SELECT * FROM past_queries WHERE id=?', [songID]).then(queries => {
+    const row = queries[0];
+    const method = row.method;
+    if (method == 'jianpu')
+      res.render('pastQueriesJianpu', { place: 'pastQueries', query: row.query, result: JSON.parse(row.details) });
+    else {
+      res.render('error', {error: new Error('history corrupt!')});
+    }
+  }).catch(err => {
+    res.render('error', {error: err});
+  });
+});
+
 module.exports = router;
