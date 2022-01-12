@@ -93,7 +93,7 @@ MMLPlayer.prototype.playSmallSegment = function (to, first) {
     if (n.startTime > to) break;
     if (i > this.playPos && !n.chord) first = false;
     if (!first && n.tieBefore) continue;
-    //if (n.type === "rest") continue;
+    if (n.type === "rest") continue;
     this.playSound(n, i);
   }
   this.playPos = i;

@@ -11,7 +11,7 @@ function play() {
 function playJianpu(je) {
   var part = new MMLPart(0);
   var tempos = [{position: 0, bpm: 120}];
-  var oldPitch = 60;
+  var oldPitch = 'rest';
   var view = {notes:[]};
   for (var i = 0; i < je.length; i++) {
     var me = je[i];
@@ -42,7 +42,8 @@ function playJianpu(je) {
         var note = new MMLNote(pitch, du, me[j].duration.dots);
         note.source = view.notes.length;
         view.notes.push({span: me[j].note_svg});
-        if (tied) part.notes[part.notes.length-1].tieAfter = true;
+        if (tied && part.notes.length > 0)
+          part.notes[part.notes.length-1].tieAfter = true;
         part.addNote(note);
         oldPitch = pitch;
       }
