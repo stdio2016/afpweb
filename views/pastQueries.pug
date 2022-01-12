@@ -18,7 +18,7 @@ block content
             td
               a(href=PREFIX+'/pastQueries/'+i.id) #{i.query_time.valueOf()}
             td= i.method
-            td= i.top_song
+            td= i.top_song || '無結果'
   script.
     var table = document.getElementById('pastQueries')
     for (var i = 1; i < table.rows.length; i++) {

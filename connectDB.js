@@ -28,6 +28,8 @@ conn.query(
         singer varchar(100) DEFAULT NULL,
         language varchar(50) DEFAULT NULL,
         jianpu text DEFAULT NULL,
+        creation_time timestamp DEFAULT CURRENT_TIMESTAMP,
+        modify_time timestamp DEFAULT current_timestamp ON UPDATE current_timestamp,
         PRIMARY KEY (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
     [],
