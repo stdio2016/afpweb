@@ -223,7 +223,7 @@ function uploadWav(blob, queryType) {
 
 function waitResult(id, startTime) {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'queryResult/' + id);
+  xhr.open('GET', 'qbsh/result/' + id);
   xhr.send();
   xhr.onload = function () {
     if (xhr.status == 200) {
@@ -233,12 +233,12 @@ function waitResult(id, startTime) {
         if (queryResult.progress == 100) {
           try {
             showResult(queryResult);
-            ended();
           }
           catch (x) {
             alert('client malfunction: ' + x);
             console.error(x);
           }
+          ended();
         }
         else if (queryResult.progress == 'error') {
           alert('Server error! Reason: ' + queryResult.reason);
@@ -291,9 +291,11 @@ function showResult(json) {
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
     cell1.textContent = songs[i].name;
-    cell2.textContent = songs[i].score;
-    cell2.style.textAlign = 'center';
+    cell2.textContent = songs[i].singer;
+    cell3.textContent = songs[i].score;
+    cell3.style.textAlign = 'center';
     var audio = new Audio();
     audio.preload = 'none';
     if (songs[i].file)
@@ -303,7 +305,7 @@ function showResult(json) {
     if (songs[i].time)
       audio.currentTime = songs[i].time;
     audio.controls = true;
-    cell3.append(audio);
+    cell4.append(audio);
   }
 }
 
