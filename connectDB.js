@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 const {jianpu_to_pitch} = require('./jianpuAlgo');
+const spawn = require('child_process').spawn;
 
 var db_option = {
     host: 'localhost',
@@ -79,6 +80,31 @@ conn.query(
         });
     }
 );
+
+let proc;
+function startServer() {
+    if (proc) proc.kill();
+    proc = spawn('./qbshServer', ['pitchDB.txt'], {stdio: ['pipe','inherit','inherit']});
+    proc.on('exit', x => {
+        if (x == 1) {
+            throw new Error('cannot start server');
+        }
+        else {
+            console.error('Qbsh server unexpectedly exited. restarting');
+            setTimeout(startServer, 1000);
+        }
+    });
+}
+startServer();
+
+function restartServer() {
+    return new Promise((resolve, reject) => {
+        proc.kill();
+        proc.on('exit', _ => {
+            startServer();
+        });
+    }).catch(console.error);
+}
 
 module.exports = {
     querySQL: querySQL,
