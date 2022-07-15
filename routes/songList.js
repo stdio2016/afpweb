@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const {querySQL, jianpuDB} = require('../connectDB');
 const { jianpu_to_pitch } = require('../jianpuAlgo');
+const {restartServer} = require('../services/qbsh');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -77,6 +78,7 @@ router.post('/([0-9]+)', function(req, res, next) {
     else {
       res.redirect('../'+songID);
     }
+    restartServer();
   }).catch(err => {
     console.error(err);
     res.status(500);
@@ -111,6 +113,7 @@ router.post('/add', function(req, res, next) {
     }
     jianpuDB[songID] = me;
     res.redirect(songID);
+    restartServer();
   }).catch(err => {
     console.error(err);
     res.status(500);

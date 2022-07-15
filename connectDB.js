@@ -57,11 +57,8 @@ conn.query(
 
 let jianpuDB = {};
 
-conn.query(
-    'SELECT * FROM songs',
-    [],
-    function (err, results, _fields) {
-        if (err) throw err;
+function initDB() {
+    return querySQL('SELECT * FROM songs', []).then(results => {
         results.forEach(row => {
             let song = {
                 name: row.name,
@@ -78,8 +75,8 @@ conn.query(
             jianpuDB[row.id] = song;
             console.log(row.name);
         });
-    }
-);
+    });
+}
 
 let proc;
 function startServer() {
@@ -95,7 +92,6 @@ function startServer() {
         }
     });
 }
-startServer();
 
 function restartServer() {
     return new Promise((resolve, reject) => {
@@ -108,5 +104,6 @@ function restartServer() {
 
 module.exports = {
     querySQL: querySQL,
-    jianpuDB: jianpuDB
+    jianpuDB: jianpuDB,
+    initDB
 };

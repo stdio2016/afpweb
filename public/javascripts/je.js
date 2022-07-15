@@ -277,3 +277,7 @@ function renderJianpu(hack) {
 	};
 	return t;
 }
+
+if (typeof module !== 'undefined') {
+	module.exports = {parseJianpu, Note};
+}
