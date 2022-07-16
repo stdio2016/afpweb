@@ -89,11 +89,32 @@ router.post('/query', function(req, res, next) {
 
 router.get('/result/\\d+', function(req, res, next) {
   const queryID = req.path.match(/^\/result\/([0-9]+)/)[1];
+  var details;
   querySQL(
     'SELECT details FROM past_queries WHERE id=?',
     [queryID]
   ).then(result => {
-    res.send(result[0].details);
+    try {
+      details = JSON.parse(result[0].details);
+      var songIds = details.songs.map(song => song.file);
+      var fillIn = Array(songIds.length).fill('?');
+      return querySQL(
+        'SELECT singer, id FROM songs WHERE id IN (' + fillIn + ')',
+        songIds);
+    } catch (x) {
+      res.send(details);
+      return null;
+    }
+  }).then(singers => {
+    if (singers) {
+      details.songs.forEach(song => {
+        var row = singers.find(x => x.id+'' == song.file);
+        if (row) {
+          song.singer = row.singer;
+        }
+      });
+      res.send(details);
+    }
   });
 });
 

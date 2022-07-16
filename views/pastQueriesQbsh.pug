@@ -1,0 +1,20 @@
+extends layout
+
+block title
+  title 搜尋紀錄
+
+block content
+  h1 搜尋紀錄
+  div 查詢音檔：
+    audio(controls=true)
+      source(src='../savedQueries/'+query+'.wav', type="audio/wav")
+  if result && result.pitch
+    p 音高序列：[#{result.pitch.join(', ')}]
+  if result && result.songs
+    ol
+      for i in result.songs
+        li
+          a(href=PREFIX+'/songList/'+i.file)= i.name
+          | ，配對分數：#{i.score}
+  else
+    p #{JSON.stringify(result)}

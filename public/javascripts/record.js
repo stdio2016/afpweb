@@ -37,6 +37,7 @@ function startup() {
   btnRecord.disabled = false;
   btnRecord.onclick = startRecord;
   btnStop.disabled = true;
+  showResultByUrlHash();
 }
 
 function tryToGetRecorder() {
@@ -233,6 +234,7 @@ function waitResult(id, startTime) {
         if (queryResult.progress == 100) {
           try {
             showResult(queryResult);
+            location.hash = '#queryid=' + waitId;
           }
           catch (x) {
             alert('client malfunction: ' + x);
@@ -282,7 +284,6 @@ function ended() {
 function showResult(json) {
   var songs = json.songs;
   var table = document.querySelector('.query-results table tbody');
-  console.log(table);
   while (table.rows.length > 0) {
     table.rows[0].remove();
   }
@@ -291,21 +292,13 @@ function showResult(json) {
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    cell1.textContent = songs[i].name;
+    var a = document.createElement('a');
+    a.href = 'songList/' + songs[i].file;
+    a.textContent = songs[i].name;
+    cell1.appendChild(a);
     cell2.textContent = songs[i].singer;
     cell3.textContent = songs[i].score;
     cell3.style.textAlign = 'center';
-    var audio = new Audio();
-    audio.preload = 'none';
-    if (songs[i].file)
-      audio.src = songs[i].file;
-    else
-      audio.src = '/finddup/audio/' + songs[i].name;
-    if (songs[i].time)
-      audio.currentTime = songs[i].time;
-    audio.controls = true;
-    cell4.append(audio);
   }
 }
 
@@ -329,3 +322,25 @@ function setQueryTime() {
     alert("Input must be between 5 and 20");
   }
 }
+
+function showResultByUrlHash() {
+  var hash = location.hash;
+  var match = hash.match(/#queryid=(\w+)/);
+  if (match) {
+    waitId = match[1];
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'qbsh/result/' + waitId);
+    xhr.send();
+    xhr.onload = function () {
+      if (xhr.status == 200) {
+        queryResult = JSON.parse(xhr.response);
+        showResult(queryResult);
+      }
+      else {
+        console.log('Server error: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    };
+  }
+}
+
+addEventListener('hashchange', showResultByUrlHash);
