@@ -3,3 +3,5 @@ node_modules
 
 public/savedQueries/*
 !public/savedQueries/.gitkeep
+
+pitchDB.txt
