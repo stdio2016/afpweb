@@ -290,7 +290,8 @@ text {
 	vertical-align: top;
 }
 .playing {
-	fill: red;
+	fill: #0bd149;
+	font-weight: bold;
 }
 .matched {
 	fill: red;
