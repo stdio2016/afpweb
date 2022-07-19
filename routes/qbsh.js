@@ -4,6 +4,7 @@ const path = require('path');
 const {querySQL, jianpuDB} = require('../connectDB');
 const spawn = require('child_process').spawn;
 const net = require('net');
+const axios = require('axios');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -43,40 +44,31 @@ router.post('/query', function(req, res, next) {
         resolve(`public/savedQueries/${queryID}.wav`);
       });
     });
-  }).then(wavFile => {
+  }).then(async wavFile => {
     var details = JSON.stringify({progress: 50});
     querySQL(
       'UPDATE past_queries SET details=? WHERE id=?',
       [details, queryID]
     ).catch(console.error);
     
-    return new Promise((resolve, reject) => {
-      var conn = net.connect({
-        localAddress: '127.0.0.1',
-        port: 1605
-      });
-      conn.on('error', x => {
-        throw Error('qbsh server crashed!!!');
-      })
-      conn.setEncoding('utf-8');
-      conn.write(`query ${wavFile}\n`);
-      conn.end();
-
-      let data = '';
-      conn.on('data', x => {
-        data += x;
-        console.log('data', data);
-      });
-      conn.on('end', x => {
-        resolve(JSON.parse(data));
-        console.log('close', JSON.parse(data));
-      });
-    });
+    var result = await axios.default.get(
+      'http://localhost:1606/searchLocalWav',
+      {
+        params: {
+          file: wavFile,
+        }
+      }
+    );
+    return result.data;
   }).then(result => {
     var details = JSON.stringify(result);
+    var top_song = null;
+    if (result.songs.length > 0) {
+      top_song = result.songs[0].name;
+    }
     querySQL(
       'UPDATE past_queries SET top_song=?, details=? WHERE id=?',
-      ['name', details, queryID]
+      [top_song, details, queryID]
     ).catch(console.error);
   }).catch(err => {
     var details = JSON.stringify({progress: 'error', reason: err.message + '\n' + err.stack});
@@ -97,6 +89,10 @@ router.get('/result/\\d+', function(req, res, next) {
     try {
       details = JSON.parse(result[0].details);
       var songIds = details.songs.map(song => song.file);
+      // empty result special case
+      if (details.songs.length === 0) {
+        return [];
+      }
       var fillIn = Array(songIds.length).fill('?');
       return querySQL(
         'SELECT singer, id FROM songs WHERE id IN (' + fillIn + ')',
@@ -115,6 +111,14 @@ router.get('/result/\\d+', function(req, res, next) {
       });
       res.send(details);
     }
+  }).catch(err => {
+    var details = JSON.stringify({progress: 'error', reason: err.message + '\n' + err.stack});
+    console.error(err);
+    querySQL(
+      'UPDATE past_queries SET details=? WHERE id=?',
+      [details, queryID]
+    ).catch(console.error);
+    res.send(details);
   });
 });
 
