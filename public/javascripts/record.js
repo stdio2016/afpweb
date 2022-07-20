@@ -2,7 +2,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx = new AudioContext();
 var audioStream = null;
 var audioStreamNode = null;
-var intercept = audioCtx.createScriptProcessor();
+// to workaround Safari recording glitch, I set bigger buffer
+var intercept = audioCtx.createScriptProcessor(2048);
 var recording = false;
 var querySecs = 10;
 var buffer = new Float32Array(audioCtx.sampleRate * querySecs);
@@ -49,7 +50,7 @@ function tryToGetRecorder() {
   function onSuccess(stream) {
     try {
       audioStream = stream;
-      audioStreamNode = audioCtx.createMediaStreamSource(stream);
+      audioStreamNode = audioCtx.createMediaStreamSource(stream.clone());
       audioStreamNode.connect(intercept);
       startRecord();
     }
@@ -106,6 +107,7 @@ function visualize() {
   var ctx = canvas.getContext('2d');
   var h = canvas.height * 0.5;
   var w = canvas.width;
+  ctx.fillStyle = 'black';
   ctx.beginPath();
   var x;
   for (x = visualizeX; x < w; x++) {
@@ -116,10 +118,10 @@ function visualize() {
     for (var i = pos; i < pos2; i++) {
       y = Math.max(y, Math.abs(buffer[i]));
     }
-    ctx.moveTo(x, h * (1 - y));
-    ctx.lineTo(x, h * (1 + y));
+    // use rect, because lineTo looks ugly in Safari
+    ctx.rect(x, h * (1 - y), 1, h * 2 * y);
   }
-  ctx.stroke();
+  ctx.fill();
   visualizeX = x;
   rafId = requestAnimationFrame(visualize);
 }

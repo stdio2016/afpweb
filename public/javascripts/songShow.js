@@ -9,6 +9,7 @@ function play() {
   playJianpu(je);
 }
 function playJianpu(je) {
+  actx.resume();
   var part = new MMLPart(0);
   var tempos = [{position: 0, bpm: 120}];
   var oldPitch = 'rest';
