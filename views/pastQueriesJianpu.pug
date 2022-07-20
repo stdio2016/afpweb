@@ -3,6 +3,14 @@ extends layout
 block title
   title 搜尋紀錄
 
+block scripts
+  script(src='../javascripts/je.js')
+  script(src='../javascripts/MMLNote.js')
+  script(src='../javascripts/MMLPart.js')
+  script(src='../javascripts/MMLPlayer.js')
+  script(src='../javascripts/sound.js')
+  script(src='../javascripts/songShow.js')
+
 block content
   h1 搜尋紀錄
   p 簡譜：#{query}
