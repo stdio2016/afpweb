@@ -63,7 +63,7 @@ router.post('/query', function(req, res, next) {
   }).then(result => {
     var details = JSON.stringify(result);
     var top_song = null;
-    if (result.songs.length > 0) {
+    if (result.songs && result.songs.length > 0) {
       top_song = result.songs[0].name;
     }
     querySQL(
