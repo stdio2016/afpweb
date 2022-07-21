@@ -23,6 +23,10 @@ router.get('/search', function(req, res, next) {
         from: from, to: to});
   }
   result.sort((a,b) => b.score - a.score);
+  for (var i = 0; i < result.length; i++) {
+    var s = result[i].song;
+    result[i].song = {name: s.name, id: s.id, singer: s.singer, jianpu: s.jianpu};
+  }
   querySQL('INSERT INTO past_queries(method,top_song,details,query) VALUES(?,?,?,?)',
     ['jianpu', result.length > 0 ? result[0].song.name : null, JSON.stringify(result), req.query.jianpu]
   );
