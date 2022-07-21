@@ -16,5 +16,6 @@ block content
         li
           a(href=PREFIX+'/songList/'+i.file)= i.name
           | ，配對分數：#{i.score}
+    p #{result.reason}
   else
     p #{JSON.stringify(result)}
