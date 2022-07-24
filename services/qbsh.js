@@ -1,6 +1,7 @@
 const {jianpuDB, initDB} = require('../connectDB');
 const fs = require('fs');
 const je = require('../public/javascripts/je');
+const axios = require('axios');
 const spawn = require('child_process').spawn;
 
 function toPitchList(score) {
@@ -47,12 +48,13 @@ function buildQbshIndex() {
 }
 
 let proc;
-function procExitHandler(exitCode) {
+async function procExitHandler(exitCode) {
     if (exitCode == 1) {
         throw new Error('cannot start server');
     }
     else {
         console.error('Qbsh server unexpectedly exited. restarting');
+        await buildQbshIndex();
         setTimeout(startServer, 1000);
     }
 }
@@ -69,8 +71,6 @@ function waitForMsecs(msecs) {
     });
 }
 
-// my current qbsh server cannot dynamically add songs,
-// so I need to restart server after every song edit!
 let restartCooldown = 0;
 let restartPending = false;
 async function restartServer() {
@@ -98,7 +98,24 @@ async function restartServer() {
     startServer();
 }
 
+async function addSong(songID, song) {
+    if (song.jianpu) {
+        let score = je.parseJianpu(song.jianpu);
+        let pitchList = toPitchList(score);
+        await axios.default.post(
+            'http://localhost:1606/add',
+            new URLSearchParams({
+                songId: songID,
+                name: song.name,
+                pitch: pitchList.join(' '),
+            })
+        );
+    }
+    return songID;
+}
+
 initDB().then(buildQbshIndex).then(startServer);
 module.exports = {
-    restartServer, 
+    restartServer,
+    addSong,
 };
