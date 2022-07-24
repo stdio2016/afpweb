@@ -6,7 +6,9 @@ const {restartServer} = require('../services/qbsh');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  querySQL('SELECT id,name,singer,language FROM songs', []).then(result => {
+  querySQL('SELECT id,name,singer,language FROM songs'
+      + ' ORDER BY name',
+      []).then(result => {
     res.render('songList', { place: 'songList', songs: result });
   }).catch(err => {
     console.error(err);
