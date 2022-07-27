@@ -122,4 +122,13 @@ router.get('/result/\\d+', function(req, res, next) {
   });
 });
 
+router.get('/ping', (req, res, next) => {
+  axios.default.get('http://localhost:1606/ping').then(value => {
+    res.send(value.data);
+  }, err => {
+    console.log(err.message);
+    res.send({status: 'unavailable', reason: err.message});
+  });
+});
+
 module.exports = router;
