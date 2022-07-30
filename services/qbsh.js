@@ -38,7 +38,7 @@ function buildQbshIndex() {
         if (song.jianpu) {
             let score = je.parseJianpu(song.jianpu);
             let pitchList = toPitchList(score);
-            fout.write(`${song.name}\n${songId}\n${pitchList.join(' ')}\n`);
+            fout.write(`${songId}\n${song.name}\n${song.singer}\n${pitchList.join(' ')}\n`);
         }
     }
     return new Promise(resolve => {
@@ -107,6 +107,7 @@ async function addSong(songID, song) {
             new URLSearchParams({
                 songId: songID,
                 name: song.name,
+                artist: song.singer,
                 pitch: pitchList.join(' '),
             })
         );
