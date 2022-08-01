@@ -26,6 +26,8 @@ Pitch.prototype.render = function (x, y) {
 	var g = createSVG('g');
 	var elt;
 	var accid = this.accidental.length;
+	var rect = createSVG('rect', {x:x-6, y:y-15, width: 12, height: 18, class:'play-mark'});
+	g.appendChild(rect);
 	if (this.accidental) {
 		elt = createSVGText(this.accidental, {x:x-6, y:y-7, class:'accidental', textLength:accid*6});
 		g.appendChild(elt);
@@ -109,6 +111,7 @@ Note.prototype.render = function (x, y, connectLeft, connectRight) {
 	
 	if (this.duration.mul > 1) {
 		for (var i = 1; i < this.duration.mul; i++) {
+			p_svg.appendChild(createSVG('rect', {x: x + i * 30 - 1, y:y-15, width: 12, height: 18, class:'play-mark'}));
 			p_svg.appendChild(createSVGText('-', {x: x + i * 30 + 5, y: y}));
 		}
 	}

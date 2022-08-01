@@ -94,6 +94,14 @@ section h1:first-child, section h2:first-child {
   color: #447777;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
 .black-bg {
   background-color: black;
   color: white;
@@ -289,8 +297,11 @@ text {
 .to-jianpu svg {
 	vertical-align: top;
 }
-.playing {
-	fill: #0bd149;
+.play-mark {
+  fill: none;
+}
+.playing .play-mark {
+	fill: #acd0ff;
 	font-weight: bold;
 }
 .matched {
