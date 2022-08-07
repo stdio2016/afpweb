@@ -15,6 +15,9 @@ block content
       for i in result.songs
         li
           a(href=PREFIX+'/songList/'+i.file)= i.name
+          if i.singer
+            | ，歌手：
+            span #{i.singer}
           | ，配對分數：#{i.score}
     p #{result.reason}
   else

@@ -18,5 +18,8 @@ block content
     for i in result
       li
         a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
+        if i.song.singer
+          | ，歌手：
+          span #{i.song.singer}
         | ，配對分數：#{i.score.toFixed(2)}
         div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu
