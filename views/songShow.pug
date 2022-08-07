@@ -29,7 +29,12 @@ block content
       p
       | 沒有簡譜。
       a(href=PREFIX+'/songList/'+song.id+'/edit') 請幫忙加上簡譜
-    p 最近修改時間：#{song.modify_time}
+    p 最近修改時間：
+      span.date #{+song.modify_time}
+    script.
+      document.querySelectorAll('.date').forEach(function(x){
+        x.textContent = new Date(parseInt(x.textContent)).toLocaleString();
+      });
   else
     h1 找不到歌曲
     p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
