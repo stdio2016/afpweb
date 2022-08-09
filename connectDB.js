@@ -1,14 +1,15 @@
 var mysql = require('mysql');
 const {jianpu_to_pitch} = require('./jianpuAlgo');
 const spawn = require('child_process').spawn;
+require('dotenv').config();
 
 var db_option = {
-    host: 'localhost',
-    user: 'nodejs',
-    password: 'nodejs',
-    database: 'afpweb',
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DB,
     charset : 'utf8mb4',
-    port: 3306
+    port: process.env.MYSQL_PORT,
 };
 
 var conn = mysql.createPool(db_option);
@@ -76,30 +77,6 @@ function initDB() {
             console.log(row.name);
         });
     });
-}
-
-let proc;
-function startServer() {
-    if (proc) proc.kill();
-    proc = spawn('./qbshServer', ['pitchDB.txt'], {stdio: ['pipe','inherit','inherit']});
-    proc.on('exit', x => {
-        if (x == 1) {
-            throw new Error('cannot start server');
-        }
-        else {
-            console.error('Qbsh server unexpectedly exited. restarting');
-            setTimeout(startServer, 1000);
-        }
-    });
-}
-
-function restartServer() {
-    return new Promise((resolve, reject) => {
-        proc.kill();
-        proc.on('exit', _ => {
-            startServer();
-        });
-    }).catch(console.error);
 }
 
 module.exports = {
