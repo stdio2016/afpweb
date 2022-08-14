@@ -10,25 +10,10 @@ stoppedSound.connect(actx.destination);
 // for iOS only
 var unlocked = false;
 function unlock(){
-  var buf = actx.createBuffer(1, 1, 22050);
-  var ff = buf.getChannelData(0);
-  ff[0] = 0.1;
-  var src = actx.createBufferSource();
-
-  src.buffer = buf;
-
-  src.connect(master);
-  if (src.start){
-    src.start(0);
-  }
-  else{
-    src.noteOn(0);
-  }
-  window.removeEventListener('touchend', unlock);
+  actx.resume();
 }
-if(/iP[ao]d|iPhone/.test(navigator.userAgent)){
-  window.addEventListener('touchend', unlock, false);
-}
+window.addEventListener('touchend', unlock, false);
+window.addEventListener('click', unlock, false);
 
 // provide instrument sounds
 var soundBank = {};
