@@ -86,7 +86,9 @@ router.get('/result/\\d+', function(req, res, next) {
     'SELECT details FROM past_queries WHERE id=?',
     [queryID]
   ).then(result => {
-    res.send(result[0].details);
+    res.send(JSON.parse(result[0].details));
+  }).catch(err => {
+    res.send({'status': 'error', 'reason': err.message});
   });
 });
 
