@@ -60,7 +60,8 @@ router.post('/([0-9]+)', function(req, res, next) {
     'UPDATE songs SET name=?,singer=?,language=?,jianpu=? WHERE id=?',
     [form.name, form.singer||null, form.language||null, form.jianpu||null, +songID]
   ).then(result => {
-    const me = jianpuDB[songID];
+    const me = jianpuDB[songID] || {};
+    jianpuDB[songID] = me;
     me.name = form.name;
     me.singer = form.singer;
     me.language = form.language;
