@@ -1,6 +1,8 @@
 extends layout
 
 block title
+  // Do not crawl edit page. This page provides no additional information
+  meta(name='robots' content='noindex')
   if song
     title 編輯歌曲 #{song.name}
   else
