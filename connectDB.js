@@ -86,7 +86,10 @@ function initDB() {
             console.log('[initDB] found %d songs in sql', results.length);
             firstTimeInit = false;
         }
-        setTimeout(initDB, Math.random() * 30 + 30);
+    }).catch((err) => {
+        console.log('[initDB]', err);
+    }).finally(() => {
+        setTimeout(initDB, Math.random() * 30000 + 30000);
     });
 }
 
