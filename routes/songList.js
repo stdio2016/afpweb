@@ -1,88 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const {querySQL, jianpuDB} = require('../connectDB');
+const {jianpuDB} = require('../connectDB');
 const { jianpu_to_pitch } = require('../jianpuAlgo');
-const {addSong} = require('../services/qbsh');
+const { listAllSongs, getSong, addSong, updateSong } = require('../mongo/songs');
+const {addSong:addSongToQbsh} = require('../services/qbsh');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  querySQL('SELECT id,name,singer,language FROM songs'
-      + ' ORDER BY name',
-      []).then(result => {
+  listAllSongs().then(result => {
     res.render('songList', { place: 'songList', songs: result });
-  }).catch(err => {
-    console.error(err);
-    res.status(500);
-    res.render('error', {error: err});
-  });
-});
-
-// show single song
-router.get('/([0-9]+)', function(req, res, next) {
-  let songID = req.path.match(/^\/([0-9]+)/)[1]
-  querySQL('SELECT * FROM songs WHERE id=?', [songID]).then(result => {
-    if (result.length > 0)
-      res.render('songShow', { place: 'songList', song: result[0] });
-    else {
-      res.status(404);
-      res.render('songShow', { place: 'songList', song: null});
-    }
-  }).catch(err => {
-    console.error(err);
-    res.status(500);
-    res.render('error', {error: err});
-  });
-});
-
-// edit song
-router.get('/([0-9]+)/edit', function(req, res, next) {
-  let songID = req.path.match(/^\/([0-9]+)/)[1]
-  querySQL('SELECT * FROM songs WHERE id=?', [songID]).then(result => {
-    if (result.length > 0)
-      res.render('songEdit', { place: 'songList', song: result[0] });
-    else {
-      res.status(404);
-      res.render('songEdit', { place: 'songList', song: null});
-    }
-    return;
-  }).catch(err => {
-    console.error(err);
-    res.status(500);
-    res.render('error', {error: err});
-  });
-});
-
-// confirm edit
-router.post('/([0-9]+)', function(req, res, next) {
-  let songID = req.path.match(/^\/([0-9]+)/)[1];
-  const form = req.body;
-  querySQL(
-    'UPDATE songs SET name=?,singer=?,language=?,jianpu=? WHERE id=?',
-    [form.name, form.singer||null, form.language||null, form.jianpu||null, +songID]
-  ).then(result => {
-    const me = jianpuDB[songID] || {};
-    jianpuDB[songID] = me;
-    me.name = form.name;
-    me.singer = form.singer;
-    me.language = form.language;
-    me.jianpu = form.jianpu;
-    if (form.jianpu) {
-      const {pitch, duration} = jianpu_to_pitch(form.jianpu);
-      me.pitch = pitch;
-      me.duration = duration;
-    }
-    else {
-      delete me.pitch;
-      delete me.duration;
-    }
-    return addSong(songID, me);
-  }).then((songID) => {
-    if (songID in jianpuDB) {
-      res.redirect('../'+songID);
-    }
-    else {
-      res.redirect('../'+songID);
-    }
   }).catch(err => {
     console.error(err);
     res.status(500);
@@ -98,27 +24,88 @@ router.get('/add', function(req, res, next) {
 // confirm add
 router.post('/add', function(req, res, next) {
   const form = req.body;
-  querySQL(
-    'INSERT INTO songs(name,singer,language,jianpu) VALUES(?,?,?,?)',
-    [form.name, form.singer||null, form.language||null, form.jianpu||null]
-  ).then(result => {
+  const me = {
+    id: '',
+    name: String(form.name),
+    singer: String(form.singer),
+    language: String(form.language),
+    jianpu: String(form.jianpu)
+  };
+  const {pitch, duration} = jianpu_to_pitch(me.jianpu);
+  me.pitch = pitch;
+  me.duration = duration;
+  addSong(song).then(result => {
     const songID = result.insertId;
-    const me = {
-      id: songID,
-      name: form.name,
-      singer: form.singer,
-      language: form.language,
-      jianpu: form.jianpu
-    };
-    if (form.jianpu) {
-      const {pitch, duration} = jianpu_to_pitch(form.jianpu);
-      me.pitch = pitch;
-      me.duration = duration;
-    }
+    me.id = songID;
     jianpuDB[songID] = me;
-    return addSong(songID, me);
+    return addSongToQbsh(songID, me);
   }).then((songID) => {
     res.redirect(songID);
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
+  });
+});
+
+// show single song
+router.get('/:songID', function(req, res, next) {
+  let songID = req.params.songID;
+  getSong(songID).then(result => {
+    if (result)
+      res.render('songShow', { place: 'songList', song: result });
+    else {
+      res.status(404);
+      res.render('songShow', { place: 'songList', song: null});
+    }
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
+  });
+});
+
+// edit song
+router.get('/:songID/edit', function(req, res, next) {
+  let songID = req.params.songID;
+  getSong(songID).then(result => {
+    if (result)
+      res.render('songEdit', { place: 'songList', song: result });
+    else {
+      res.status(404);
+      res.render('songEdit', { place: 'songList', song: null});
+    }
+    return;
+  }).catch(err => {
+    console.error(err);
+    res.status(500);
+    res.render('error', {error: err});
+  });
+});
+
+// confirm edit
+router.post('/:songID', function(req, res, next) {
+  let songID = req.params.songID;
+  const form = req.body;
+  const me = jianpuDB[songID] || {};
+  me.name = String(form.name);
+  me.singer = String(form.singer);
+  me.language = String(form.language);
+  me.jianpu = String(form.jianpu);
+  me.id = songID;
+  const {pitch, duration} = jianpu_to_pitch(me.jianpu);
+  me.pitch = pitch;
+  me.duration = duration;
+  updateSong(songID, me).then(_ => {
+    jianpuDB[songID] = me;
+    return addSongToQbsh(songID, me);
+  }).then((songID) => {
+    if (songID in jianpuDB) {
+      res.redirect('../'+songID);
+    }
+    else {
+      res.redirect('../'+songID);
+    }
   }).catch(err => {
     console.error(err);
     res.status(500);

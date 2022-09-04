@@ -1,9 +1,10 @@
 const { ObjectID } = require('bson');
-const {client} = require('./mongoConnect');
+const {db} = require('./mongoConnect');
 
 async function listAllSongs() {
-    var table = (await client).db().collection('songs');
-    var cur = table.find({}, {projection:{id:1, name:1, singer:1, language:1}});
+    console.time('listAllSongs');
+    var table = (await db).collection('songs');
+    var cur = table.find({}, {projection:{_id:1, name:1, singer:1, language:1}});
     cur.batchSize(1000);
     var ans = await cur.toArray();
     ans.sort((a, b) => {
@@ -11,15 +12,70 @@ async function listAllSongs() {
         if (a.name < b.name) return -1;
         return 0;
     });
+    for (var row of ans) {
+        row.id = row._id;
+    }
+    console.timeEnd('listAllSongs');
     return ans;
 }
 
 async function getSong(id) {
-    var table = (await client).db().collection('songs');
-    if (parseInt(id, 10)) id = parseInt(id, 10);
-    var ans = table.findOne({id: id});
+    console.time('getSong');
+    var table = (await db).collection('songs');
+    if (id.length == 24) {
+        id = ObjectID.createFromHexString(id);
+    }
+    var ans = await table.findOne({_id: id});
+    if (ans) {
+        ans.id = ans._id;
+    }
+    console.timeEnd('getSong');
     return ans;
+}
+
+async function addSong(song) {
+    var table = (await db).collection('songs');
+    var result = await table.updateOne({
+        _id: new ObjectID()
+    }, {
+        $set: song,
+        $currentDate: {
+            modify_time: true,
+            creation_time: true,
+        },
+    }, {
+        upsert: true
+    });
+    return {
+        insertId: result.upsertedId
+    };
+}
+
+async function updateSong(id, song) {
+    var table = (await db).collection('songs');
+    if (id.length == 24) {
+        id = ObjectID.createFromHexString(id);
+    }
+    delete song.modify_time;
+    var result = await table.updateOne({_id: id}, {
+        $set: song,
+        $currentDate: {modify_time: true},
+    });
+    return {
+        affectedRows: result.matchedCount,
+    };
+}
+
+async function getNumberOfSongs() {
+    console.time('getNumberOfSongs');
+    var table = (await db).collection('songs');
+    var cnt = await table.countDocuments();
+    console.timeEnd('getNumberOfSongs');
+    return cnt;
 }
 
 module.exports.listAllSongs = listAllSongs;
 module.exports.getSong = getSong;
+module.exports.addSong = addSong;
+module.exports.updateSong = updateSong;
+module.exports.getNumberOfSongs = getNumberOfSongs;
