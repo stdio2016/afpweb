@@ -22,9 +22,6 @@ async function listAllSongs() {
 async function getSong(id) {
     console.time('getSong');
     var table = (await db).collection('songs');
-    if (id.length == 24) {
-        id = ObjectID.createFromHexString(id);
-    }
     var ans = await table.findOne({_id: id});
     if (ans) {
         ans.id = ans._id;
@@ -36,7 +33,7 @@ async function getSong(id) {
 async function addSong(song) {
     var table = (await db).collection('songs');
     var result = await table.updateOne({
-        _id: new ObjectID()
+        _id: new ObjectID().toString()
     }, {
         $set: song,
         $currentDate: {
@@ -53,9 +50,6 @@ async function addSong(song) {
 
 async function updateSong(id, song) {
     var table = (await db).collection('songs');
-    if (id.length == 24) {
-        id = ObjectID.createFromHexString(id);
-    }
     delete song.modify_time;
     var result = await table.updateOne({_id: id}, {
         $set: song,

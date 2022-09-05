@@ -34,7 +34,7 @@ router.post('/add', function(req, res, next) {
   const {pitch, duration} = jianpu_to_pitch(me.jianpu);
   me.pitch = pitch;
   me.duration = duration;
-  addSong(song).then(result => {
+  addSong(me).then(result => {
     const songID = result.insertId;
     me.id = songID;
     jianpuDB[songID] = me;
