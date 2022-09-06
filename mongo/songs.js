@@ -68,8 +68,26 @@ async function getNumberOfSongs() {
     return cnt;
 }
 
+async function getAllRecentSongs(fromTime) {
+    var table = (await db).collection('songs');
+    var query = {};
+    if (fromTime) {
+        query.modify_time = {
+            $gt: new Date(fromTime - 30000)
+        };
+    }
+    var cur = table.find(query);
+    cur.batchSize(1000);
+    var ans = await cur.toArray();
+    for (var row of ans) {
+        row.id = row._id;
+    }
+    return ans;
+}
+
 module.exports.listAllSongs = listAllSongs;
 module.exports.getSong = getSong;
 module.exports.addSong = addSong;
 module.exports.updateSong = updateSong;
 module.exports.getNumberOfSongs = getNumberOfSongs;
+module.exports.getAllRecentSongs = getAllRecentSongs;

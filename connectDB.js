@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 const {jianpu_to_pitch} = require('./jianpuAlgo');
-const spawn = require('child_process').spawn;
+const { getAllRecentSongs } = require('./mongo/songs');
 require('dotenv').config();
 
 var db_option = {
@@ -23,6 +23,7 @@ function querySQL(sql, values) {
     });
 }
 
+/*
 conn.query(
     `CREATE TABLE IF NOT EXISTS songs (
         id int(11) NOT NULL AUTO_INCREMENT,
@@ -39,6 +40,7 @@ conn.query(
         if (err) throw err;
     }
 );
+*/
 conn.query(
     `CREATE TABLE IF NOT EXISTS past_queries (
         id int(11) NOT NULL AUTO_INCREMENT,
@@ -61,7 +63,7 @@ let lastDate = new Date(0);
 let firstTimeInit = true;
 
 function initDB() {
-    return querySQL('SELECT * FROM songs WHERE modify_time >= ? - INTERVAL 30 SECOND', [lastDate]).then(results => {
+    return getAllRecentSongs(lastDate).then(results => {
         results.forEach(row => {
             let song = {
                 name: row.name,
