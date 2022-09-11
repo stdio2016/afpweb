@@ -1,4 +1,5 @@
 const { ObjectID } = require('bson');
+const { Collection } = require('mongodb');
 const {db} = require('./mongoConnect');
 
 async function listAllSongs() {
@@ -49,14 +50,29 @@ async function addSong(song) {
 }
 
 async function updateSong(id, song) {
+    /**
+     * @type {Collection<{_id:string}>}
+     */
     var table = (await db).collection('songs');
+    var revTable = (await db).collection('revisions');
     delete song.modify_time;
-    var result = await table.updateOne({_id: id}, {
+    var result = await table.findOneAndUpdate({_id: id}, {
         $set: song,
         $currentDate: {modify_time: true},
+        $inc: {rev: 1},
+    }, {
+        returnDocument: 'after',
     });
+    if (result.value) {
+        var rev = {};
+        Object.assign(rev, song);
+        rev.modify_time = result.value.modify_time;
+        rev.song_id = id;
+        rev.rev = result.value.rev;
+        await revTable.insertOne(rev);
+    }
     return {
-        affectedRows: result.matchedCount,
+        affectedRows: result.value ? 1 : 0,
     };
 }
 
