@@ -32,9 +32,16 @@ async function getSong(id) {
 }
 
 async function addSong(song) {
+    /**
+     * @type {Collection<{_id:string}>}
+     */
     var table = (await db).collection('songs');
-    var result = await table.updateOne({
-        _id: new ObjectID().toString()
+    var revTable = (await db).collection('revisions');
+    var id = new ObjectID().toString();
+    song.id = id;
+    song.rev = 1; // newly created song is revision 1
+    var result = await table.findOneAndUpdate({
+        _id: id,
     }, {
         $set: song,
         $currentDate: {
@@ -42,10 +49,20 @@ async function addSong(song) {
             creation_time: true,
         },
     }, {
-        upsert: true
+        upsert: true,
+        returnDocument: 'after',
     });
+    if (!result.value) {
+        throw new Error('Database insert failure');
+    }
+    var rev = {};
+    Object.assign(rev, song);
+    rev.creation_time = result.value.creation_time;
+    rev.modify_time = result.value.modify_time;
+    rev.song_id = id;
+    await revTable.insertOne(rev);
     return {
-        insertId: result.upsertedId
+        insertId: result.value._id,
     };
 }
 
