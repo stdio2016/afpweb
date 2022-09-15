@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const {jianpuDB} = require('../connectDB');
 const { jianpu_to_pitch } = require('../jianpuAlgo');
-const { listAllSongs, getSong, addSong, updateSong } = require('../mongo/songs');
+const { listAllSongs, getSong, addSong, updateSong, listSongRevision } = require('../mongo/songs');
 const {addSong:addSongToQbsh} = require('../services/qbsh');
 
 /* GET home page. */
@@ -46,6 +46,13 @@ router.post('/add', function(req, res, next) {
     res.status(500);
     res.render('error', {error: err});
   });
+});
+
+router.get('/history', async function (req, res, next) {
+  var songID = req.query.songID;
+  var song = await getSong(songID);
+  var revisions = await listSongRevision(songID);
+  res.render('songHistoryList', {place: 'songList', song, revisions});
 });
 
 // show single song

@@ -118,9 +118,23 @@ async function getAllRecentSongs(fromTime) {
     return ans;
 }
 
+async function listSongRevision(songID) {
+    console.time('listSongRevision');
+    var table = (await db).collection('revisions');
+    var out = await table.find({
+        song_id: songID,
+    }, {
+        batchSize: 21,
+        limit: 21,
+    }).toArray();
+    console.timeEnd('listSongRevision');
+    return out;
+}
+
 module.exports.listAllSongs = listAllSongs;
 module.exports.getSong = getSong;
 module.exports.addSong = addSong;
 module.exports.updateSong = updateSong;
 module.exports.getNumberOfSongs = getNumberOfSongs;
 module.exports.getAllRecentSongs = getAllRecentSongs;
+module.exports.listSongRevision = listSongRevision;
