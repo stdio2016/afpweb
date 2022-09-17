@@ -9,7 +9,12 @@ block title
 block content
   if song
     h1 歌曲 #{song.name} 的修訂歷史
-    p 本網站正在建構中
+    ul
+      for rev in revisions
+        li
+          span.date #{+rev.modify_time}
+          |  
+          | #{rev.user||'anonymous'}
   else
     h1 找不到歌曲
     p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
@@ -17,4 +22,7 @@ block content
       | 您可以按
       a(href=PREFIX+'/songList') 這裡
       | ，尋找其他歌曲
-
+  script.
+    document.querySelectorAll('.date').forEach(function(x){
+      x.textContent = new Date(parseInt(x.textContent)).toLocaleString();
+    });

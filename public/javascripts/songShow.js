@@ -5,13 +5,39 @@ addEventListener('load', function () {
   })
 });
 
+var key=0, bpm=120;
+function setKey() {
+  var dict = {};
+  if (location.hash) {
+    var x = location.hash.substring(1).split('&');
+    for (var i = 0; i < x.length; i++) {
+      var n = x[i].indexOf('=');
+      if (n >= 0) {
+        var name = x[i].substring(0, n);
+        var value = x[i].substring(n+1);
+        dict[name] = value;
+      }
+    }
+  }
+  if (dict.key && /[A-G]b?/.test(dict.key)) {
+    var k = [9,11,0,2,4,5,7][dict.key.charCodeAt(0) - 65];
+    key = k - (dict.key.length-1);
+    if (key > 6) key -= 12;
+  }
+  var b=parseFloat(dict.bpm);
+  if (b >= 20) {
+    bpm = b;
+  }
+}
+setKey();
+addEventListener('hashchange', setKey);
 function play() {
   playJianpu(je);
 }
 function playJianpu(je) {
   actx.resume();
   var part = new MMLPart(0);
-  var tempos = [{position: 0, bpm: 120}];
+  var tempos = [{position: 0, bpm: bpm}];
   var oldPitch = 'rest';
   var view = {notes:[]};
   for (var i = 0; i < je.length; i++) {
@@ -33,6 +59,7 @@ function playJianpu(je) {
             if (acc == '♯♯') pitch += 2;
             if (acc == '♭') pitch -= 1;
             if (acc == '♭♭') pitch -= 2;
+            pitch += key;
           }
           else if (pitch == '-') {
             pitch = oldPitch;
