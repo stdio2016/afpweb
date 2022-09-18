@@ -18,10 +18,15 @@ block content
   if song
     h1 歌曲 #{song.name}
     p 這是歌曲 
-      span #{song.name}
-      |  於 
-      span.date #{+song.modify_time}
-      |  時的歷史版本
+      span #{curSong.name}
+      if song.rev == curSong.rev
+        |  的目前版本 (
+        span.date #{+song.modify_time}
+        |  )
+      else
+        |  於 
+        span.date #{+song.modify_time}
+        |  時的歷史版本
     p 歌手：#{song.singer || '無'}
     p 語言：#{song.language || '無'}
     if song.jianpu

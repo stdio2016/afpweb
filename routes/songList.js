@@ -51,10 +51,11 @@ router.post('/add', function(req, res, next) {
 router.get('/history', async function (req, res, next) {
   var songID = req.query.songID;
   var rev = req.query.rev;
+  var song = await getSong(songID);
   if (rev) {
     try {
-      var song = await getSongRevision(songID, rev);
-      res.render('songHistoryShow', { place: 'songList', song });
+      var oldSong = await getSongRevision(songID, rev);
+      res.render('songHistoryShow', { place: 'songList', song: oldSong, curSong: song });
     } catch (err) {
       console.error(err);
       res.status(500);
@@ -62,7 +63,6 @@ router.get('/history', async function (req, res, next) {
     }
     return;
   }
-  var song = await getSong(songID);
   var revisions = await listSongRevision(songID);
   res.render('songHistoryList', {place: 'songList', song, revisions});
 });
@@ -115,7 +115,10 @@ router.post('/:songID', function(req, res, next) {
   const {pitch, duration} = jianpu_to_pitch(me.jianpu);
   me.pitch = pitch;
   me.duration = duration;
-  updateSong(songID, me).then(_ => {
+  var user = {
+    ip: req.ip
+  };
+  updateSong(songID, me, user).then(_ => {
     jianpuDB[songID] = me;
     return addSongToQbsh(songID, me);
   }).then((songID) => {

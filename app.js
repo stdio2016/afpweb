@@ -17,6 +17,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('trust proxy', process.env.TRUST_PROXY);
 
 // set MIME type
 express.static.mime.define({'application/wasm': ['wasm']});

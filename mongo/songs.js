@@ -66,7 +66,7 @@ async function addSong(song) {
     };
 }
 
-async function updateSong(id, song) {
+async function updateSong(id, song, user) {
     /**
      * @type {Collection<{_id:string}>}
      */
@@ -74,7 +74,7 @@ async function updateSong(id, song) {
     var revTable = (await db).collection('revisions');
     delete song.modify_time;
     var result = await table.findOneAndUpdate({_id: id}, {
-        $set: song,
+        $set: {...song, user},
         $currentDate: {modify_time: true},
         $inc: {rev: 1},
     }, {
@@ -83,6 +83,7 @@ async function updateSong(id, song) {
     if (result.value) {
         var rev = {};
         Object.assign(rev, song);
+        rev.user = user;
         rev.modify_time = result.value.modify_time;
         rev.song_id = id;
         rev.rev = result.value.rev;
