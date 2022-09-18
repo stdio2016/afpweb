@@ -31,7 +31,7 @@ async function getSong(id) {
     return ans;
 }
 
-async function addSong(song) {
+async function addSong(song, user) {
     /**
      * @type {Collection<{_id:string}>}
      */
@@ -40,6 +40,7 @@ async function addSong(song) {
     var id = new ObjectID().toString();
     song.id = id;
     song.rev = 1; // newly created song is revision 1
+    song.user = user;
     var result = await table.findOneAndUpdate({
         _id: id,
     }, {
