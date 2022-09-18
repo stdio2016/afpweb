@@ -126,8 +126,20 @@ async function listSongRevision(songID) {
     }, {
         batchSize: 21,
         limit: 21,
+        sort: { rev: -1 },
     }).toArray();
     console.timeEnd('listSongRevision');
+    return out;
+}
+
+async function getSongRevision(songID, rev) {
+    console.time('getSongRevision');
+    var table = (await db).collection('revisions');
+    var out = await table.findOne({
+        song_id: songID,
+        rev: parseInt(rev, 10),
+    });
+    console.timeEnd('getSongRevision');
     return out;
 }
 
@@ -138,3 +150,4 @@ module.exports.updateSong = updateSong;
 module.exports.getNumberOfSongs = getNumberOfSongs;
 module.exports.getAllRecentSongs = getAllRecentSongs;
 module.exports.listSongRevision = listSongRevision;
+module.exports.getSongRevision = getSongRevision;

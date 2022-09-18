@@ -1,0 +1,45 @@
+extends layout
+
+block title
+  if song
+    title 歌曲 #{song.name}
+  else
+    title 找不到歌曲
+
+block scripts
+  script(src='../javascripts/je.js')
+  script(src='../javascripts/MMLNote.js')
+  script(src='../javascripts/MMLPart.js')
+  script(src='../javascripts/MMLPlayer.js')
+  script(src='../javascripts/sound.js')
+  script(src='../javascripts/songShow.js')
+
+block content
+  if song
+    h1 歌曲 #{song.name}
+    p 這是歌曲 
+      span #{song.name}
+      |  於 
+      span.date #{+song.modify_time}
+      |  時的歷史版本
+    p 歌手：#{song.singer || '無'}
+    p 語言：#{song.language || '無'}
+    if song.jianpu
+      p
+        | 簡譜：
+      div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
+    else
+      p
+      | 沒有簡譜。
+      a(href=PREFIX+'/songList/'+song.id+'/edit') 請幫忙加上簡譜
+    script.
+      document.querySelectorAll('.date').forEach(function(x){
+        x.textContent = new Date(parseInt(x.textContent)).toLocaleString();
+      });
+  else
+    h1 找不到歌曲
+    p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
+    p 
+      | 您可以按
+      a(href=PREFIX+'/songList') 這裡
+      | ，尋找其他歌曲

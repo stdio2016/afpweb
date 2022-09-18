@@ -12,9 +12,17 @@ block content
     ul
       for rev in revisions
         li
-          span.date #{+rev.modify_time}
+          a(href=PREFIX+'/songList/history?songID='+song.id+'&rev='+rev.rev)
+            span.date #{+rev.modify_time}
           |  
-          | #{rev.user||'anonymous'}
+          -
+            var user = rev.user;
+            var username = 'unknown';
+            if (user) {
+              if (user.name) username = user.name;
+              else if (user.ip) username = user.ip;
+            }
+          | #{username}
   else
     h1 找不到歌曲
     p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
