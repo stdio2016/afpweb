@@ -74,6 +74,7 @@ async function updateSong(id, song, user) {
     var table = (await db).collection('songs');
     var revTable = (await db).collection('revisions');
     delete song.modify_time;
+    delete song.rev;
     var result = await table.findOneAndUpdate({_id: id}, {
         $set: {...song, user},
         $currentDate: {modify_time: true},
