@@ -24,6 +24,8 @@ html
           a(href=PREFIX+'/pastQueries') 搜尋紀錄
         li(class=(place=='songList' ? 'selected' : ''))
           a(href=PREFIX+'/songList') 歌曲清單
+        li(class=(place=='TODO' ? 'selected' : ''))
+          a(href=PREFIX+'/TODO') 待辦事項
       span.split-right
     section
       | 目前網站正在搬遷到MongoDB，搜尋系統仍未搬移完成，請見諒

@@ -11,6 +11,7 @@ var jianpuRouter = require('./routes/jianpu');
 var qbshRouter = require('./routes/qbsh');
 var pastQueriesRouter = require('./routes/pastQueries');
 var songListRouter = require('./routes/songList');
+var todoRouter = require('./routes/todo');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use('/jianpu', jianpuRouter);
 app.use('/qbsh', qbshRouter);
 app.use('/pastQueries', pastQueriesRouter);
 app.use('/songList', songListRouter);
+app.use('/TODO', todoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

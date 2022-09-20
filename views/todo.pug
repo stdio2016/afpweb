@@ -1,0 +1,19 @@
+extends layout
+
+block title
+  - place='TODO'
+  title 待辦事項 - 簡譜空間
+
+block content
+  h1 待辦事項
+  for item in Object.values(todos)
+    section
+      h2= item.title
+      div 時間：
+        span.date= +item._id.getTimestamp()
+      div 狀態：#{item.status}
+      p(style={'white-space':'pre'})= item.description
+  script.
+    document.querySelectorAll('.date').forEach(function(x){
+      x.textContent = new Date(parseInt(x.textContent)).toLocaleString();
+    });
