@@ -44,7 +44,11 @@ block content
         button(type='button' onclick='insert("=")') =
         button(type='button' onclick='insert(".")') .
         button(type='button' onclick='insert("|")') |
-        textarea(name='jianpu' style='width:100%')= song.jianpu
+        textarea(
+          name='jianpu'
+          autocorrect='off'
+          style='width:100%'
+        )= song.jianpu
       button.button.blue(type=submit) 確定
   else
     h1 找不到歌曲
