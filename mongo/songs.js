@@ -2,6 +2,35 @@ const { ObjectID } = require('bson');
 const { Collection } = require('mongodb');
 const {db} = require('./mongoConnect');
 
+function compareVersion(curSong, oldSong) {
+    var added = [];
+    var deleted = [];
+    var edited = [];
+    var jianpu = '' + (curSong.jianpu || '');
+    // special case - newly created song
+    if (oldSong == null) {
+        oldSong = {};
+    }
+    for (var prop of ['name', 'singer', 'language', 'jianpu']) {
+        if (curSong[prop]) {
+            if (!oldSong[prop]) {
+                added.push(prop);
+            } else if (curSong[prop] != oldSong[prop]) {
+                // TODO: handle array equal
+                edited.push(prop);
+            }
+        } else if (oldSong[prop]) {
+            deleted.push(prop);
+        }
+    }
+    var oldJianpu = '' + (oldSong.jianpu || '');
+    return {
+        added, deleted, edited,
+        size: jianpu.length,
+        increased: jianpu.length - oldJianpu.length,
+    };
+}
+
 async function listAllSongs() {
     console.time('listAllSongs');
     var table = (await db).collection('songs');
@@ -61,6 +90,7 @@ async function addSong(song, user) {
     rev.creation_time = result.value.creation_time;
     rev.modify_time = result.value.modify_time;
     rev.song_id = id;
+    rev.compare = compareVersion(song, null);
     await revTable.insertOne(rev);
     return {
         insertId: result.value._id,
@@ -82,15 +112,23 @@ async function updateSong(id, song, user) {
     }, {
         returnDocument: 'after',
     });
-    if (result.value) {
-        var rev = {};
-        Object.assign(rev, song);
-        rev.user = user;
-        rev.modify_time = result.value.modify_time;
-        rev.song_id = id;
-        rev.rev = result.value.rev;
-        await revTable.insertOne(rev);
+    if (!result.value) {
+        return {
+            affectedRows: 0,
+        };
     }
+    var oldVer = await revTable.findOne({
+        song_id: id,
+        rev: result.value.rev - 1,
+    });
+    var rev = {};
+    Object.assign(rev, song);
+    rev.user = user;
+    rev.modify_time = result.value.modify_time;
+    rev.song_id = id;
+    rev.rev = result.value.rev;
+    rev.compare = compareVersion(song, oldVer);
+    await revTable.insertOne(rev);
     return {
         affectedRows: result.value ? 1 : 0,
     };
@@ -154,3 +192,4 @@ module.exports.getNumberOfSongs = getNumberOfSongs;
 module.exports.getAllRecentSongs = getAllRecentSongs;
 module.exports.listSongRevision = listSongRevision;
 module.exports.getSongRevision = getSongRevision;
+module.exports.compareVersion = compareVersion;
