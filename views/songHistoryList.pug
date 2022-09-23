@@ -23,7 +23,26 @@ block content
               if (user.name) username = user.name;
               else if (user.ip) username = user.ip;
             }
-          | #{username}
+            var incr = rev.compare.increased;
+            var com = rev.compare || {}, comout = [];
+            if (com.added && com.added.length > 0)
+              comout.push('新增 '+com.added.join('、'));
+            if (com.edited && com.edited.length > 0)
+              comout.push('編輯 '+com.edited.join('、'));
+            if (com.deleted && com.deleted.length > 0)
+              comout.push('刪除 '+com.deleted.join('、'));
+          span #{username}
+          |  
+          span (#{rev.compare.size}字元)
+          |  
+          if incr > 0
+            span (+#{incr})
+          else if incr == 0
+            span (0)
+          else
+            span (#{incr})
+          |  
+          span #{comout.join('、')}
   else
     h1 找不到歌曲
     p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
