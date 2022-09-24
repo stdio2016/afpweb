@@ -307,3 +307,12 @@ text {
 .matched {
 	fill: red;
 }
+.warning {
+  background-color: lightgoldenrodyellow;
+}
+.less {
+  color: darkred;
+}
+.add {
+  color: green;
+}

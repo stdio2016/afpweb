@@ -36,11 +36,11 @@ block content
           span (#{rev.compare.size}字元)
           |  
           if incr > 0
-            span (+#{incr})
+            span.add (+#{incr})
           else if incr == 0
             span (0)
           else
-            span (#{incr})
+            span.less (#{incr})
           |  
           span #{comout.join('、')}
   else
