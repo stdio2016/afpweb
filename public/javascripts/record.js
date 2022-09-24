@@ -62,16 +62,16 @@ function tryToGetRecorder() {
   function onFailure(err) {
     switch (err.name) {
       case "SecurityError":
-        alert("Your browser does not allow the use of UserMedia");
+        alert("您的瀏覽器不允許使用 UserMedia");
         break;
       case "NotAllowedError":
-        alert("You don't allow browser to access microphone.\n(You can refresh this page and try again)");
+        alert("您不允許瀏覽器使用麥克風\n(您可以重新整理後再試一次)");
         break;
       case "OverconstrainedError":
-        alert("It seems that your device doesn't have a mic, or the browser just doesn't support it.");
+        alert("您的裝置似乎沒有麥克風，或者您的瀏覽器無法支援麥克風");
         break;
       default:
-        alert("The following error occured: " + err);
+        alert("發生錯誤: " + err);
     }
   }
 
@@ -85,7 +85,7 @@ function startRecord() {
       tryToGetRecorder();
     }
     else {
-      alert("Your browser does not support audio recording");
+      alert("您的瀏覽器不支援錄音");
     }
     return;
   }
@@ -131,12 +131,12 @@ function stopRecord() {
     cancelAnimationFrame(rafId);
     btnStop.disabled = true;
     recording = false;
-    if (bufferPos < audioCtx.sampleRate*2) {
-      alert('Query is too short! Please record at least 5 seconds');
+    if (bufferPos < audioCtx.sampleRate*5) {
+      alert('查詢太短! 請錄音至少5秒鐘');
       ended();
       return;
     }
-    showProgress('Encoding', '25%');
+    showProgress('編碼中', '25%');
     setTimeout(function () {
       try {
         encodeWav();
@@ -189,7 +189,7 @@ function encodeWav() {
   Flac.FLAC__stream_encoder_delete(flac_encoder);
   wavFile = new File(result, 'blob.flac', {type:'audio/flac'});
   console.log(wavFile.size);
-  showProgress('Uploading', '50%');
+  showProgress('上傳中', '50%');
   uploadWav(wavFile);
 }
 
@@ -202,23 +202,23 @@ function uploadWav(blob, queryType) {
   if(xhr.upload) {
     xhr.upload.onprogress = function (evt) {
       var percentComplete = Math.ceil((evt.loaded / evt.total) * 50);
-      showProgress('Uploading', (50+percentComplete) + '%');
+      showProgress('上傳中', (50+percentComplete) + '%');
     };
   }
   xhr.onload = function () {
     if (xhr.status == 200) {
       console.log(xhr.response);
-      showProgress('Processing result', '100%');
+      showProgress('處理結果中', '100%');
       waitId = xhr.response;
       waitResult(xhr.response, +new Date());
     }
     else {
-      alert('Server error: ' + xhr.status + ' ' + xhr.statusText);
+      alert('伺服器錯誤: ' + xhr.status + ' ' + xhr.statusText);
       ended();
     }
   };
   xhr.onerror = function () {
-    alert('upload failed');
+    alert('上傳失敗');
     ended();
   };
   xhr.send(formData);
@@ -239,13 +239,13 @@ function waitResult(id, startTime) {
             location.hash = '#queryid=' + waitId;
           }
           catch (x) {
-            alert('client malfunction: ' + x);
+            alert('用戶端異常: ' + x);
             console.error(x);
           }
           ended();
         }
         else if (queryResult.progress == 'error') {
-          alert('Server error! Reason: ' + queryResult.reason);
+          alert('伺服器錯誤! 原因: ' + queryResult.reason);
           ended();
         }
         else {
@@ -253,14 +253,14 @@ function waitResult(id, startTime) {
         }
       }
       catch (x) {
-        alert('Server malfunction: ' + x);
+        alert('伺服器異常: ' + x);
         console.log(xhr.response);
         ended();
       }
     }
     else if (xhr.status == 404) {
       if (new Date() - startTime > 10000) {
-        alert('Server timeout');
+        alert('伺服器回應逾時');
         ended();
       }
       else {
@@ -268,12 +268,12 @@ function waitResult(id, startTime) {
       }
     }
     else {
-      alert('Server error: ' + xhr.status + ' ' + xhr.statusText);
+      alert('伺服器錯誤: ' + xhr.status + ' ' + xhr.statusText);
       ended();
     }
   };
   xhr.onerror = function () {
-    alert('Server is down!');
+    alert('伺服器已關閉!');
     ended();
   };
 }
@@ -310,18 +310,18 @@ Flac.on('ready', function(event){
 
 function uploadFile() {
   if (inFile.files.length > 0) {
-    showProgress('Uploading', '50%');
+    showProgress('上傳中', '50%');
     uploadWav(inFile.files[0], 'upload');
   }
-  else alert('Please choose a file!');
+  else alert('請選擇一個檔案!');
 }
 
 function setQueryTime() {
-  var result = prompt('Enter query length in seconds: (5~20)', querySecs);
+  var result = prompt('請輸入查詢長度的秒數: (5~20)', querySecs);
   var secs = parseInt(result);
   if (secs >= 5 && secs <= 20) querySecs = secs;
   else if (result != '' && result != null) {
-    alert("Input must be between 5 and 20");
+    alert("輸入必須是 5 到 20 之間");
   }
 }
 
