@@ -165,8 +165,7 @@ async function listSongRevision(songID) {
     var out = await table.find({
         song_id: songID,
     }, {
-        batchSize: 21,
-        limit: 21,
+        batchSize: 20,
         sort: { rev: -1 },
     }).toArray();
     console.timeEnd('listSongRevision');
