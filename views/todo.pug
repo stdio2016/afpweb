@@ -12,7 +12,7 @@ block content
       div 時間：
         span.date= +item._id.getTimestamp()
       div 狀態：#{item.status}
-      p(style={'white-space':'pre'})= item.description
+      p(style={'white-space':'pre-wrap'})= item.description
   script.
     document.querySelectorAll('.date').forEach(function(x){
       x.textContent = new Date(parseInt(x.textContent)).toLocaleString();

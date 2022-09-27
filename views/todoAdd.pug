@@ -1,0 +1,30 @@
+extends layout
+
+block title
+  - place='TODO'
+  title 新增待辦事項 - 簡譜空間
+
+block content
+  h1 新增待辦事項(限管理員使用)
+  form(method='POST')
+    p
+      label(for='txtTitle') 標題：
+      br
+      input.wide#txtTitle(name='title' required)
+    p
+      label(for='selStatus') 狀態：
+      select#selStatus(name='status')
+        option(value="Open") Open
+        option(value="Committed") Committed
+        option(value="Wait") Wait
+        option(value="Done") Done
+        option(value="Abandoned") Abandoned
+    p
+      label(for='txtDesc') 描述：
+      br
+      textarea#txtDesc.wide(name='description' required)
+    p
+      label(for='txtPass') 請輸入管理員密碼：
+      input#txtPass(name='password' type='password' required)
+    p
+      button.button.blue 確定
