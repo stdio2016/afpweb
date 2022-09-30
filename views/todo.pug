@@ -12,6 +12,7 @@ block content
       div 時間：
         span.date= +item._id.getTimestamp()
       div 狀態：#{item.status}
+      a(href=PREFIX+'/TODO/edit?id='+item._id) 編輯
       p(style={'white-space':'pre-wrap'})= item.description
   script.
     document.querySelectorAll('.date').forEach(function(x){

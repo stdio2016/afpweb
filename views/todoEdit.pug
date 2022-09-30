@@ -2,24 +2,24 @@ extends layout
 
 block title
   - place='TODO'
-  title 新增待辦事項 - 簡譜空間
+  title 編輯待辦事項 - 簡譜空間
 
 block content
-  h1 新增待辦事項(限管理員使用)
+  h1 編輯待辦事項(限管理員使用)
   form(method='POST')
     p
       label(for='txtTitle') 標題：
       br
-      input.wide#txtTitle(name='title' required)
+      input.wide#txtTitle(name='title' required value=item.title)
     p
       label(for='selStatus') 狀態：
       select#selStatus(name='status')
         for cho in 'Open,Committed,Wait,Done,Abandoned'.split(',')
-          option(value=cho) #{cho}
+          option(value=cho selected=item.status==cho) #{cho}
     p
       label(for='txtDesc') 描述：
       br
-      textarea#txtDesc.wide(name='description' required)
+      textarea#txtDesc.wide(name='description' required)=item.description
     p
       label(for='txtPass') 請輸入管理員密碼：
       input#txtPass(name='password' type='password' required)
