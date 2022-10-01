@@ -31,7 +31,7 @@ block content
       | 警告！如果您儲存更新，您的IP位址將會公開紀錄在這首歌曲的
       a(href=PREFIX+'/songList/history?songID='+song._id) 修訂歷史
       | 中。
-    form(method='POST' action='./')
+    form(method='POST')
       p 歌名：
         input(name='name' value=song.name required)
       p 歌手：

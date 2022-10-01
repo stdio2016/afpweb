@@ -106,7 +106,7 @@ router.get('/:songID/edit', function(req, res, next) {
 });
 
 // confirm edit
-router.post('/:songID', function(req, res, next) {
+router.post('/:songID/edit', function(req, res, next) {
   let songID = req.params.songID;
   const form = req.body;
   const me = jianpuDB[songID] || {};
