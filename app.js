@@ -33,6 +33,19 @@ app.use(fileUpload({
   tempFileDir : '/tmp/'
 }));
 
+// remove trailing slash
+app.use((req, res, next) => {
+  if (req.path.length > 1 && req.path.endsWith('/')) {
+    var query = req.url.substring(req.path.length);
+    var path = req.path;
+    for (var i = path.length-1; i > 0; i--) {
+      if (path[i] != '/') break;
+    }
+    return res.redirect(req.path.slice(0, i+1) + query);
+  }
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/jianpu', jianpuRouter);
