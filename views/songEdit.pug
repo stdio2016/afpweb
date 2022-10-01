@@ -28,7 +28,7 @@ block content
   if song
     h1 編輯歌曲 #{song.name}
     section.warning
-      | 警告！如果您儲存更新，您的IP將會公開紀錄在這首歌曲的
+      | 警告！如果您儲存更新，您的IP位址將會公開紀錄在這首歌曲的
       a(href=PREFIX+'/songList/history?songID='+song._id) 修訂歷史
       | 中。
     form(method='POST' action='./')

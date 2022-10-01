@@ -9,6 +9,10 @@ block scripts
 block content
   h1 哼唱搜尋
   p 請對著電腦的麥克風，哼出旋律10秒
+  section.warning
+    | 警告！使用本服務，表示您同意將您的錄音公開作為哼唱搜尋的資料集。我們不會公開您的IP位址。
+    br
+    a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
   div.main-controls
     canvas.visualizer(height="120" width='600')
     div

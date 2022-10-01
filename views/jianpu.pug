@@ -10,6 +10,10 @@ block content
     br
     | 如小蜜蜂的簡譜是「533- 422- 1234 555-」，則可以搜尋：
     a(href=PREFIX+'/jianpu/search?jianpu=5334221234555') 5334221234555
+  section.warning
+    | 警告！使用本服務，表示您同意將您的查詢字串公開作為簡譜搜尋的資料集。我們不會公開您的IP位址。
+    br
+    a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
   form(method='GET' action=PREFIX+'/jianpu/search')
     | 簡譜：
     input(name='jianpu' pattern='[0-9]*' required)

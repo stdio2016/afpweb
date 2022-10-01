@@ -21,6 +21,8 @@ block scripts
 
 block content
   h1 新增歌曲
+  section.warning
+    | 警告！如果您新增歌曲，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。
   form(method='POST')
     p 歌名：
       input(name='name' required)
