@@ -5,33 +5,34 @@ const {querySQL, jianpuDB} = require('../connectDB');
 const spawn = require('child_process').spawn;
 const net = require('net');
 const axios = require('axios');
+const { addPastQuery, updatePastQuery, getPastQuery } = require('../mongo/pastQueries');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('qbsh', { place: 'qbsh' });
 });
 
-router.post('/query', function(req, res, next) {
+router.post('/query', async function(req, res, next) {
   const file = req.files.file;
-  let queryID = 0;
+  let queryID = '';
+  var query = '';
   const dir = path.join(__dirname, '..', 'public', 'savedQueries');
-  querySQL(
-    'INSERT INTO past_queries(method, details) VALUES(?,?)',
-    ['qbsh', JSON.stringify({progress:0})]
-  ).then(result => {
-    queryID = result.insertId;
-    file.mv(path.join(dir, `${queryID}.flac`));
+  try {
+    var result = await addPastQuery('qbsh', null, null, {progress:0});
+    queryID = result.insertedId;
+    query = queryID.toString();
+    file.mv(path.join(dir, `${query}.flac`));
     res.send((queryID).toString());
-  }).catch(err => {
+  } catch(err) {
     console.error(err);
     res.status(500);
     res.render('error', {error: err});
-  }).then(x => {
-    var details = JSON.stringify({progress: 25});
-    querySQL(
-      'UPDATE past_queries SET details=?, query=? WHERE id=?',
-      [details, queryID, queryID]
-    ).catch(console.error);
+    return;
+  }
+
+  try {
+    var details = {progress: 25};
+    await updatePastQuery(queryID, '', query, details);
 
     var wavFile = path.join(dir, `${queryID}.wav`);
     var proc = spawn('ffmpeg', [
@@ -39,54 +40,38 @@ router.post('/query', function(req, res, next) {
       '-t', '20',
       wavFile
     ]);
-    return new Promise((resolve, reject) => {
+    var wavFile = await new Promise((resolve, reject) => {
       proc.on('close', () => {
         resolve(`public/savedQueries/${queryID}.wav`);
       });
     });
-  }).then(async wavFile => {
-    var details = JSON.stringify({progress: 50});
-    querySQL(
-      'UPDATE past_queries SET details=? WHERE id=?',
-      [details, queryID]
-    ).catch(console.error);
+    var details = {progress: 50};
+    await updatePastQuery(queryID, '', query, details);
     
-    var result = await axios.default.get(
+    var result = (await axios.default.get(
       'http://localhost:1606/searchLocalWav',
       {
         params: {
           file: wavFile,
         }
       }
-    );
-    return result.data;
-  }).then(result => {
-    var details = JSON.stringify(result);
+    )).data;
     var top_song = null;
     if (result.songs && result.songs.length > 0) {
       top_song = result.songs[0].name;
     }
-    querySQL(
-      'UPDATE past_queries SET top_song=?, details=? WHERE id=?',
-      [top_song, details, queryID]
-    ).catch(console.error);
-  }).catch(err => {
-    var details = JSON.stringify({progress: 'error', reason: err.message + '\n' + err.stack});
-    querySQL(
-      'UPDATE past_queries SET details=? WHERE id=?',
-      [details, queryID]
-    ).catch(console.error);
-  }).catch(console.error);
+    await updatePastQuery(queryID, top_song, query, result);
+  } catch (err) {
+    var details = {progress: 'error', reason: err.message + '\n' + err.stack};
+    await updatePastQuery(queryID, null, query, details);
+  }
 });
 
-router.get('/result/\\d+', function(req, res, next) {
-  const queryID = req.path.match(/^\/result\/([0-9]+)/)[1];
+router.get('/result/:queryID', function(req, res, next) {
+  const queryID = req.params.queryID;
   var details;
-  querySQL(
-    'SELECT details FROM past_queries WHERE id=?',
-    [queryID]
-  ).then(result => {
-    res.send(JSON.parse(result[0].details));
+  getPastQuery(queryID).then(result => {
+    res.send(result.details);
   }).catch(err => {
     res.send({'status': 'error', 'reason': err.message});
   });

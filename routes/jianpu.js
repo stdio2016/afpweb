@@ -4,6 +4,7 @@ var router = express.Router();
 const {jianpu_to_pitch, match_score} = require('../jianpuAlgo');
 
 const {querySQL, jianpuDB} = require('../connectDB');
+const { addPastQuery } = require('../mongo/pastQueries');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -27,8 +28,11 @@ router.get('/search', function(req, res, next) {
     var s = result[i].song;
     result[i].song = {name: s.name, id: s.id, singer: s.singer, jianpu: s.jianpu};
   }
-  querySQL('INSERT INTO past_queries(method,top_song,details,query) VALUES(?,?,?,?)',
-    ['jianpu', result.length > 0 ? result[0].song.name : null, JSON.stringify(result), req.query.jianpu]
+  addPastQuery(
+    'jianpu',
+    result.length > 0 ? result[0].song.name : null,
+    req.query.jianpu,
+    result,
   );
   res.render('jianpuSearch', { place: 'jianpu', query: req.query.jianpu, result: result });
 });
