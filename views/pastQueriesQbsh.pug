@@ -3,6 +3,8 @@ extends layout
 block title
   meta(name='robots' content='noindex')
   title 搜尋紀錄
+  script(src="../javascripts/sound.js")
+  script(src="../javascripts/pastQueriesQbsh.js")
 
 block content
   h1 搜尋紀錄
@@ -10,12 +12,15 @@ block content
     audio(controls=true)
       source(src='../savedQueries/'+query+'.wav', type="audio/wav")
   if result && result.pitch
-    p 音高序列：[#{result.pitch.join(', ')}]
+    p 音高序列：
+      span#pitchSeq [#{result.pitch.join(', ')}]
+      br
+      button.button.blue(onclick='playPitch()') 播放音高
   if result && result.songs
     ol
       for i in result.songs
         li
-          a(href=PREFIX+'/songList/'+i.file)= i.name
+          a(href='../songList/'+i.file)= i.name
           if i.singer
             | ，歌手：
             span #{i.singer}
