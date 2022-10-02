@@ -3,7 +3,7 @@ var router = express.Router();
 
 const {jianpu_to_pitch, match_score} = require('../jianpuAlgo');
 
-const {querySQL, jianpuDB} = require('../connectDB');
+const {jianpuDB} = require('../connectDB');
 const { addPastQuery } = require('../mongo/pastQueries');
 
 /* GET home page. */

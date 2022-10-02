@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const path = require('path');
-const {querySQL, jianpuDB} = require('../connectDB');
 const spawn = require('child_process').spawn;
 const net = require('net');
 const axios = require('axios');

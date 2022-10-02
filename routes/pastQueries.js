@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const {querySQL} = require('../connectDB');
 const { getPastQuery, listPastQueries } = require('../mongo/pastQueries');
 
 /* GET home page. */
