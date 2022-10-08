@@ -31,3 +31,5 @@ block content
           span #{i.song.singer}
         | ，配對分數：#{i.score.toFixed(2)}
         div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu
+  audio
+    source(src="../sounds/blank.wav", type="audio/x-wav")

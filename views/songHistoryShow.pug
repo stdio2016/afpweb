@@ -34,6 +34,8 @@ block content
       p
         | 簡譜：
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
+      audio
+        source(src="../sounds/blank.wav", type="audio/x-wav")
     else
       p
       | 沒有簡譜。
