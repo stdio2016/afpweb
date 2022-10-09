@@ -12,3 +12,8 @@ block content
     a.button.cyan(href='qbsh') 哼唱搜尋
     a.button.green(href='songList') 歌曲清單
   p 警告！我們將會儲存您在這個網頁所做的搜尋，作為研究用途。
+  h2 最近新增：
+  ul
+    for song in recentSongs 
+      li
+        a(href='songList/'+song._id) #{song.name}

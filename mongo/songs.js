@@ -183,6 +183,18 @@ async function getSongRevision(songID, rev) {
     return out;
 }
 
+async function getRecentlyAddedSongs() {
+    var table = (await db).collection('songs');
+    var cur = table.find({}).sort({ creation_time: -1 })
+        .project({_id:1, name:1, singer:1, language:1});
+    cur.batchSize(20).limit(20);
+    var ans = await cur.toArray();
+    for (var row of ans) {
+        row.id = row._id;
+    }
+    return ans;
+}
+
 module.exports.listAllSongs = listAllSongs;
 module.exports.getSong = getSong;
 module.exports.addSong = addSong;
@@ -192,3 +204,4 @@ module.exports.getAllRecentSongs = getAllRecentSongs;
 module.exports.listSongRevision = listSongRevision;
 module.exports.getSongRevision = getSongRevision;
 module.exports.compareVersion = compareVersion;
+module.exports.getRecentlyAddedSongs = getRecentlyAddedSongs;
