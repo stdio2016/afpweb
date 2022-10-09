@@ -209,6 +209,7 @@ function parseJianpu(txt, from, to) {
 	var sco = [meas];
 	var nodeN = 0;
 	var fromMeas = -1, toMeas = -1;
+	var prevI = 0;
 	while (ctx.i < txt.length) {
 		var item;
 		item = parseNote(ctx);
@@ -216,6 +217,8 @@ function parseJianpu(txt, from, to) {
 
 		if (item instanceof Bar) {
 			meas.push(item);
+			meas.src = txt.substring(prevI, ctx.i);
+			prevI = ctx.i;
 			meas = [];
 			sco.push(meas);
 		}
@@ -247,11 +250,19 @@ function renderJianpu(hack) {
 	var play = document.createElement('button');
 	play.textContent = '播放';
 	play.classList.add('button', 'blue');
+	var stop = document.createElement('button');
+	stop.textContent = '停止';
+	stop.classList.add('button', 'red');
 	hack.appendChild(play);
+	hack.appendChild(stop);
 	hack.appendChild(document.createElement('br'));
 	for (var i = 0; i < t.length; i++) {
 		var meas = t[i];
 		var img = createSVG('svg', {width: meas.length * 15, height:57});
+		// accessibility
+		var title = createSVG('title', {});
+		title.textContent = meas.src;
+		img.appendChild(title);
 		var x = 0;
 		var beat = 0;
 		var connect = false;
@@ -275,8 +286,14 @@ function renderJianpu(hack) {
 		img.height.baseVal.value = 34+y;
 		hack.appendChild(img);
 	}
+	var player = null;
 	play.onclick = function () {
-		playJianpu(t);
+		if (player != null) player.stop();
+		player = playJianpu(t);
+	};
+	stop.onclick = function () {
+		if (player != null) player.stop();
+		player = null;
 	};
 	return t;
 }

@@ -82,4 +82,5 @@ function playJianpu(je) {
   var player = new MMLPlayer(part);
   player.view = view;
   player.play();
+  return player;
 }
