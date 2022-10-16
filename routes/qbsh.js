@@ -36,6 +36,7 @@ router.post('/query', async function(req, res, next) {
     var wavFile = path.join(dir, `${queryID}.wav`);
     var proc = spawn('ffmpeg', [
       '-i', path.join(dir, `${queryID}.flac`),
+      '-ac', '1',
       '-t', '20',
       wavFile
     ]);
