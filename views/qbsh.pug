@@ -8,7 +8,7 @@ block scripts
 
 block content
   h1 哼唱搜尋
-  p 請對著電腦的麥克風，哼出旋律10秒
+  p 請對著電腦的麥克風，哼出旋律10秒。請確保錄音環境是安靜的，本程式只支援沒有任何伴奏的哼唱聲音。
   section.warning
     | 警告！使用本服務，表示您同意將您的錄音公開作為哼唱搜尋的資料集。我們不會公開您的IP位址。
     br
@@ -19,7 +19,7 @@ block content
       button#btnRecord.button.cyan 錄音
       button#btnStop.button.red 停止
     p
-      | 上傳檔案
+      | 上傳檔案(嚴禁上傳原曲！) 
       input#inFile(type='file')
       button#btnUpload.button.blue(onclick="uploadFile()") 上傳
   div.progress(style='margin-top:15px;margin-bottom:15px;')
