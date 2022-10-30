@@ -32,7 +32,6 @@ function compareVersion(curSong, oldSong) {
 }
 
 async function listAllSongs() {
-    console.time('listAllSongs');
     var table = (await db).collection('songs');
     var cur = table.find({}, {projection:{_id:1, name:1, singer:1, language:1}});
     cur.batchSize(1000);
@@ -45,18 +44,15 @@ async function listAllSongs() {
     for (var row of ans) {
         row.id = row._id;
     }
-    console.timeEnd('listAllSongs');
     return ans;
 }
 
 async function getSong(id) {
-    console.time('getSong');
     var table = (await db).collection('songs');
     var ans = await table.findOne({_id: id});
     if (ans) {
         ans.id = ans._id;
     }
-    console.timeEnd('getSong');
     return ans;
 }
 
@@ -135,10 +131,8 @@ async function updateSong(id, song, user) {
 }
 
 async function getNumberOfSongs() {
-    console.time('getNumberOfSongs');
     var table = (await db).collection('songs');
     var cnt = await table.countDocuments();
-    console.timeEnd('getNumberOfSongs');
     return cnt;
 }
 
@@ -160,7 +154,6 @@ async function getAllRecentSongs(fromTime) {
 }
 
 async function listSongRevision(songID) {
-    console.time('listSongRevision');
     var table = (await db).collection('revisions');
     var out = await table.find({
         song_id: songID,
@@ -168,18 +161,15 @@ async function listSongRevision(songID) {
         batchSize: 20,
         sort: { rev: -1 },
     }).toArray();
-    console.timeEnd('listSongRevision');
     return out;
 }
 
 async function getSongRevision(songID, rev) {
-    console.time('getSongRevision');
     var table = (await db).collection('revisions');
     var out = await table.findOne({
         song_id: songID,
         rev: parseInt(rev, 10),
     });
-    console.timeEnd('getSongRevision');
     return out;
 }
 
