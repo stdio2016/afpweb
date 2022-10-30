@@ -24,7 +24,7 @@ block content
     p 語言：#{song.language || '無'}
     if song.jianpu
       p
-        | 簡譜：
+        | 簡譜： (目前數字右邊的橫線被當作連結線使用，未來將修正為連結線)
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
       audio
         source(src="../sounds/blank.mp3", type="audio/mpeg")
