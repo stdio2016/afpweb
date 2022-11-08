@@ -245,6 +245,8 @@ function renderJianpu(hack) {
 	var t = hack.innerText;
 	var from = hack.dataset.from;
 	var to = hack.dataset.to;
+	var qbshfrom = (hack.dataset.qbshfrom || 0) / 8;
+	var qbshto = (hack.dataset.qbshto || -1) / 8;
 	t = parseJianpu(t, from, to);
 	hack.innerHTML = '';
 	var play = document.createElement('button');
@@ -256,6 +258,7 @@ function renderJianpu(hack) {
 	hack.appendChild(play);
 	hack.appendChild(stop);
 	hack.appendChild(document.createElement('br'));
+	var time = 0;
 	for (var i = 0; i < t.length; i++) {
 		var meas = t[i];
 		var img = createSVG('svg', {width: meas.length * 15, height:57});
@@ -273,6 +276,9 @@ function renderJianpu(hack) {
 				var connectR = beat - Math.floor(beat) != 0
 				var render = meas[j].render(x, 34, connect, connectR);
 				if (meas[j].mark) render.classList.add('matched');
+				var nexttime = time + meas[j].duration.getBeat();
+				if (qbshfrom < nexttime && time <= qbshto) render.classList.add('matched');
+				time = nexttime;
 				img.appendChild(render);
 				connect = connectR;
 				y = Math.max(y, meas[j].getMaxY());

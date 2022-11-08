@@ -1,11 +1,15 @@
 var je;
 addEventListener('load', function () {
   document.querySelectorAll('.to-jianpu').forEach(function (elt) {
+    if (qbshfrom != -1 && qbshto != -1) {
+      elt.dataset.qbshfrom = qbshfrom;
+      elt.dataset.qbshto = qbshto;
+    }
     je = renderJianpu(elt);
   })
 });
 
-var key=0, bpm=120;
+var key=0, bpm=120, qbshfrom=-1, qbshto=-1;
 function setKey() {
   var dict = {};
   if (location.hash) {
@@ -28,6 +32,8 @@ function setKey() {
   if (b >= 20) {
     bpm = b;
   }
+  if (parseFloat(dict.qbshfrom)>=0) qbshfrom=parseFloat(dict.qbshfrom);
+  if (parseFloat(dict.qbshto)>=0) qbshto=parseFloat(dict.qbshto);
 }
 setKey();
 addEventListener('hashchange', setKey);

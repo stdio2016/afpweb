@@ -295,7 +295,7 @@ function showResult(json) {
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
     var a = document.createElement('a');
-    a.href = 'songList/' + songs[i].file;
+    a.href = 'songList/' + songs[i].file + '#qbshfrom=' + songs[i].From + '&qbshto=' + songs[i].To;
     a.textContent = songs[i].name;
     cell1.appendChild(a);
     cell2.textContent = songs[i].singer;

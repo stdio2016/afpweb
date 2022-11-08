@@ -20,7 +20,9 @@ block content
     ol
       for i in result.songs
         li
-          a(href='../songList/'+i.file)= i.name
+          - var range='';
+          - if (i.From && i.To) range=`#qbshfrom=${i.From}&qbshto=${i.To}`;
+          a(href='../songList/'+i.file+range)= i.name
           if i.singer
             | ，歌手：
             span #{i.singer}
