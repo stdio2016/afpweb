@@ -250,9 +250,11 @@ function renderJianpu(hack) {
 	t = parseJianpu(t, from, to);
 	hack.innerHTML = '';
 	var play = document.createElement('button');
+	play.type = 'button';
 	play.textContent = '播放';
 	play.classList.add('button', 'blue');
 	var stop = document.createElement('button');
+	stop.type = 'button';
 	stop.textContent = '停止';
 	stop.classList.add('button', 'red');
 	hack.appendChild(play);
@@ -301,6 +303,8 @@ function renderJianpu(hack) {
 		if (player != null) player.stop();
 		player = null;
 	};
+	hack.play = play.onclick;
+	hack.stop = stop.onclick;
 	return t;
 }
 

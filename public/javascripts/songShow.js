@@ -90,3 +90,22 @@ function playJianpu(je) {
   player.play();
   return player;
 }
+function debounce(func) {
+  var time = 0;
+  var scheduled = false;
+  return function () {
+    var now = new Date();
+    if (scheduled) return;
+    if (+now > +time) {
+      func();
+      time = +now + 300;
+    } else {
+      setTimeout(function () {
+        scheduled = false;
+        func();
+        time = +new Date() + 300;
+      }, time - now);
+      scheduled = true;
+    }
+  };
+}

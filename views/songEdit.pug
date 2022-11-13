@@ -9,6 +9,12 @@ block title
     title 找不到歌曲 - 簡譜空間
 
 block scripts
+  script(src='../../javascripts/je.js')
+  script(src='../../javascripts/MMLNote.js')
+  script(src='../../javascripts/MMLPart.js')
+  script(src='../../javascripts/MMLPlayer.js')
+  script(src='../../javascripts/sound.js')
+  script(src='../../javascripts/songShow.js')
   script.
     // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position/34278578
     function insert(ch) {
@@ -53,7 +59,18 @@ block content
           autocorrect='off'
           style='width:100%'
         )= song.jianpu
+      p 預覽：
+      div#jianpuOut.to-jianpu(style='border: 1px solid black;')
       button.button.blue(type=submit) 儲存
+    script.
+      jianpuOut.innerText = document.forms[0].jianpu.value;
+      document.forms[0].jianpu.oninput = debounce(function () {
+        jianpuOut.style.height = '100vh'; // to prevent screen jumping
+        jianpuOut.innerText = document.forms[0].jianpu.value;
+        if (jianpuOut.stop) jianpuOut.stop();
+        renderJianpu(jianpuOut);
+        jianpuOut.style.height = '';
+      });
   else
     h1 找不到歌曲
     p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
