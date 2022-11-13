@@ -21,7 +21,7 @@ block content
       for i in result.songs
         li
           - var range='';
-          - if (i.From && i.To) range=`#qbshfrom=${i.From}&qbshto=${i.To}`;
+          - if (i.From!=null && i.To!=null) range=`#qbshfrom=${i.From}&qbshto=${i.To}`;
           a(href='../songList/'+i.file+range)= i.name
           if i.singer
             | ，歌手：
