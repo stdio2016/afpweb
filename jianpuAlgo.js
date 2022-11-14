@@ -49,16 +49,16 @@ function jianpu_to_pitch(jianpu) {
 function match_score(song, query, song_dur) {
     const ns = song.length, nq = query.length
     if (ns == 0 || nq == 0)
-        return [999999, null, null];
-    let dp1 = Array(ns+1).fill(0)
-    let dp2 = Array(ns+1).fill(0)
-    let bt1 = []
-    let bt2 = Array(ns+1).fill(0)
+        return [999999, 0, 0];
+    let dp1 = new Float64Array(ns+1)
+    let dp2 = new Float64Array(ns+1)
+    let bt1 = new Int32Array(ns+1)
+    let bt2 = new Int32Array(ns+1)
     const avg = song_dur.reduce((p, v) => p+v, 0) / ns
     for (var i = 1; i < ns; i++)
         dp1[i] = Math.max(1.2 - song_dur[i-1] / avg, 0) * 2
     for (var i = 0; i <= ns; i++)
-        bt1.push(i);
+        bt1[i] = i;
     dp1[ns] = 999999
     for (var i = 0; i < nq; i++) {
         dp2[0] = 999999
