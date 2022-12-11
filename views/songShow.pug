@@ -17,9 +17,9 @@ block scripts
 block content
   if song
     h1 歌曲 #{song.name}
-    form(action=PREFIX+'/songList/'+song.id+'/edit' method='GET')
-      button.button.cyan 編輯
-      a.button.green(href=PREFIX+'/songList/history?songID='+song.id) 檢視歷史
+    div
+      a.button.cyan(href=song.id+'/edit') 編輯
+      a.button.green(href='history?songID='+song.id) 檢視歷史
     p 歌手：#{song.singer || '無'}
     p 語言：#{song.language || '無'}
     if song.jianpu
