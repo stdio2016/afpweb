@@ -294,6 +294,9 @@ textarea {
 text {
 	text-anchor:middle;
 }
+.to-jianpu {
+  white-space: pre-wrap;
+}
 .to-jianpu svg {
 	vertical-align: top;
 }

@@ -82,6 +82,7 @@ function parsePitch(ctx) {
 function Note(pitch, duration) {
 	this.pitch = pitch;
 	this.duration = duration;
+	this.lyrics = '';
 }
 
 Note.prototype.getWidth = function () {
@@ -124,11 +125,16 @@ Note.prototype.render = function (x, y, connectLeft, connectRight) {
 	for (var i = 0; i < this.duration.dots; i++) {
 		p_svg.appendChild(createSVG('circle', {cx: x+w+3 + i*4, cy: y - 6, r: 1.5}));
 	}
+	g.appendChild(createSVGText(this.lyrics, {x: x+w/2, y: y+16}));
 	return g;
 }
 
 Note.prototype.getMaxY = function () {
-	return this.duration.type*3 + 4*Math.max(0, -this.pitch.octave) + 4;
+	var y = this.duration.type*3 + 4*Math.max(0, -this.pitch.octave) + 4;
+	if (this.lyrics != '') {
+		y += 16;
+	}
+	return y;
 };
 
 function Duration(type, dots, mul=1) {
@@ -204,41 +210,92 @@ function parseBar (ctx) {
 }
 
 function parseJianpu(txt, from, to) {
-	var ctx = {text: txt, i: 0};
+	var ctx = {text: txt, i: 0, score: [], lyrics: []};
 	var meas = [];
 	var sco = [meas];
 	var nodeN = 0;
 	var fromMeas = -1, toMeas = -1;
+	var lines = txt.split('\n');
+	for (var i = 0; i < lines.length; i++) {
+		ctx.text = lines[i];
+		if (lines[i].startsWith('L:')) {
+			ctx.i = 2;
+			parseLyrics(ctx);
+		} else {
+			ctx.i = 0;
+			parseJianpuLine(ctx);
+		}
+	}
+	var sco = ctx.score;
+	for (var i = 0; i < sco.length; i++) {
+		for (var j = 0; j < sco[i].length; j++) {
+			var item = sco[i][j];
+			if (item instanceof Note && item.pitch.step >= '1' && item.pitch.step <= '7') {
+				if (nodeN >= from && nodeN < to) {
+					item.mark = true;
+					if (fromMeas == -1) fromMeas = i+1;
+					toMeas = i+1;
+				}
+				item.lyrics = ctx.lyrics[nodeN] || '';
+				nodeN++;
+			}
+		}
+	}
+	if (from != null) {
+		sco = sco.slice(Math.max(fromMeas - 2, 0), toMeas + 1);
+	}
+	return sco;
+}
+
+function parseJianpuLine(ctx) {
+	var meas = [];
+	var sco = [meas];
 	var prevI = 0;
-	while (ctx.i < txt.length) {
+	while (ctx.i < ctx.text.length) {
 		var item;
 		item = parseNote(ctx);
 		if (!item) item = parseBar(ctx);
 
 		if (item instanceof Bar) {
 			meas.push(item);
-			meas.src = txt.substring(prevI, ctx.i);
+			meas.src = ctx.text.substring(prevI, ctx.i);
 			prevI = ctx.i;
 			meas = [];
 			sco.push(meas);
 		}
 		else if (item) {
-			if (item instanceof Note && item.pitch.step >= '1' && item.pitch.step <= '7') {
-				if (nodeN >= from && nodeN < to) {
-					item.mark = true;
-					if (fromMeas == -1) fromMeas = sco.length;
-					toMeas = sco.length;
-				}
-				nodeN++;
-			}
 			meas.push(item);
 		}
 		else ctx.i++;
 	}
-	if (from != null) {
-		sco = sco.slice(Math.max(fromMeas - 2, 0), toMeas + 1);
+	for (var i = 0; i < sco.length; i++) {
+		if (sco[i].length > 0) ctx.score.push(sco[i]);
 	}
-	return sco;
+}
+
+function parseLyrics(ctx) {
+	var txt = ctx.text.slice(ctx.i);
+	var tokens = txt.split(/(\s+|[-_*])/);
+	var lyrics = [];
+	for (var i = 0; i < tokens.length; i++) {
+		if (i % 2 == 0) {
+			// normal word
+			lyrics.push(tokens[i]);
+		} else if (tokens[i] == '*') {
+			lyrics.push('*');
+		} else if (tokens[i] == '_') {
+			lyrics.push('_');
+		} else if (tokens[i] == '-') {
+			lyrics[lyrics.length-1] += '-';
+		}
+	}
+	for (var i = 0; i < lyrics.length; i++) {
+		if (lyrics[i] == '*') {
+			ctx.lyrics.push('');
+		} else if (lyrics[i] != '') {
+			ctx.lyrics.push(lyrics[i]);
+		}
+	}
 }
 
 function renderJianpu(hack) {
