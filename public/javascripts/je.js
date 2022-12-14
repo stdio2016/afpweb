@@ -145,7 +145,7 @@ Note.prototype.render = function (x, y, connectLeft, connectRight) {
 			p_svg.appendChild(createSVGText('-', {x: off + i * 30 + 5, y: y}));
 		}
 	}
-	var x1 = 1, x2 = w - 1;
+	var x1 = (w-w2)/2 + 1, x2 = (w+w2)/2 - 1;
 	if (connectLeft) x1 = 0;
 	if (connectRight) x2 = this.getWidth();
 	for (var i = 0; i < this.duration.type; i++) {
@@ -370,7 +370,8 @@ function renderJianpu(hack) {
 		for (var j = 0; j < meas.length; j++) {
 			if (meas[j] instanceof Note) {
 				beat = beat + meas[j].duration.getBeat();
-				var connectR = beat - Math.floor(beat) != 0
+				var connectR = meas[j].duration.type > 0 && beat - Math.floor(beat) != 0
+					&& meas[j+1] instanceof Note && meas[j+1].duration.type > 0;
 				var render = meas[j].render(x, 34, connect, connectR);
 				if (meas[j].mark) render.classList.add('matched');
 				var nexttime = time + meas[j].duration.getBeat();
@@ -398,12 +399,12 @@ function renderJianpu(hack) {
 		var x = 0;
 		for (var j = 0; j < meas.length; j++) {
 			if (meas[j] instanceof Note && meas[j].lyrics) {
-				var elt = meas[j].renderLyrics(x, maxH+30);
+				var elt = meas[j].renderLyrics(x, maxH+32);
 				img.appendChild(elt);
 			}
 			x += meas[j].getWidth();
 		}
-		img.height.baseVal.value = 34+maxH;
+		img.height.baseVal.value = 38+maxH;
 	}
 	var player = null;
 	play.onclick = function () {
