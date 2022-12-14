@@ -12,6 +12,26 @@ function createSVGText(text, attr) {
 	return elt;
 }
 
+var baseSvg = null;
+var textWidthCache = {};
+function getTextWidth(text, fontSize) {
+	if (text in textWidthCache) {
+		return textWidthCache[text];
+	}
+	if (baseSvg == null) {
+		baseSvg = createSVG('svg', {width: 0, height: 0});
+		document.body.appendChild(baseSvg);
+	}
+	var elt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+	baseSvg.appendChild(elt);
+	elt.textContent = text;
+	elt.style.fontSize = fontSize;
+	var bbox = elt.getBBox();
+	elt.remove();
+	textWidthCache[text] = bbox.width;
+	return bbox.width;
+}
+
 function Pitch(step, accidental, octave) {
 	this.step = step;
 	this.accidental = accidental;
@@ -94,12 +114,20 @@ Note.prototype.getWidth = function () {
 	if (this.duration.type == 0) {
 		w = Math.max(w, 30 * dot);
 	}
-	return w * this.duration.mul;
+	var wbase = w;
+	if (this.lyrics != '') {
+		w = Math.max(w, getTextWidth(this.lyrics)+2);
+	}
+	return w + wbase * (this.duration.mul - 1);
 };
 
 Note.prototype.render = function (x, y, connectLeft, connectRight) {
 	var g = createSVG('g');
 	var w = this.pitch.getWidth();
+	var w2 = w;
+	if (this.lyrics) {
+		w = Math.max(w, getTextWidth(this.lyrics)+2);
+	}
 	var p_svg = this.pitch.render(x+w/2, y);
 	g.appendChild(p_svg);
 	this.note_svg = p_svg;
@@ -111,9 +139,10 @@ Note.prototype.render = function (x, y, connectLeft, connectRight) {
 	}
 	
 	if (this.duration.mul > 1) {
+		var off = x + Math.max(0, w-30);
 		for (var i = 1; i < this.duration.mul; i++) {
-			p_svg.appendChild(createSVG('rect', {x: x + i * 30 - 1, y:y-15, width: 12, height: 18, class:'play-mark'}));
-			p_svg.appendChild(createSVGText('-', {x: x + i * 30 + 5, y: y}));
+			p_svg.appendChild(createSVG('rect', {x: off + i * 30 - 1, y:y-15, width: 12, height: 18, class:'play-mark'}));
+			p_svg.appendChild(createSVGText('-', {x: off + i * 30 + 5, y: y}));
 		}
 	}
 	var x1 = 1, x2 = w - 1;
@@ -123,11 +152,18 @@ Note.prototype.render = function (x, y, connectLeft, connectRight) {
 		g.appendChild(createSVG('line', {x1: x+x1, y1: y+3+3*i, x2: x+x2, y2: y+3+3*i, stroke:'black'}));
 	}
 	for (var i = 0; i < this.duration.dots; i++) {
-		p_svg.appendChild(createSVG('circle', {cx: x+w+3 + i*4, cy: y - 6, r: 1.5}));
+		p_svg.appendChild(createSVG('circle', {cx: x+(w+w2)/2+3 + i*4, cy: y - 6, r: 1.5}));
 	}
-	g.appendChild(createSVGText(this.lyrics, {x: x+w/2, y: y+16}));
 	return g;
 }
+
+Note.prototype.renderLyrics = function (x, y) {
+	var w = this.pitch.getWidth();
+	if (this.lyrics) {
+		w = Math.max(w, getTextWidth(this.lyrics)+2);
+	}
+	return createSVGText(this.lyrics, {x: x+w/2, y: y});
+};
 
 Note.prototype.getMaxY = function () {
 	var y = this.duration.type*3 + 4*Math.max(0, -this.pitch.octave) + 4;
@@ -318,6 +354,8 @@ function renderJianpu(hack) {
 	hack.appendChild(stop);
 	hack.appendChild(document.createElement('br'));
 	var time = 0;
+	var svgs = [];
+	var maxH = 0;
 	for (var i = 0; i < t.length; i++) {
 		var meas = t[i];
 		var img = createSVG('svg', {width: meas.length * 15, height:57});
@@ -349,7 +387,23 @@ function renderJianpu(hack) {
 		}
 		img.width.baseVal.value = x;
 		img.height.baseVal.value = 34+y;
+		svgs.push(img);
+		maxH = Math.max(maxH, y);
 		hack.appendChild(img);
+	}
+	// render lyrics after notes are settled
+	for (var i = 0; i < t.length; i++) {
+		var meas = t[i];
+		var img = svgs[i];
+		var x = 0;
+		for (var j = 0; j < meas.length; j++) {
+			if (meas[j] instanceof Note && meas[j].lyrics) {
+				var elt = meas[j].renderLyrics(x, maxH+30);
+				img.appendChild(elt);
+			}
+			x += meas[j].getWidth();
+		}
+		img.height.baseVal.value = 34+maxH;
 	}
 	var player = null;
 	play.onclick = function () {
