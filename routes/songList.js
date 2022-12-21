@@ -110,6 +110,8 @@ router.post('/:songID/edit', function(req, res, next) {
   let songID = req.params.songID;
   const form = req.body;
   const me = jianpuDB[songID] || {};
+  // remember to add fields to check for edits
+  const formFields = ['name', 'singer', 'language', 'jianpu'];
   me.name = String(form.name);
   me.singer = String(form.singer);
   me.language = String(form.language);
@@ -121,9 +123,22 @@ router.post('/:songID/edit', function(req, res, next) {
   var user = {
     ip: req.ip
   };
-  updateSong(songID, me, user).then(_ => {
-    jianpuDB[songID] = me;
-    return addSongToQbsh(songID, me);
+  getSong(songID).then(oldVer => {
+    var edited = false;
+    for (var field of formFields) {
+      if (me[field] != oldVer[field]) {
+        edited = true;
+        break;
+      }
+    }
+    if (!edited) {
+      // null edit, don't change database
+      return songID;
+    }
+    return updateSong(songID, me, user).then(_ => {
+      jianpuDB[songID] = me;
+      return addSongToQbsh(songID, me);
+    });
   }).then((songID) => {
     if (songID in jianpuDB) {
       res.redirect('../'+songID);
