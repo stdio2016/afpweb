@@ -3,6 +3,21 @@ extends layout
 block title
   title 簡譜搜尋 - 簡譜空間
 
+block scripts
+  script.
+    function validateSearch() {
+      var q = document.forms[0].jianpu.value;
+      if (/[89]/.test(q)) {
+        alert('8、9不是有效的簡譜音高');
+        return false;
+      }
+      if (!/[1-7]/.test(q)) {
+        alert('搜尋字串不能只包含休止符');
+        return false;
+      }
+      return true;
+    }
+
 block content
   h1 簡譜搜尋
   p
@@ -17,7 +32,7 @@ block content
     | 警告！使用本服務，表示您同意將您的查詢字串公開作為簡譜搜尋的資料集。我們不會公開您的IP位址。
     br
     a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
-  form(method='GET' action=PREFIX+'/jianpu/search')
+  form(method='GET' action=PREFIX+'/jianpu/search' onsubmit='return validateSearch()')
     | 簡譜：
     input(name='jianpu' pattern='[0-9]*' required)
     button.button.blue(type='submit') 搜尋
