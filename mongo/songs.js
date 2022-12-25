@@ -176,7 +176,7 @@ async function getSongRevision(songID, rev) {
 async function getRecentlyAddedSongs() {
     var table = (await db).collection('songs');
     var cur = table.find({}).sort({ creation_time: -1 })
-        .project({_id:1, name:1, singer:1, language:1});
+        .project({_id:1, name:1, singer:1, language:1, creation_time:1});
     cur.batchSize(20).limit(20);
     var ans = await cur.toArray();
     for (var row of ans) {

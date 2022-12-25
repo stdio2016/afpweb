@@ -16,4 +16,6 @@ block content
   ul
     for song in recentSongs 
       li
+        | #{song.creation_time.toLocaleDateString()}
+        |
         a(href='songList/'+song._id) #{song.name}
