@@ -14,6 +14,7 @@ var visualizeX = 0;
 var wavFile = null;
 var waitId = '';
 var queryResult;
+var yourRecording = document.getElementById('yourRecording');
 
 intercept.onaudioprocess = function (e) {
   if (recording) {
@@ -228,6 +229,7 @@ function waitResult(id, startTime) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'qbsh/result/' + id);
   xhr.send();
+  yourRecording.src = '../savedQueries/' + id + '.flac';
   xhr.onload = function () {
     if (xhr.status == 200) {
       try {
@@ -236,7 +238,12 @@ function waitResult(id, startTime) {
         if (queryResult.progress == 100) {
           try {
             showResult(queryResult);
-            location.hash = '#queryid=' + waitId;
+            location.hash = '#queryid=' + id;
+            if (yourRecording.scrollIntoView) {
+              yourRecording.scrollIntoView({behavior:'smooth'});
+            } else {
+              // your browser doesn't support scroll???
+            }
           }
           catch (x) {
             alert('用戶端異常: ' + x);
@@ -302,6 +309,15 @@ function showResult(json) {
     cell3.textContent = songs[i].score;
     cell3.style.textAlign = 'center';
   }
+  var noResult = document.getElementById('noResult');
+  var sopResult = document.getElementById('sopResult');
+  if (songs.length == 0) {
+    noResult.style.display = 'block';
+    sopResult.style.display = 'none';
+  } else {
+    noResult.style.display = 'none';
+    sopResult.style.display = 'block';
+  }
 }
 
 Flac.on('ready', function(event){
@@ -331,6 +347,7 @@ function showResultByUrlHash() {
   if (match) {
     waitId = match[1];
     var xhr = new XMLHttpRequest();
+    yourRecording.src = '../savedQueries/' + waitId + '.flac';
     xhr.open('GET', 'qbsh/result/' + waitId);
     xhr.send();
     xhr.onload = function () {
