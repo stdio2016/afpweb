@@ -6,6 +6,10 @@ function jianpu_to_pitch(jianpu) {
     let du_dots = 0
     let du_mul = 0
     let du = 0
+    // remove lyrics line
+    jianpu = jianpu.split('\n')
+        .filter(line => !line.startsWith('L:'))
+        .join('\n');
     for (var i = 0; i < jianpu.length; i++) {
         let ch = jianpu[i]
         if ('1' <= ch && ch <= '7') {
