@@ -311,7 +311,7 @@ function parseJianpuLine(ctx) {
 
 function parseLyrics(ctx) {
 	var txt = ctx.text.slice(ctx.i);
-	var tokens = txt.split(/(\s+|[-_*])/);
+	var tokens = txt.split(/(\s+|[-_*]|\p{sc=Han}[^-\s\p{sc=Han}_*]*|"(?:(?:[^"]|"")+)")/u);
 	var lyrics = [];
 	for (var i = 0; i < tokens.length; i++) {
 		if (i % 2 == 0) {
@@ -323,6 +323,14 @@ function parseLyrics(ctx) {
 			lyrics.push('_');
 		} else if (tokens[i] == '-') {
 			lyrics[lyrics.length-1] += '-';
+		} else if (/^\s+$/.test(tokens[i])) {
+			// space
+		} else if (tokens[i][0] == '"') {
+			var unescaped = tokens[i].slice(1, -1).replace(/""/g, '"');
+			lyrics.push(unescaped);
+		} else {
+			// cjk
+			lyrics.push(tokens[i]);
 		}
 	}
 	for (var i = 0; i < lyrics.length; i++) {
