@@ -16,6 +16,8 @@ var waitId = '';
 var queryResult;
 var yourRecording = document.getElementById('yourRecording');
 
+var isHttps = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
 intercept.onaudioprocess = function (e) {
   if (recording) {
     var dat = e.inputBuffer.getChannelData(0);
@@ -85,7 +87,9 @@ function startRecord() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       tryToGetRecorder();
     }
-    else {
+    else if (!isHttps) {
+      alert('本網頁需使用 HTTPS 安全連線方可使用麥克風進行搜尋');
+    } else {
       alert("您的瀏覽器不支援錄音");
     }
     return;
