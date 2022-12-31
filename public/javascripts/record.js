@@ -83,6 +83,19 @@ function tryToGetRecorder() {
 
 function startRecord() {
   audioCtx.resume();
+  if (audioStream) {
+    var tracks = audioStream.getAudioTracks();
+    var active = false;
+    for (var i = 0; i < tracks.length; i++) {
+      if (tracks[i].readyState != 'ended') {
+        active = true;
+      }
+    }
+    if (!active) {
+      tracks = null;
+      audioStream = null;
+    }
+  }
   if (!audioStream) {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       tryToGetRecorder();
