@@ -228,6 +228,7 @@ function uploadWav(blob, queryType) {
       console.log(xhr.response);
       showProgress('處理結果中', '100%');
       waitId = xhr.response;
+      yourRecording.src = '../savedQueries/' + waitId + '.flac';
       waitResult(xhr.response, +new Date());
     }
     else {
@@ -246,7 +247,6 @@ function waitResult(id, startTime) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'qbsh/result/' + id);
   xhr.send();
-  yourRecording.src = '../savedQueries/' + id + '.flac';
   xhr.onload = function () {
     if (xhr.status == 200) {
       try {
