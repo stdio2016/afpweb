@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const fileUpload = require('express-fileupload');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,6 +30,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({
+    mongoUrl: process.env.MONGO_URL,
+    dbName: process.env.MONGO_DB
+  }),
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 600 * 1000 }
+}));
 app.use(fileUpload({
   useTempFiles : true,
   tempFileDir : '/tmp/'
