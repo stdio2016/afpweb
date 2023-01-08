@@ -14,6 +14,7 @@ var qbshRouter = require('./routes/qbsh');
 var pastQueriesRouter = require('./routes/pastQueries');
 var songListRouter = require('./routes/songList');
 var todoRouter = require('./routes/todo');
+var clientPromise = require('./mongo/mongoConnect').client;
 
 var app = express();
 
@@ -33,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    mongoUrl: process.env.MONGO_URL,
+    clientPromise,
     dbName: process.env.MONGO_DB
   }),
   resave: false,
