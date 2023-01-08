@@ -33,8 +33,8 @@ block content
     br
     a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
   form(method='GET' action=PREFIX+'/jianpu/search' onsubmit='return validateSearch()')
-    | 簡譜：
-    input(name='jianpu' pattern='[0-9]*' required)
+    label(for='jianpu') 簡譜：
+    input#jianpu(name='jianpu' pattern='[0-9]*' type='tel' required)
     button.button.blue(type='submit') 搜尋
   p 簡譜對照表：
   table

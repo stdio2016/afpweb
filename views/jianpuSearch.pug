@@ -32,8 +32,8 @@ block content
     br
     a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
   form(method='GET' action='search' onsubmit='return validateSearch()')
-    | 簡譜：
-    input(name='jianpu' pattern='[0-9]*' required value=query)
+    label(for='jianpu') 簡譜：
+    input#jianpu(name='jianpu' pattern='[0-9]*' type='tel' required value=query)
     button.button.blue(type='submit') 搜尋
   if result.length > 10 && result[9].score >= 90.00
     p 
