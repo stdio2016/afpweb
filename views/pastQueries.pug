@@ -7,11 +7,11 @@ block title
 block content
   h1 搜尋紀錄
   div
-    table(style='table-layout: auto;')#pastQueries
+    table#pastQueries
       thead
         tr(class='cyan-bg')
-          th 查詢時間
-          th 方法
+          th(style='width:200px') 查詢時間
+          th(style='width:80px') 方法
           th 查詢結果
       tbody
         for i in queries

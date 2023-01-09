@@ -111,6 +111,7 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
   width: 100%;
+  -webkit-text-size-adjust: none;
 }
 
 thead {
