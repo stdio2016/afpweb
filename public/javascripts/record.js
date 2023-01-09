@@ -323,7 +323,7 @@ function showResult(json) {
     a.textContent = songs[i].name;
     cell1.appendChild(a);
     cell2.textContent = songs[i].singer;
-    cell3.textContent = songs[i].score;
+    cell3.textContent = songs[i].score.toFixed(2);
     cell3.style.textAlign = 'center';
   }
   var noResult = document.getElementById('noResult');
