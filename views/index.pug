@@ -1,11 +1,11 @@
 extends layout
 
 block title
-  title 簡譜空間
+  title #{__("Jianpu Space")}
 
 block content
-  h1 歡迎來到簡譜空間
-  p 本網站提供各種流行歌曲的簡譜，即使不知道歌名，也可以透過哼唱或者輸入簡譜的音符來搜尋到音樂
+  h1 #{__("Welcome to Jianpu Space")}
+  p #{__("This website provides jianpu of various popular songs.")}
   p 目前共有 #{numSongs} 首歌曲
   p
     a.button.blue(href="jianpu") 簡譜搜尋

@@ -11,21 +11,32 @@ html
     block scripts
   body
     nav.navigation.cyan-bg
-      span#banner 簡譜空間
+      span#banner #{__("Jianpu Space")}
       span.split
       ul.menu
         li(class=(place=='main' ? 'selected' : ''))
-          a(href=PREFIX+'/') 首頁
+          a(href=PREFIX+'/') #{__("Home")}
         li(class=(place=='jianpu' ? 'selected' : ''))
-          a(href=PREFIX+'/jianpu') 簡譜搜尋
+          a(href=PREFIX+'/jianpu') #{__("Jianpu search")}
         li(class=(place=='qbsh' ? 'selected' : ''))
-          a(href=PREFIX+'/qbsh') 哼唱搜尋
+          a(href=PREFIX+'/qbsh') #{__("Humming search")}
         li(class=(place=='pastQueries' ? 'selected' : ''))
-          a(href=PREFIX+'/pastQueries') 搜尋紀錄
+          a(href=PREFIX+'/pastQueries') #{__("Past queries")}
         li(class=(place=='songList' ? 'selected' : ''))
-          a(href=PREFIX+'/songList') 歌曲清單
+          a(href=PREFIX+'/songList') #{__("Song list")}
         li(class=(place=='TODO' ? 'selected' : ''))
-          a(href=PREFIX+'/TODO') 待辦事項
+          a(href=PREFIX+'/TODO') #{__("To-do list")}
       span.split-right
     section
       block content
+    center
+      | Your language is #{locale}.
+      | 
+      a(href='#' onclick="javascript:changeLang('zh-tw')") 繁體中文
+      | 
+      a(href='#' onclick="javascript:changeLang('en')") English
+    script.
+      function changeLang(lang) {
+        document.cookie = 'locale=' + lang;
+        location.reload();
+      }

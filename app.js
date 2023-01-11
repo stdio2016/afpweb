@@ -6,6 +6,7 @@ var logger = require('morgan');
 const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const i18n = require('i18n');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -26,6 +27,15 @@ app.set('trust proxy', process.env.TRUST_PROXY);
 // set MIME type
 express.static.mime.define({'application/wasm': ['wasm']});
 
+i18n.configure({
+  locales: ['en', 'zh-tw'],
+  fallbacks: {
+    'zh-*': 'zh-tw',
+  },
+  cookie: 'locale',
+  directory: path.join(__dirname, 'locales'),
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -41,6 +51,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 600 * 1000 }
 }));
+app.use(i18n.init);
 app.use(fileUpload({
   useTempFiles : true,
   tempFileDir : '/tmp/'
