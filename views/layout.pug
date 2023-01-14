@@ -32,11 +32,12 @@ html
     center
       | Your language is #{locale}.
       | 
-      a(href='#' onclick="javascript:changeLang('zh-tw')") 繁體中文
+      a(href onclick="javascript:changeLang('zh-tw')") 繁體中文
       | 
-      a(href='#' onclick="javascript:changeLang('en')") English
+      a(href onclick="javascript:changeLang('en')") English
     script.
       function changeLang(lang) {
-        document.cookie = 'locale=' + lang;
+        event.preventDefault();
+        document.cookie = 'locale=' + lang + '; Path=/';
         location.reload();
       }

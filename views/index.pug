@@ -6,13 +6,13 @@ block title
 block content
   h1 #{__("Welcome to Jianpu Space")}
   p #{__("This website provides jianpu of various popular songs.")}
-  p 目前共有 #{numSongs} 首歌曲
+  p #{__("Currently there are %s songs", numSongs)}
   p
-    a.button.blue(href="jianpu") 簡譜搜尋
-    a.button.cyan(href='qbsh') 哼唱搜尋
-    a.button.green(href='songList') 歌曲清單
-  p 警告！我們將會儲存您在這個網頁所做的搜尋，作為研究用途。
-  h2 最近新增：
+    a.button.blue(href="jianpu") #{__("Jianpu search")}
+    a.button.cyan(href='qbsh') #{__("Humming search")}
+    a.button.green(href='songList') #{__("Song list")}
+  p #{__("Warning! We will store searches you make on this site for research purposes.")}
+  h2 #{__("Recently added:")}
   ul
     for song in recentSongs 
       li

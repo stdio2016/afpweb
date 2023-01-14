@@ -1,11 +1,15 @@
 {
-    "Jianpu Space": "Jianpu Space",
-    "Home": "Home",
-    "Jianpu search": "Jianpu search",
-    "Humming search": "Humming search",
-    "Past queries": "Past queries",
-    "Song list": "Song list",
-    "To-do list": "To-do list",
-    "Welcome to Jianpu Space": "Welcome to Jianpu Space",
-    "This website provides jianpu of various popular songs.": "This website provides jianpu (aka numbered musical notation) of various popular songs. Even if you don't know the song title, you can search for the music by humming or typing notes."
+	"Jianpu Space": "Jianpu Space",
+	"Home": "Home",
+	"Jianpu search": "Jianpu search",
+	"Humming search": "Humming search",
+	"Past queries": "Past queries",
+	"Song list": "Song list",
+	"To-do list": "To-do list",
+	"Welcome to Jianpu Space": "Welcome to Jianpu Space",
+	"This website provides jianpu of various popular songs.": "This website provides jianpu (aka numbered musical notation) of various popular songs. Even if you don't know the song title, you can search for the music by humming or typing notes.",
+	"Currently there are %s songs": "Currently there are %s songs.",
+	"Warning! We will store searches you make on this site for research purposes.": "Warning! We will store searches you make on this site for research purposes.",
+	"Recently added:": "Recently added:",
+	"Just enter the notes using 1~7 to search a song.": "Just enter the notes using numbered notation 1-7 to search a song."
 }

@@ -1,11 +1,15 @@
 {
-    "Jianpu Space": "簡譜空間",
-    "Home": "首頁",
-    "Jianpu search": "簡譜搜尋",
-    "Humming search": "哼唱搜尋",
-    "Past queries": "搜尋紀錄",
-    "Song list": "歌曲清單",
-    "To-do list": "待辦事項",
-    "Welcome to Jianpu Space": "歡迎來到簡譜空間",
-    "This website provides jianpu of various popular songs.": "本網站提供各種流行歌曲的簡譜，即使不知道歌名，也可以透過哼唱或者輸入簡譜的音符來搜尋到音樂"
+	"Jianpu Space": "簡譜空間",
+	"Home": "首頁",
+	"Jianpu search": "簡譜搜尋",
+	"Humming search": "哼唱搜尋",
+	"Past queries": "搜尋紀錄",
+	"Song list": "歌曲清單",
+	"To-do list": "待辦事項",
+	"Welcome to Jianpu Space": "歡迎來到簡譜空間",
+	"This website provides jianpu of various popular songs.": "本網站提供各種流行歌曲的簡譜，即使不知道歌名，也可以透過哼唱或者輸入簡譜的音符來搜尋到音樂",
+	"Currently there are %s songs": "目前共有 %s 首歌曲",
+	"Warning! We will store searches you make on this site for research purposes.": "警告！我們將會儲存您在這個網頁所做的搜尋，作為研究用途。",
+	"Recently added:": "最近新增：",
+	"Just enter the notes using 1~7 to search a song.": "只要輸入簡譜的數字 1~7 就可以找到歌曲。"
 }
