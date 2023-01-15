@@ -2,7 +2,7 @@ extends layout
 
 block title
   meta(name='robots' content='noindex')
-  title 簡譜搜尋結果 - 簡譜空間
+  title #{__("Jianpu search result")} - #{__("Jianpu Space")}
 
 block scripts
   script(src='../javascripts/je.js')
@@ -15,49 +15,49 @@ block scripts
     function validateSearch() {
       var q = document.forms[0].jianpu.value;
       if (/[89]/.test(q)) {
-        alert('8、9不是有效的簡譜音高');
+        alert('#{__("8,9 invalid")}');
         return false;
       }
       if (!/[1-7]/.test(q)) {
-        alert('搜尋字串不能只包含休止符');
+        alert('#{__("At least one note")}');
         return false;
       }
       return true;
     }
 
 block content
-  h1 簡譜搜尋結果
+  h1 #{__("Jianpu search result")}
   section.warning
-    | 警告！使用本服務，表示您同意將您的查詢字串公開作為簡譜搜尋的資料集。我們不會公開您的IP位址。
+    | #{__("Warning! save jianpu queries")}
     br
-    a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
+    a(href=PREFIX+'/pastQueries') #{__("The collected information is placed here")}
   form(method='GET' action='search' onsubmit='return validateSearch()')
-    label(for='jianpu') 簡譜：
+    label(for='jianpu') #{__("Jianpu")+__(":")}
     input#jianpu(name='jianpu' pattern='[0-9]*' type='tel' required value=query)
-    button.button.blue(type='submit') 搜尋
+    button.button.blue(type='submit') #{__("Search")}
   if result.length > 10 && result[9].score >= 90.00
     p 
-      | 您的搜尋字串似乎太短了，有大量的歌曲都包含了您輸入的旋律，因此搜尋結果可能不夠理想。
-      | 建議您再多加幾個音符。
+      | #{__("Search string too short.")}
+      | #{__("Recommend to add more notes.")}
   ol
     for i in result
       li
         a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
         if i.song.singer
-          | ，歌手：
+          | #{__(",") + __("Singer") + __(":")}
           span #{i.song.singer}
-        | ，配對分數：#{i.score.toFixed(2)}
+        | #{__(",") + __("Relevance score") + __(":")}#{i.score.toFixed(2)}
         div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu
   if result.length == 0
-    h2 查無結果
+    h2 #{__("No results")}
     p
-      | 也許本網站還沒有收錄這首歌。如果您知道您在搜尋的歌曲，您可以
-      a(href=PREFIX+'/songList/add') 新增這首歌曲的簡譜
-      | ，造福其他歌友。
+      | #{__("Perhaps this site has not included this song.") + __("If you know the song")}
+      a(href=PREFIX+'/songList/add') #{__("add jianpu for this song")}
+      | #{__(", to benefit other singers.")}
   else
     p
-      | 沒有看到您想找的歌曲嗎？如果您知道您在搜尋的歌曲，您可以
-      a(href=PREFIX+'/songList/add') 新增這首歌曲的簡譜
-      | ，造福其他歌友。
+      | #{__("Don't see the song you're looking for?") + __("If you know the song")}
+      a(href=PREFIX+'/songList/add') #{__("add jianpu for this song")}
+      | #{__(", to benefit other singers.")}
   audio
     source(src="../sounds/blank.mp3", type="audio/mpeg")

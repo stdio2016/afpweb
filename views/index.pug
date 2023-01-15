@@ -9,9 +9,11 @@ block content
   p #{__("Currently there are %s songs", numSongs)}
   p
     a.button.blue(href="jianpu") #{__("Jianpu search")}
+    | 
     a.button.cyan(href='qbsh') #{__("Humming search")}
+    | 
     a.button.green(href='songList') #{__("Song list")}
-  p #{__("Warning! We will store searches you make on this site for research purposes.")}
+  p #{__("Warning! We will store searches")}
   h2 #{__("Recently added:")}
   ul
     for song in recentSongs 
