@@ -5,16 +5,20 @@ block title
   title #{__("To-do list")} - #{__("Jianpu Space")}
 
 block content
-  h1 待辦事項
-  for item in Object.values(todos)
+  h1 #{__("To-do list")}
+  form(action=PREFIX+'/TODO/add' method='GET')
+    button.button.cyan #{__("Add")}
+  for item in todos
     section
       h2= item.title
-      div 建立時間：
+      div #{__("Date created:")}
         span.date= +item._id.getTimestamp()
-      div 修改時間：
+      div #{__("Date modified:")}
         span.date= +item.modifyDate
-      div 狀態：#{item.status}
-      a(href=PREFIX+'/TODO/edit?id='+item._id) 編輯
+      div #{__("Status:")}#{item.status}
+      form(action=PREFIX+'/TODO/edit' method='GET')
+        input(type="hidden" name="id" value=item._id)
+        button.button.cyan #{__("Edit")}
       p(style={'white-space':'pre-wrap'})= item.description
   script.
     document.querySelectorAll('.date').forEach(function(x){

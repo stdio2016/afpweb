@@ -48,5 +48,8 @@
 	"No jianpu": "沒有簡譜，請幫忙加上簡譜",
 	"Song not found": "找不到歌曲",
 	"Maybe the song has been deleted": "可能是這首歌曲被刪除了，或者是您輸入錯網址了。",
-	"search other songs": "您可以按這裡，尋找其他歌曲"
+	"search other songs": "您可以按這裡，尋找其他歌曲",
+	"Date created:": "建立時間：",
+	"Date modified:": "修改時間：",
+	"Status:": "狀態："
 }

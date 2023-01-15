@@ -10,16 +10,16 @@ block content
     p
       label(for='txtTitle') 標題：
       br
-      input.wide#txtTitle(name='title' required)
+      input.wide#txtTitle(name='title' required autocomplete='off')
     p
       label(for='selStatus') 狀態：
-      select#selStatus(name='status')
+      select#selStatus(name='status' autocomplete='off')
         for cho in 'Open,Committed,Wait,Done,Abandoned'.split(',')
           option(value=cho) #{cho}
     p
       label(for='txtDesc') 描述：
       br
-      textarea#txtDesc.wide(name='description' required)
+      textarea#txtDesc.wide(name='description' required autocomplete='off')
     p
       label(for='txtPass') 請輸入管理員密碼：
       input#txtPass(name='password' type='password' required)

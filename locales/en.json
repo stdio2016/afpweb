@@ -48,5 +48,8 @@
 	"No jianpu": "No numbered notation available. Please help add a numbered notation",
 	"Song not found": "Song not found",
 	"Maybe the song has been deleted": "It could be that the song has been removed, or you may have mistyped the URL.",
-	"search other songs": "You can click here to find other songs"
+	"search other songs": "You can click here to find other songs",
+	"Date created:": "Date created: ",
+	"Date modified:": "Date modified: ",
+	"Status:": "Status: "
 }
