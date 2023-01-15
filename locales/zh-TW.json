@@ -26,7 +26,7 @@
 	"Jianpu search result": "簡譜搜尋結果",
 	",": "，",
 	"Singer": "歌手",
-	"Relevance score": "相似度分數",
+	"Similarity": "相似度",
 	"Don't see the song you're looking for?": "沒有看到您想找的歌曲嗎？",
 	"If you know the song": "如果您知道您在搜尋的歌曲，您可以",
 	"add jianpu for this song": "新增這首歌曲的簡譜",
@@ -36,5 +36,17 @@
 	"Search string too short.": "您的搜尋字串似乎太短了，有大量的歌曲都包含了您輸入的旋律，因此搜尋結果可能不夠理想。",
 	"Recommend to add more notes.": "建議您再多加幾個音符。",
 	"8,9 invalid": "8和9不是有效的簡譜音高",
-	"At least one note": "搜尋字串必須包含至少一個音符"
+	"At least one note": "搜尋字串必須包含至少一個音符",
+	"Add": "新增",
+	"Song name": "歌名",
+	"Language": "語言",
+	"None": "無",
+	"Song": "歌曲",
+	"Edit": "編輯",
+	"View history": "檢視歷史",
+	"Last modified": "最近修改時間",
+	"No jianpu": "沒有簡譜，請幫忙加上簡譜",
+	"Song not found": "找不到歌曲",
+	"Maybe the song has been deleted": "可能是這首歌曲被刪除了，或者是您輸入錯網址了。",
+	"search other songs": "您可以按這裡，尋找其他歌曲"
 }

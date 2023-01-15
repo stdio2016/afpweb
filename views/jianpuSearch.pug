@@ -46,7 +46,7 @@ block content
         if i.song.singer
           | #{__(",") + __("Singer") + __(":")}
           span #{i.song.singer}
-        | #{__(",") + __("Relevance score") + __(":")}#{i.score.toFixed(2)}
+        | #{__(",") + __("Similarity") + __(":")}#{i.score.toFixed(2)}
         div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu
   if result.length == 0
     h2 #{__("No results")}

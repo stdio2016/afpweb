@@ -1,22 +1,22 @@
 extends layout
 
 block title
-  title 歌曲清單 - 簡譜空間
+  title #{__("Song list")} - #{__("Jianpu Space")}
 
 block content
-  h1 歌曲清單
+  h1 #{__("Song list")}
   form(action=PREFIX+'/songList/add' method='GET')
     p
-      button.button.cyan 新增
+      button.button.cyan #{__("Add")}
   table
     thead.cyan-bg
       tr
-        th 歌名
-        th 歌手
-        th(style='width:80px') 語言
+        th #{__("Song name")}
+        th #{__("Singer")}
+        th(style='width:80px') #{__("Language")}
     for song in Object.values(songs)
       tr
         td
           a(href=PREFIX+'/songList/'+song.id)= song.name
-        td= song.singer || '無'
-        td= song.language || '無'
+        td= song.singer || __("None")
+        td= song.language || __("None")

@@ -2,9 +2,9 @@ extends layout
 
 block title
   if song
-    title 歌曲 #{song.name} - 簡譜空間
+    title #{__("Song")} #{song.name} - #{__("Jianpu Space")}
   else
-    title 找不到歌曲 - 簡譜空間
+    title #{__("Song not found")} - #{__("Jianpu Space")}
 
 block scripts
   script(src='../javascripts/je.js')
@@ -16,32 +16,30 @@ block scripts
 
 block content
   if song
-    h1 歌曲 #{song.name}
+    h1 #{__("Song")} #{song.name}
     div
-      a.button.cyan(href=song.id+'/edit') 編輯
-      a.button.green(href='history?songID='+song.id) 檢視歷史
-    p 歌手：#{song.singer || '無'}
-    p 語言：#{song.language || '無'}
+      a.button.cyan(href=song.id+'/edit') #{__("Edit")}
+      | 
+      a.button.green(href='history?songID='+song.id) #{__("View history")}
+    p #{__("Singer") + __(":")}#{song.singer || __("None")}
+    p #{__("Language") + __(":")}#{song.language || __("None")}
     if song.jianpu
       p
-        | 簡譜： (目前數字右邊的橫線被當作連結線使用，未來將修正為連結線)
+        | #{__("Jianpu") + __(":")}
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
       audio
         source(src="../sounds/blank.mp3", type="audio/mpeg")
     else
       p
-      | 沒有簡譜。
-      a(href=PREFIX+'/songList/'+song.id+'/edit') 請幫忙加上簡譜
-    p 最近修改時間：
+        a(href=PREFIX+'/songList/'+song.id+'/edit') #{__("No jianpu")}
+    p #{__("Last modified") + __(":")}
       span.date #{+song.modify_time}
     script.
       document.querySelectorAll('.date').forEach(function(x){
         x.textContent = new Date(parseInt(x.textContent)).toLocaleString();
       });
   else
-    h1 找不到歌曲
-    p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
+    h1 #{__("Song not found")}
+    p #{__("Maybe the song has been deleted")}
     p 
-      | 您可以按
-      a(href=PREFIX+'/songList') 這裡
-      | ，尋找其他歌曲
+      a(href=PREFIX+'/songList') #{__("search other songs")}
