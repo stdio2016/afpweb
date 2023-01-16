@@ -16,6 +16,7 @@ block content
       span#pitchSeq [#{result.pitch.join(', ')}]
       br
       button.button.blue(onclick='playPitch()') 播放音高
+    audio#keepAudioCtx(loop src="../sounds/blank.mp3")
   if result && result.songs
     ol
       for i in result.songs

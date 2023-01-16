@@ -11,6 +11,12 @@ stoppedSound.connect(actx.destination);
 var unlocked = false;
 function unlock(){
   actx.resume();
+  // iOS 16 Safari fix stuck AudioContext
+  // see https://stackoverflow.com/questions/69502340/ios-15-web-audio-playback-stops-working-in-safari-after-locking-screen-for-a-fe
+  var audioElt = document.getElementById('keepAudioCtx');
+  if (audioElt instanceof HTMLAudioElement && audioElt.paused) {
+    audioElt.play();
+  }
 }
 window.addEventListener('touchend', unlock, false);
 window.addEventListener('click', unlock, false);
@@ -60,3 +66,23 @@ function loadSmp(where, instr, prop){
 
 soundBank.fakePno = {sample: genFakePiano(), center: 69, loopStart: 2, loopEnd: 2.25};
 window.fakePno = soundBank.fakePno;
+
+// iOS Safari bug from iOS 15, the AudioContext may stuck even though it is in "running" state
+var lastTime = -1;
+setInterval(function detectAudioContextFailure() {
+  if (actx.state === 'running') {
+    if (actx.currentTime == lastTime) {
+      onAudioContextFail();
+      lastTime = 0;
+    } else {
+      lastTime = actx.currentTime;
+    }
+  }
+}, 2000);
+
+function onAudioContextFail() {
+  console.log('audio context fail!!');
+  //var xhr = new XMLHttpRequest;
+  //xhr.open('GET', '/audioContextFail');
+  //xhr.send();
+}

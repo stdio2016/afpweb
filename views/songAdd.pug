@@ -54,6 +54,7 @@ block content
       )
     p 預覽：
     div#jianpuOut.to-jianpu(style='border: 1px solid black;')
+    audio#keepAudioCtx(loop src="../sounds/blank.mp3")
     button.button.blue(type=submit) 儲存
   script.
     jianpuOut.innerText = document.forms[0].jianpu.value;

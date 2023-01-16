@@ -34,7 +34,7 @@ block content
       p
         | 簡譜：
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
-      audio
+      audio#keepAudioCtx(loop)
         source(src="../sounds/blank.mp3", type="audio/mpeg")
     else
       p
