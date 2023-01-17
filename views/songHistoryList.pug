@@ -3,13 +3,13 @@ extends layout
 block title
   meta(name='robots' content='noindex,nofollow')
   if song
-    title 歌曲 #{song.name} 的修訂歷史 - 簡譜空間
+    title #{__("Revisions of song %s", song.name)} - #{__("Jianpu Space")}
   else
     title 找不到歌曲 - 簡譜空間
 
 block content
   if song
-    h1 歌曲 #{song.name} 的修訂歷史
+    h1 #{__("Revisions of song %s", song.name)}
     ul
       for rev in revisions
         li
@@ -26,14 +26,14 @@ block content
             var incr = rev.compare.increased;
             var com = rev.compare || {}, comout = [];
             if (com.added && com.added.length > 0)
-              comout.push('新增 '+com.added.join('、'));
+              comout.push(__("Add")+' '+com.added.join('、'));
             if (com.edited && com.edited.length > 0)
-              comout.push('編輯 '+com.edited.join('、'));
+              comout.push(__("Edit")+' '+com.edited.join('、'));
             if (com.deleted && com.deleted.length > 0)
-              comout.push('刪除 '+com.deleted.join('、'));
+              comout.push(__("Delete")+' '+com.deleted.join('、'));
           span #{username}
           |  
-          span (#{rev.compare.size}字元)
+          span (#{rev.compare.size + ' ' + __("characters")})
           |  
           if incr > 0
             span.add (+#{incr})

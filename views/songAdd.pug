@@ -1,7 +1,7 @@
 extends layout
 
 block title
-  title 新增歌曲 - 簡譜空間
+  title #{__("Add song")} - #{__("Jianpu Space")}
 
 block scripts
   script(src='../javascripts/je.js')
@@ -27,17 +27,17 @@ block scripts
     }
 
 block content
-  h1 新增歌曲
+  h1= __("Add song")
   section.warning
-    | 警告！如果您新增歌曲，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。
+    | #{__("Warning! add song")}
   form(method='POST')
-    p 歌名：
+    p= __("Song name") + __(":")
       input(name='name' required)
-    p 歌手：
+    p= __("Singer") + __(":")
       input(name='singer')
-    p 語言：
+    p= __("Language") + __(":")
       input(name='language')
-    p 簡譜：
+    p= __("Jianpu") + __(":")
       br
       button(type='button' onclick='insert("#")') #
       button(type='button' onclick='insert("\'")') '
@@ -52,10 +52,10 @@ block content
         autocorrect='off'
         style='width:100%'
       )
-    p 預覽：
+    p= __("Preview") + __(":")
     div#jianpuOut.to-jianpu(style='border: 1px solid black;')
     audio#keepAudioCtx(loop src="../sounds/blank.mp3")
-    button.button.blue(type=submit) 儲存
+    button.button.blue(type=submit)= __("Save")
   script.
     jianpuOut.innerText = document.forms[0].jianpu.value;
     document.forms[0].jianpu.oninput = debounce(function () {

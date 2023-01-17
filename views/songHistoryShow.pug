@@ -3,7 +3,7 @@ extends layout
 block title
   meta(name='robots' content='noindex,nofollow')
   if song
-    title 歌曲 #{song.name} 的歷史版本 - 簡譜空間
+    title #{__("Song")} #{song.name} - #{__("Jianpu Space")}
   else
     title 找不到歌曲 - 簡譜空間
 
@@ -17,22 +17,22 @@ block scripts
 
 block content
   if song
-    h1 歌曲 #{song.name}
-    p 這是歌曲 
-      span #{curSong.name}
-      if song.rev == curSong.rev
-        |  的目前版本 (
-        span.date #{+song.modify_time}
-        |  )
-      else
-        |  於 
-        span.date #{+song.modify_time}
-        |  時的歷史版本
-    p 歌手：#{song.singer || '無'}
-    p 語言：#{song.language || '無'}
-    if song.jianpu
+    h1 #{__("Song")} #{song.name}
+    if song.rev == curSong.rev
       p
-        | 簡譜：
+        | #{__("This is the current version of the song %s", curSong.name)}
+        | (
+        span.date #{+song.modify_time}
+        | )
+    else
+      p
+        | #{__("This is the historical version of the song %s", curSong.name)}
+        span.date #{+song.modify_time}
+        | #{__("This is the historical version of the song (p2)")}
+    p #{__("Singer")+__(":")}#{song.singer || '無'}
+    p #{__("Language")+__(":")}#{song.language || '無'}
+    if song.jianpu
+      p= __("Jianpu")+__(":")
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
       audio#keepAudioCtx(loop)
         source(src="../sounds/blank.mp3", type="audio/mpeg")

@@ -51,5 +51,16 @@
 	"search other songs": "您可以按這裡，尋找其他歌曲",
 	"Date created:": "建立時間：",
 	"Date modified:": "修改時間：",
-	"Status:": "狀態："
+	"Status:": "狀態：",
+	"Add song": "新增歌曲",
+	"Preview": "預覽",
+	"Save": "儲存",
+	"Warning! add song": "警告！如果您新增歌曲，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。",
+	"Edit song": "編輯歌曲",
+	"Revisions of song %s": "歌曲 %s 的修訂歷史",
+	"This is the current version of the song %s": "這是歌曲「%s」的最新版本",
+	"This is the historical version of the song %s": "這是歌曲「%s」於 ",
+	"This is the historical version of the song (p2)": " 時的歷史版本",
+	"characters": "字元",
+	"Delete": "刪除"
 }
