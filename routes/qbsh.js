@@ -5,6 +5,7 @@ const spawn = require('child_process').spawn;
 const net = require('net');
 const axios = require('axios');
 const { addPastQuery, updatePastQuery, getPastQuery } = require('../mongo/pastQueries');
+const fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -45,6 +46,17 @@ router.post('/query', async function(req, res, next) {
         resolve(`public/savedQueries/${queryID}.wav`);
       });
     });
+    var fileStat = await fs.promises.stat(wavFile).catch(() => null);
+    if (!fileStat || fileStat.size == 0) {
+      await updatePastQuery(queryID, '', query, {
+        progress: 'error',
+        reason: 'Invalid audio file',
+      });
+      if (fileStat) {
+        await fs.promises.unlink(wavFile).finally(() => 0);
+      }
+      return;
+    }
     var details = {progress: 50};
     await updatePastQuery(queryID, '', query, details);
     
