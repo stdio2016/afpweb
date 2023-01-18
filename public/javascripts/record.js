@@ -31,7 +31,7 @@ intercept.onaudioprocess = function (e) {
     if (nonzero || bufferPos > 0) {
       bufferPos = pos;
     }
-    if (bufferPos >= buffer.length) setTimeout(stopRecord, 0);
+    if (bufferPos >= buffer.length) setTimeout(stopRecord.bind(null, true), 0);
   }
 };
 
@@ -41,6 +41,7 @@ function startup() {
   btnRecord.disabled = false;
   btnRecord.onclick = startRecord;
   btnStop.disabled = true;
+  btnSearch.disabled = true;
   showResultByUrlHash();
 }
 
@@ -108,7 +109,9 @@ function startRecord() {
     return;
   }
   btnStop.disabled = false;
-  btnStop.onclick = stopRecord;
+  btnStop.onclick = stopRecord.bind(null, false);
+  btnSearch.disabled = false;
+  btnSearch.onclick = stopRecord.bind(null, true);
   btnRecord.disabled = true;
   recording = true;
   bufferPos = 0;
@@ -144,11 +147,17 @@ function visualize() {
   rafId = requestAnimationFrame(visualize);
 }
 
-function stopRecord() {
+function stopRecord(toSearch) {
   if (recording) {
     cancelAnimationFrame(rafId);
     btnStop.disabled = true;
+    btnSearch.disabled = true;
     recording = false;
+    if (!toSearch) {
+      ended();
+      canvas.width = canvas.width; // clear canvas and reset state
+      return;
+    }
     if (bufferPos < audioCtx.sampleRate*5) {
       alert('查詢太短! 請錄音至少5秒鐘');
       ended();
