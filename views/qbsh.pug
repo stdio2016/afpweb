@@ -1,59 +1,61 @@
 extends layout
 
 block title
-  title 哼唱搜尋 - 簡譜空間
+  title #{__("Humming search")} - #{__("Jianpu Space")}
 
 block scripts
   script(src='javascripts/libflac.min.wasm.js')
 
 block content
-  h1 哼唱搜尋
-  p 請對著電腦的麥克風，哼出旋律10秒。請確保錄音環境是安靜的，本程式只支援沒有任何伴奏的哼唱聲音。
-  p 站長小提醒：我想這個網站可能也找不到歌，因為目前我的網站也才100多首歌而已。
+  h1 #{__("Humming search")}
+  p #{__("Humming search howto")}
+  p #{__("Webmaster reminder:") + __("may not be able to find song", 100)}
   section.warning
-    | 警告！使用本服務，表示您同意將您的錄音公開作為哼唱搜尋的資料集。我們不會公開您的IP位址。
+    | #{__("Warning! save qbsh queries")}
     br
-    a(href=PREFIX+'/pastQueries') 搜集的資料放在這裡
+    a(href=PREFIX+'/pastQueries') #{__("The collected information is placed here")}
   div.main-controls
     canvas.visualizer(height="120" width='600')
     div
-      button#btnRecord.button.cyan 錄音
-      button#btnStop.button.red 停止
+      button#btnRecord.button.cyan= __("Record")
+      | 
+      button#btnSearch.button.blue(disabled)= __("Search")
+      | 
+      button#btnStop.button.red(disabled)= __("Cancel")
     p
-      | 上傳檔案(嚴禁上傳原曲！) 
+      = __("Upload a humming song")+' '
       input#inFile(type='file')
-      button#btnUpload.button.blue(onclick="uploadFile()") 上傳
+      button#btnUpload.button.blue(onclick="uploadFile()")= __("Upload")
   div.progress(style='margin-top:15px;margin-bottom:15px;')
     div.progress-bg
       div.progress-bar(style='width:0%')
     div#progressMessage(style='height:1em;')
   div
-    | 這是您上傳的錄音：
+    = __("Your uploaded recording:")
     audio#yourRecording(controls)
       source(src="../sounds/blank.mp3", type="audio/mpeg")
   div.query-results
     table
       thead
         tr(class='cyan-bg')
-          th 歌名
-          th 歌手
-          th(style='width:100px') 相似度
+          th= __("Song name")
+          th= __("Singer")
+          th(style='width:100px')= __("Similarity")
       tbody
   div#noResult(style='display:none;')
-    h2 查無結果
+    h2= __("No results")
     ol
       li
-        | 也許本網站還沒有收錄這首歌。如果您知道您在搜尋的歌曲，您可以
-        a(href=PREFIX+'/songList/add') 新增這首歌曲的簡譜
-        | ，造福其他歌友。
-      li 也許您哼歌的時候走音了，您可以再嘗試個幾次。
+        = __("Perhaps this site has not included this song.") + __("If you know the song")
+        a(href=PREFIX+'/songList/add')= __("add jianpu for this song")
+        = __(", to benefit other singers.")
+      li #{__("Maybe out of tune")}
   div#sopResult(style='display:none;')
-    p
-      | 沒有看到您想找的歌曲嗎？
+    p= __("Don't see the song you're looking for?")
     ol
       li
-        | 如果您知道您在搜尋的歌曲，您可以
-        a(href=PREFIX+'/songList/add') 新增這首歌曲的簡譜
-        | ，造福其他歌友。
-      li 也有可能是因為您哼歌的時候走音了，您可以再嘗試個幾次。
+        = __("If you know the song")
+        a(href=PREFIX+'/songList/add')= __("add jianpu for this song")
+        = __(", to benefit other singers.")
+      li #{__("Maybe out of tune")}
   script(type="text/javascript" src="javascripts/record.js")

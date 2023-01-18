@@ -62,5 +62,13 @@
 	"This is the historical version of the song %s": "This is the historical version of the song “%s” at ",
 	"This is the historical version of the song (p2)": ".",
 	"characters": "characters",
-	"Delete": "Delete"
+	"Delete": "Delete",
+	"Record": "Record",
+	"Cancel": "Cancel",
+	"Upload": "Upload",
+	"Maybe out of tune": "Maybe you're out of tune when you're humming. You can try a few more times.",
+	"Your uploaded recording:": "Your uploaded recording: ",
+	"Upload a humming song": "Upload a humming song",
+	"Humming search howto": "Please hum the melody into the microphone of the computer for 10 seconds. Please make sure the recording environment is quiet, since this program only supports humming without any accompaniment.",
+	"Warning! save qbsh queries": "Warning! By using this service, you agree to make your recording publicly available as a Query By Singing/Humming dataset. We will not disclose your IP address."
 }
