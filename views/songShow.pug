@@ -1,6 +1,7 @@
 extends layout
 
 block title
+  - place='songList'
   if song
     title #{__("Song")} #{song.name} - #{__("Jianpu Space")}
   else

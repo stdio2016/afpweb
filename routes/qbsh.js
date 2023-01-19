@@ -9,7 +9,7 @@ const fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('qbsh', { place: 'qbsh' });
+  res.render('qbsh', { });
 });
 
 router.post('/query', async function(req, res, next) {

@@ -8,7 +8,7 @@ const { addPastQuery } = require('../mongo/pastQueries');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('jianpu', { place: 'jianpu' });
+  res.render('jianpu', { });
 });
 
 router.get('/search', function(req, res, next) {

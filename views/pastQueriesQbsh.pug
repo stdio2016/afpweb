@@ -1,8 +1,11 @@
 extends layout
 
 block title
+  - place='pastQueries'
   meta(name='robots' content='noindex')
   title 搜尋紀錄 - 簡譜空間
+
+block scripts
   script(src="../javascripts/sound.js")
   script(src="../javascripts/pastQueriesQbsh.js")
 

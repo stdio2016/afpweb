@@ -8,7 +8,7 @@ const {addSong:addSongToQbsh} = require('../services/qbsh');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   listAllSongs().then(result => {
-    res.render('songList', { place: 'songList', songs: result });
+    res.render('songList', { songs: result });
   }).catch(err => {
     console.error(err);
     res.status(500);
@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 
 // add song
 router.get('/add', function(req, res, next) {
-  res.render('songAdd', { place: 'songList' });
+  res.render('songAdd', { });
 });
 
 // confirm add
@@ -58,7 +58,7 @@ router.get('/history', async function (req, res, next) {
   if (rev) {
     try {
       var oldSong = await getSongRevision(songID, rev);
-      res.render('songHistoryShow', { place: 'songList', song: oldSong, curSong: song });
+      res.render('songHistoryShow', { song: oldSong, curSong: song });
     } catch (err) {
       console.error(err);
       res.status(500);
@@ -67,7 +67,7 @@ router.get('/history', async function (req, res, next) {
     return;
   }
   var revisions = await listSongRevision(songID);
-  res.render('songHistoryList', {place: 'songList', song, revisions});
+  res.render('songHistoryList', {song, revisions});
 });
 
 // show single song
@@ -75,10 +75,10 @@ router.get('/:songID', function(req, res, next) {
   let songID = req.params.songID;
   getSong(songID).then(result => {
     if (result)
-      res.render('songShow', { place: 'songList', song: result });
+      res.render('songShow', { song: result });
     else {
       res.status(404);
-      res.render('songShow', { place: 'songList', song: null});
+      res.render('songShow', { song: null });
     }
   }).catch(err => {
     console.error(err);
@@ -92,10 +92,10 @@ router.get('/:songID/edit', function(req, res, next) {
   let songID = req.params.songID;
   getSong(songID).then(result => {
     if (result)
-      res.render('songEdit', { place: 'songList', song: result });
+      res.render('songEdit', { song: result });
     else {
       res.status(404);
-      res.render('songEdit', { place: 'songList', song: null});
+      res.render('songEdit', { song: null});
     }
     return;
   }).catch(err => {

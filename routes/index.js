@@ -7,7 +7,7 @@ router.get('/', async function(req, res, next) {
   try {
     var [cnt, recent] = await Promise.all([
       getNumberOfSongs(), getRecentlyAddedSongs()]);
-    res.render('index', { place: 'main', numSongs: cnt, recentSongs: recent });
+    res.render('index', { numSongs: cnt, recentSongs: recent });
   } catch (err) {
     next(err);
   }

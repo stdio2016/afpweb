@@ -5,7 +5,7 @@ const { getPastQuery, listPastQueries } = require('../mongo/pastQueries');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   listPastQueries().then(queries => {
-    res.render('pastQueries', { place: 'pastQueries', queries: queries })
+    res.render('pastQueries', { queries: queries })
   }).catch(err => {
     res.render('error', {error: err});
   });
@@ -22,9 +22,9 @@ router.get('/:queryID', function(req, res, next) {
     const row = queries;
     const method = row.method;
     if (method == 'jianpu')
-      res.render('pastQueriesJianpu', { place: 'pastQueries', query: row.query, result: row.details });
+      res.render('pastQueriesJianpu', { query: row.query, result: row.details });
     else if (method == 'qbsh')
-      res.render('pastQueriesQbsh', { place: 'pastQueries', query: row.query, result: row.details });
+      res.render('pastQueriesQbsh', { query: row.query, result: row.details });
     else {
       res.render('error', {error: new Error('history corrupt!')});
     }

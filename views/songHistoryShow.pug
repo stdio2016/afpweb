@@ -1,6 +1,7 @@
 extends layout
 
 block title
+  - place='songList'
   meta(name='robots' content='noindex,nofollow')
   if song
     title #{__("Song")} #{song.name} - #{__("Jianpu Space")}
