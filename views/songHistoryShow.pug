@@ -3,10 +3,10 @@ extends layout
 block title
   - place='songList'
   meta(name='robots' content='noindex,nofollow')
-  if song
-    title #{__("Song")} #{song.name} - #{__("Jianpu Space")}
+  if oldSong
+    title #{__("Song")} #{oldSong.name} - #{__("Jianpu Space")}
   else
-    title 找不到歌曲 - 簡譜空間
+    title #{__("Revision not found for song")} #{song.name} - #{__("Jianpu Space")}
 
 block scripts
   script(src='../javascripts/je.js')
@@ -17,38 +17,33 @@ block scripts
   script(src='../javascripts/songShow.js')
 
 block content
-  if song
-    h1 #{__("Song")} #{song.name}
-    if song.rev == curSong.rev
+  if oldSong
+    h1 #{__("Song")} #{oldSong.name}
+    if song.rev == oldSong.rev
       p
-        | #{__("This is the current version of the song %s", curSong.name)}
+        | #{__("This is the current version of the song %s", song.name)}
         | (
         span.date #{+song.modify_time}
         | )
     else
       p
-        | #{__("This is the historical version of the song %s", curSong.name)}
-        span.date #{+song.modify_time}
+        | #{__("This is the historical version of the song %s", song.name)}
+        span.date #{+oldSong.modify_time}
         | #{__("This is the historical version of the song (p2)")}
-    p #{__("Singer")+__(":")}#{song.singer || '無'}
-    p #{__("Language")+__(":")}#{song.language || '無'}
-    if song.jianpu
+    p #{__("Singer")+__(":")}#{oldSong.singer || '無'}
+    p #{__("Language")+__(":")}#{oldSong.language || '無'}
+    if oldSong.jianpu
       p= __("Jianpu")+__(":")
-      div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
+      div#jianpuOut.to-jianpu(style='border: 1px solid black;')= oldSong.jianpu
       audio#keepAudioCtx(loop)
         source(src="../sounds/blank.mp3", type="audio/mpeg")
     else
       p
-      | 沒有簡譜。
-      a(href=PREFIX+'/songList/'+song.id+'/edit') 請幫忙加上簡譜
+      | #{__("No jianpu")}
     script.
       document.querySelectorAll('.date').forEach(function(x){
         x.textContent = new Date(parseInt(x.textContent)).toLocaleString();
       });
   else
-    h1 找不到歌曲
-    p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
-    p 
-      | 您可以按
-      a(href=PREFIX+'/songList') 這裡
-      | ，尋找其他歌曲
+    h1 #{__("Revision not found for song")} #{song.name}
+    a(href=PREFIX+'/songList/'+song.id) #{__("Here is the latest version of this song.")}

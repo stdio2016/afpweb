@@ -5,8 +5,6 @@ block title
   meta(name='robots' content='noindex,nofollow')
   if song
     title #{__("Revisions of song %s", song.name)} - #{__("Jianpu Space")}
-  else
-    title 找不到歌曲 - 簡譜空間
 
 block content
   if song
@@ -44,13 +42,6 @@ block content
             span.less (#{incr})
           |  
           span #{comout.join('、')}
-  else
-    h1 找不到歌曲
-    p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
-    p 
-      | 您可以按
-      a(href=PREFIX+'/songList') 這裡
-      | ，尋找其他歌曲
   script.
     document.querySelectorAll('.date').forEach(function(x){
       x.textContent = new Date(parseInt(x.textContent)).toLocaleString();

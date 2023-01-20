@@ -55,10 +55,11 @@ router.get('/history', async function (req, res, next) {
   var songID = req.query.songID;
   var rev = req.query.rev;
   var song = await getSong(songID);
+  if (!song) return songNotFound(res);
   if (rev) {
     try {
       var oldSong = await getSongRevision(songID, rev);
-      res.render('songHistoryShow', { song: oldSong, curSong: song });
+      res.render('songHistoryShow', { oldSong: oldSong, song: song });
     } catch (err) {
       console.error(err);
       res.status(500);
@@ -77,8 +78,7 @@ router.get('/:songID', function(req, res, next) {
     if (result)
       res.render('songShow', { song: result });
     else {
-      res.status(404);
-      res.render('songShow', { song: null });
+      songNotFound(res);
     }
   }).catch(err => {
     console.error(err);
@@ -94,8 +94,7 @@ router.get('/:songID/edit', function(req, res, next) {
     if (result)
       res.render('songEdit', { song: result });
     else {
-      res.status(404);
-      res.render('songEdit', { song: null});
+      songNotFound(res);
     }
     return;
   }).catch(err => {
@@ -124,6 +123,10 @@ router.post('/:songID/edit', function(req, res, next) {
     ip: req.ip
   };
   getSong(songID).then(oldVer => {
+    if (!oldVer) {
+      // song does not exist!
+      return songID;
+    }
     var edited = false;
     for (var field of formFields) {
       if (me[field] != oldVer[field]) {
@@ -152,5 +155,10 @@ router.post('/:songID/edit', function(req, res, next) {
     res.render('error', {error: err});
   });
 });
+
+function songNotFound(res) {
+  res.status(404);
+  res.render('songNotFound');
+}
 
 module.exports = router;
