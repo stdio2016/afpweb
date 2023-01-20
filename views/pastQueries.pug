@@ -3,24 +3,24 @@ extends layout
 block title
   - place='pastQueries'
   meta(name='robots' content='noindex,nofollow')
-  title 搜尋紀錄 - 簡譜空間
+  title #{__("Past queries")} - #{__("Jianpu Space")}
 
 block content
-  h1 搜尋紀錄
+  h1 #{__("Past queries")}
   div
     table#pastQueries
       thead
         tr(class='cyan-bg')
-          th(style='width:200px') 查詢時間
-          th(style='width:80px') 方法
-          th 查詢結果
+          th(style='width:200px') #{__("Time")}
+          th(style='width:80px') #{__("Method")}
+          th #{__("Search result")}
       tbody
         for i in queries
           tr
             td
               a(href=PREFIX+'/pastQueries/'+i._id) #{i.query_time.valueOf()}
             td= i.method
-            td= i.top_song || '無結果'
+            td= i.top_song || __("No result")
   script.
     var table = document.getElementById('pastQueries')
     for (var i = 1; i < table.rows.length; i++) {

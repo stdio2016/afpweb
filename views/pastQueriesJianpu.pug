@@ -3,7 +3,7 @@ extends layout
 block title
   - place='pastQueries'
   meta(name='robots' content='noindex')
-  title 搜尋紀錄 - 簡譜空間
+  title #{__("Past query")} - #{__("Jianpu Space")}
 
 block scripts
   script(src='../javascripts/je.js')
@@ -14,16 +14,16 @@ block scripts
   script(src='../javascripts/songShow.js')
 
 block content
-  h1 搜尋紀錄
-  p 簡譜：#{query}
+  h1 #{__("Past query")}
+  p #{__("Jianpu")+__(":")}#{query}
   ol
     for i in result
       li
         a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
         if i.song.singer
-          | ，歌手：
+          | #{__(",") + __("Singer") + __(":")}
           span #{i.song.singer}
-        | ，配對分數：#{i.score.toFixed(2)}
+        | #{__(",") + __("Similarity") + __(":")}#{i.score.toFixed(2)}
         div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu
   audio#keepAudioCtx(loop)
     source(src="../sounds/blank.mp3", type="audio/mpeg")

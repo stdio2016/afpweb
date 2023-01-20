@@ -68,8 +68,15 @@
 	"Upload": "上傳",
 	"Maybe out of tune": "也許您哼歌的時候走音了，您可以再嘗試個幾次。",
 	"Your uploaded recording:": "您上傳的錄音：",
-	"Upload file": "上傳檔案(嚴禁上傳原曲！)",
 	"Upload a humming song": "上傳哼唱",
 	"Humming search howto": "請對著電腦的麥克風，哼出旋律10秒。請確保錄音環境是安靜的，本程式只支援沒有任何伴奏的哼唱聲音。",
-	"Warning! save qbsh queries": "警告！使用本服務，表示您同意將您的錄音公開作為哼唱搜尋的資料集。我們不會公開您的IP位址。"
+	"Warning! save qbsh queries": "警告！使用本服務，表示您同意將您的錄音公開作為哼唱搜尋的資料集。我們不會公開您的IP位址。",
+	"Time": "時間",
+	"Method": "方法",
+	"Search result": "查詢結果",
+	"No result": "無結果",
+	"Past query": "搜尋紀錄",
+	"Query audio:": "查詢音檔：",
+	"Pitch sequence:": "音高序列：",
+	"Play pitch": "播放音高"
 }

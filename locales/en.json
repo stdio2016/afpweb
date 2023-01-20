@@ -70,5 +70,13 @@
 	"Your uploaded recording:": "Your uploaded recording: ",
 	"Upload a humming song": "Upload a humming song",
 	"Humming search howto": "Please hum the melody into the microphone of the computer for 10 seconds. Please make sure the recording environment is quiet, since this program only supports humming without any accompaniment.",
-	"Warning! save qbsh queries": "Warning! By using this service, you agree to make your recording publicly available as a Query By Singing/Humming dataset. We will not disclose your IP address."
+	"Warning! save qbsh queries": "Warning! By using this service, you agree to make your recording publicly available as a Query By Singing/Humming dataset. We will not disclose your IP address.",
+	"Time": "Time",
+	"Method": "Method",
+	"Search result": "Search result",
+	"No result": "No result",
+	"Past query": "Past query",
+	"Query audio:": "Query audio:",
+	"Pitch sequence:": "Pitch sequence:",
+	"Play pitch": "Play pitch"
 }
