@@ -73,7 +73,7 @@ app.use((req, res, next) => {
   }
   // bot detection
   var ua = req.headers['user-agent'] || '';
-  if (/bot\b/.test(ua)) {
+  if (/[Bb]ot\b/.test(ua)) {
     res.locals.bot = true;
   } else if (ua.startsWith('Mozilla/5.0')) {
     res.locals.bot = false;
@@ -83,6 +83,17 @@ app.use((req, res, next) => {
   // no cookie for bots
   if (res.locals.bot) {
     req.session.destroy();
+  }
+  var path = req.path;
+  if (req.method == 'GET' && !res.locals.bot) {
+    // TODO: better hit counter
+    clientPromise.then(client => {
+      client.db().collection('hitcount').updateOne(
+        {_id: path},
+        {$inc: {views: 1}},
+        {upsert: true},
+      );
+    });
   }
   next();
 });
