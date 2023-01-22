@@ -125,7 +125,7 @@ router.post('/:songID/edit', function(req, res, next) {
   getSong(songID).then(oldVer => {
     if (!oldVer) {
       // song does not exist!
-      return songID;
+      return '';
     }
     var edited = false;
     for (var field of formFields) {
@@ -143,11 +143,11 @@ router.post('/:songID/edit', function(req, res, next) {
       return addSongToQbsh(songID, me);
     });
   }).then((songID) => {
-    if (songID in jianpuDB) {
+    if (songID) {
       res.redirect('../'+songID);
     }
     else {
-      res.redirect('../'+songID);
+      songNotFound(res);
     }
   }).catch(err => {
     console.error(err);
