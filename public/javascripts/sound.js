@@ -7,15 +7,24 @@ var stoppedSound = actx.createGain();
 stoppedSound.gain.value = 1e-5;
 stoppedSound.connect(actx.destination);
 
+var support = {isChrome: true, isSafari: false, isIOS16: false};
+if (!/AppleWebKit\/537\.36/.test(navigator.userAgent)) support.isChrome = false;
+if (/AppleWebKit/.test(navigator.userAgent) && !support.isChrome) support.isSafari = true;
+if (support.isSafari && /Version\/16\.\d|CPU (iPhone )?OS 16_\d/.test(navigator.userAgent)) {
+  support.isIOS16 = true;
+}
+
 // for iOS only
 var unlocked = false;
 function unlock(){
   actx.resume();
   // iOS 16 Safari fix stuck AudioContext
   // see https://stackoverflow.com/questions/69502340/ios-15-web-audio-playback-stops-working-in-safari-after-locking-screen-for-a-fe
-  var audioElt = document.getElementById('keepAudioCtx');
-  if (audioElt instanceof HTMLAudioElement && audioElt.paused) {
-    audioElt.play();
+  if (support.isIOS16) {
+    var audioElt = document.getElementById('keepAudioCtx');
+    if (audioElt instanceof HTMLAudioElement && audioElt.paused) {
+      audioElt.play();
+    }
   }
 }
 window.addEventListener('touchend', unlock, false);
