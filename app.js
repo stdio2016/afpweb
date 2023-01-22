@@ -49,7 +49,11 @@ app.use(session({
   }),
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 600 * 1000 }
+  cookie: {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: 'strict'
+  }
 }));
 app.use(i18n.init);
 app.use(fileUpload({
@@ -66,6 +70,19 @@ app.use((req, res, next) => {
       if (path[i] != '/') break;
     }
     return res.redirect(req.path.slice(0, i+1) + query);
+  }
+  // bot detection
+  var ua = req.headers['user-agent'] || '';
+  if (/bot\b/.test(ua)) {
+    res.locals.bot = true;
+  } else if (ua.startsWith('Mozilla/5.0')) {
+    res.locals.bot = false;
+  } else {
+    res.locals.bot = true;
+  }
+  // no cookie for bots
+  if (res.locals.bot) {
+    req.session.destroy();
   }
   next();
 });
