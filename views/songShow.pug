@@ -16,6 +16,8 @@ block scripts
 block content
   if song
     h1 #{__("Song")} #{song.name}
+    if song.multi_voice
+      p #{__("This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.")}
     div
       a.button.cyan(href=song.id+'/edit') #{__("Edit")}
       | 

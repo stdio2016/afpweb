@@ -80,5 +80,6 @@
 	"Pitch sequence:": "Pitch sequence:",
 	"Play pitch": "Play pitch",
 	"Revision not found for song": "Revision not found for song",
-	"Here is the latest version of this song.": "Here is the latest version of this song."
+	"Here is the latest version of this song.": "Here is the latest version of this song.",
+	"This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.": "This song has multiple vocal parts, which our website does not currently support, so the sheet music may not be complete."
 }

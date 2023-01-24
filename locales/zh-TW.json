@@ -80,5 +80,6 @@
 	"Pitch sequence:": "音高序列：",
 	"Play pitch": "播放音高",
 	"Revision not found for song": "找不到此歌曲的歷史版本：",
-	"Here is the latest version of this song.": "歌曲的最新版本在這裡。"
+	"Here is the latest version of this song.": "歌曲的最新版本在這裡。",
+	"This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.": "這首歌有多個人聲聲部，我們的網站目前不支援，因此樂譜可能不完整。"
 }
