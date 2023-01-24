@@ -63,9 +63,9 @@ app.use(fileUpload({
 
 // remove trailing slash
 app.use((req, res, next) => {
+  var path = req.path;
   if (req.path.length > 1 && req.path.endsWith('/')) {
     var query = req.url.substring(req.path.length);
-    var path = req.path;
     for (var i = path.length-1; i > 0; i--) {
       if (path[i] != '/') break;
     }
@@ -73,7 +73,7 @@ app.use((req, res, next) => {
   }
   // bot detection
   var ua = req.headers['user-agent'] || '';
-  if (/[Bb]ot\b/.test(ua)) {
+  if (/[Bb]ot\b|CensysInspect/.test(ua)) {
     res.locals.bot = true;
   } else if (ua.startsWith('Mozilla/5.0')) {
     res.locals.bot = false;
@@ -84,7 +84,6 @@ app.use((req, res, next) => {
   if (res.locals.bot) {
     req.session.destroy();
   }
-  var path = req.path;
   if (req.method == 'GET' && !res.locals.bot) {
     // TODO: better hit counter
     clientPromise.then(client => {
