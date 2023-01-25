@@ -11,7 +11,7 @@
 	"Currently there are %s songs": "Currently there are %s songs.",
 	"Warning! We will store searches": "Warning! We will store searches you make on this site for research purposes.",
 	"Recently added:": "Recently added:",
-	"Jianpu search help": "Just enter the notes using numbered musical notation 1-7 to search a song. For example, the numbered musical notation of Lightly Row is “533- 422- 1234 555-”, so you can search: <a href='%s'>5334221234555</a>.",
+	"Jianpu search help": "Just enter the notes using numbered musical notation 1-7 to search a song. For example, the numbered musical notation of Twinkle Twinkle Little Star is “1155665- 4433221-”, so you can search: <a href='%s'>11556654433221</a>.",
 	"Webmaster reminder:": "Webmaster reminder: ",
 	"may not be able to find song": "I think this website may not be able to find the song you are looking for, because my website currently only has about %s songs.",
 	"Webmaster reminder 2:": "Webmaster reminder 2: ",
@@ -81,5 +81,6 @@
 	"Play pitch": "Play pitch",
 	"Revision not found for song": "Revision not found for song",
 	"Here is the latest version of this song.": "Here is the latest version of this song.",
-	"This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.": "This song has multiple vocal parts, which our website does not currently support, so the sheet music may not be complete."
+	"This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.": "This song has multiple vocal parts, which our website does not currently support, so the sheet music may not be complete.",
+	"Note name": "Note name"
 }
