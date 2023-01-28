@@ -27,7 +27,7 @@ html(lang=locale)
         li(class=(place=='TODO' ? 'selected' : ''))
           a(href=PREFIX+'/TODO') #{__("To-do list")}
       span.split-right
-    section
+    main
       block content
     center
       | Your language is #{locale}.
