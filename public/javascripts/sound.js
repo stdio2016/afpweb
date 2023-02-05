@@ -1,6 +1,6 @@
 var actx = new (window.AudioContext || window.webkitAudioContext)();
 var master = actx.createGain();
-master.gain.value = 0.5;
+master.gain.value = 1;
 master.connect(actx.destination);
 
 var stoppedSound = actx.createGain();
