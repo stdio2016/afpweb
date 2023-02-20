@@ -16,6 +16,7 @@ var pastQueriesRouter = require('./routes/pastQueries');
 var songListRouter = require('./routes/songList');
 var todoRouter = require('./routes/todo');
 var clientPromise = require('./mongo/mongoConnect').client;
+var dbPromise = require('./mongo/mongoConnect').db;
 
 var app = express();
 
@@ -86,8 +87,8 @@ app.use((req, res, next) => {
   }
   if (req.method == 'GET' && !res.locals.bot) {
     // TODO: better hit counter
-    clientPromise.then(client => {
-      client.db().collection('hitcount').updateOne(
+    dbPromise.then(db => {
+      db.collection('hitcount').updateOne(
         {_id: path},
         {$inc: {views: 1}},
         {upsert: true},
