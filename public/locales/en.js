@@ -1,4 +1,18 @@
 var Translations = {
     "Play": "Play",
-    "Stop": "Stop"
+    "Stop": "Stop",
+    "Uploading": "Uploading",
+    "Encoding": "Encoding",
+    "Upload failed": "Upload failed",
+    "Server error:": "Server error: ",
+    "Server closed!": "Server closed!",
+    "Please choose a file!": "Please choose a file!",
+    "Server response timeout": "Server response timeout",
+    "Server failure:": "Server failure: ",
+    "Server error! Reason:": "Server error! Reason: ",
+    "Client side error:": "Client side error: ",
+    "Processing result": "Processing result",
+    "Query too short": "Query too short! Please record at least 5 seconds",
+    "Your browser does not support recording": "Your browser does not support audio recording",
+    "Requires HTTPS to record": "This page requires a secure HTTPS connection to search using a microphone",
 };

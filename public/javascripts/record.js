@@ -102,9 +102,9 @@ function startRecord() {
       tryToGetRecorder();
     }
     else if (!isHttps) {
-      alert('本網頁需使用 HTTPS 安全連線方可使用麥克風進行搜尋');
+      alert(Translations["Requires HTTPS to record"]);
     } else {
-      alert("您的瀏覽器不支援錄音");
+      alert(Translations["Your browser does not support recording"]);
     }
     return;
   }
@@ -159,11 +159,11 @@ function stopRecord(toSearch) {
       return;
     }
     if (bufferPos < audioCtx.sampleRate*5) {
-      alert('查詢太短! 請錄音至少5秒鐘');
+      alert(Translations["Query too short"]);
       ended();
       return;
     }
-    showProgress('編碼中', '25%');
+    showProgress(Translations.Encoding, '25%');
     setTimeout(function () {
       try {
         encodeWav();
@@ -216,7 +216,7 @@ function encodeWav() {
   Flac.FLAC__stream_encoder_delete(flac_encoder);
   wavFile = new File(result, 'blob.flac', {type:'audio/flac'});
   console.log(wavFile.size);
-  showProgress('上傳中', '50%');
+  showProgress(Translations.Uploading, '50%');
   uploadWav(wavFile);
 }
 
@@ -229,24 +229,24 @@ function uploadWav(blob, queryType) {
   if(xhr.upload) {
     xhr.upload.onprogress = function (evt) {
       var percentComplete = Math.ceil((evt.loaded / evt.total) * 50);
-      showProgress('上傳中', (50+percentComplete) + '%');
+      showProgress(Translations.Uploading, (50+percentComplete) + '%');
     };
   }
   xhr.onload = function () {
     if (xhr.status == 200) {
       console.log(xhr.response);
-      showProgress('處理結果中', '100%');
+      showProgress(Translations["Processing result"], '100%');
       waitId = xhr.response;
       yourRecording.src = '../savedQueries/' + waitId + '.flac';
       waitResult(xhr.response, +new Date());
     }
     else {
-      alert('伺服器錯誤: ' + xhr.status + ' ' + xhr.statusText);
+      alert(Translations["Server error:"] + xhr.status + ' ' + xhr.statusText);
       ended();
     }
   };
   xhr.onerror = function () {
-    alert('上傳失敗');
+    alert(Translations["Upload failed"]);
     ended();
   };
   xhr.send(formData);
@@ -272,13 +272,13 @@ function waitResult(id, startTime) {
             }
           }
           catch (x) {
-            alert('用戶端異常: ' + x);
+            alert(Translations["Client side error:"] + x);
             console.error(x);
           }
           ended();
         }
         else if (queryResult.progress == 'error') {
-          alert('伺服器錯誤! 原因: ' + queryResult.reason);
+          alert(Translations["Server error! Reason:"] + queryResult.reason);
           ended();
         }
         else {
@@ -286,14 +286,14 @@ function waitResult(id, startTime) {
         }
       }
       catch (x) {
-        alert('伺服器異常: ' + x);
+        alert(Translations["Server failure:"] + x);
         console.log(xhr.response);
         ended();
       }
     }
     else if (xhr.status == 404) {
       if (new Date() - startTime > 10000) {
-        alert('伺服器回應逾時');
+        alert(Translations["Server response timeout"]);
         ended();
       }
       else {
@@ -301,12 +301,12 @@ function waitResult(id, startTime) {
       }
     }
     else {
-      alert('伺服器錯誤: ' + xhr.status + ' ' + xhr.statusText);
+      alert(Translations["Server error:"] + xhr.status + ' ' + xhr.statusText);
       ended();
     }
   };
   xhr.onerror = function () {
-    alert('伺服器已關閉!');
+    alert(Translations["Server closed!"]);
     ended();
   };
 }
@@ -352,10 +352,10 @@ Flac.on('ready', function(event){
 
 function uploadFile() {
   if (inFile.files.length > 0) {
-    showProgress('上傳中', '50%');
+    showProgress(Translations.Uploading, '50%');
     uploadWav(inFile.files[0], 'upload');
   }
-  else alert('請選擇一個檔案!');
+  else alert(Translations["Please choose a file!"]);
 }
 
 function setQueryTime() {

@@ -1,4 +1,18 @@
 var Translations = {
     "Play": "播放",
-    "Stop": "停止"
+    "Stop": "停止",
+    "Uploading": "上傳中",
+    "Encoding": "編碼中",
+    "Upload failed": "上傳失敗",
+    "Server error:": "伺服器錯誤：",
+    "Server closed!": "伺服器已關閉！",
+    "Please choose a file!": "請選擇一個檔案！",
+    "Server response timeout": "伺服器回應逾時",
+    "Server failure:": "伺服器異常：",
+    "Server error! Reason:": "伺服器錯誤！原因：",
+    "Client side error:": "用戶端異常：",
+    "Processing result": "處理結果中",
+    "Query too short": "查詢太短！請錄音至少5秒鐘",
+    "Your browser does not support recording": "您的瀏覽器不支援錄音",
+    "Requires HTTPS to record": "本網頁需使用 HTTPS 安全連線方可使用麥克風進行搜尋",
 };
