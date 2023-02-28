@@ -352,11 +352,11 @@ function renderJianpu(hack) {
 	hack.innerHTML = '';
 	var play = document.createElement('button');
 	play.type = 'button';
-	play.textContent = '播放';
+	play.textContent = Translations.Play;
 	play.classList.add('button', 'blue');
 	var stop = document.createElement('button');
 	stop.type = 'button';
-	stop.textContent = '停止';
+	stop.textContent = Translations.Stop;
 	stop.classList.add('button', 'red');
 	hack.appendChild(play);
 	hack.appendChild(stop);

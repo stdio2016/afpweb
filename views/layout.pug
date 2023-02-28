@@ -9,6 +9,7 @@ html(lang=locale)
     link(rel="shortcut icon" href=PREFIX+"/favicon.ico" type="image/png")
     link(rel='stylesheet', href=PREFIX+'/stylesheets/style.css')
     block scripts
+    script(src=PREFIX+'/locales/'+locale+'.js')
   body
     nav.navigation.cyan-bg
       span#banner #{__("Jianpu Space")}
