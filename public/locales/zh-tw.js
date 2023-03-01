@@ -15,4 +15,10 @@ var Translations = {
     "Query too short": "查詢太短！請錄音至少5秒鐘",
     "Your browser does not support recording": "您的瀏覽器不支援錄音",
     "Requires HTTPS to record": "本網頁需使用 HTTPS 安全連線方可使用麥克風進行搜尋",
+    "Your browser does not allow UserMedia": "您的瀏覽器不允許使用 UserMedia",
+    "You do not allow the browser to use the microphone": "您不允許瀏覽器使用麥克風\n(您可以重新整理後再試一次)",
+    "Your device does not appear to have a microphone": "您的裝置似乎沒有麥克風，或者您的瀏覽器無法支援麥克風",
+    "An error occured:": "發生錯誤：",
+    "Please enter the query length in seconds:": "請輸入查詢長度的秒數：",
+    "Input must be between 5 and 20": "輸入必須是 5 到 20 之間",
 };

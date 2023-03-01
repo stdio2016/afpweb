@@ -66,16 +66,16 @@ function tryToGetRecorder() {
   function onFailure(err) {
     switch (err.name) {
       case "SecurityError":
-        alert("您的瀏覽器不允許使用 UserMedia");
+        alert(Translations["Your browser does not allow UserMedia"]);
         break;
       case "NotAllowedError":
-        alert("您不允許瀏覽器使用麥克風\n(您可以重新整理後再試一次)");
+        alert(Translations["You do not allow the browser to use the microphone"]);
         break;
       case "OverconstrainedError":
-        alert("您的裝置似乎沒有麥克風，或者您的瀏覽器無法支援麥克風");
+        alert(Translations["Your device does not appear to have a microphone"]);
         break;
       default:
-        alert("發生錯誤: " + err);
+        alert(Translations["An error occured:"] + err);
     }
   }
 
@@ -163,7 +163,7 @@ function stopRecord(toSearch) {
       ended();
       return;
     }
-    showProgress(Translations.Encoding, '25%');
+    showProgress(Translations["Encoding"], '25%');
     setTimeout(function () {
       try {
         encodeWav();
@@ -216,7 +216,7 @@ function encodeWav() {
   Flac.FLAC__stream_encoder_delete(flac_encoder);
   wavFile = new File(result, 'blob.flac', {type:'audio/flac'});
   console.log(wavFile.size);
-  showProgress(Translations.Uploading, '50%');
+  showProgress(Translations["Uploading"], '50%');
   uploadWav(wavFile);
 }
 
@@ -229,7 +229,7 @@ function uploadWav(blob, queryType) {
   if(xhr.upload) {
     xhr.upload.onprogress = function (evt) {
       var percentComplete = Math.ceil((evt.loaded / evt.total) * 50);
-      showProgress(Translations.Uploading, (50+percentComplete) + '%');
+      showProgress(Translations["Uploading"], (50+percentComplete) + '%');
     };
   }
   xhr.onload = function () {
@@ -352,18 +352,18 @@ Flac.on('ready', function(event){
 
 function uploadFile() {
   if (inFile.files.length > 0) {
-    showProgress(Translations.Uploading, '50%');
+    showProgress(Translations["Uploading"], '50%');
     uploadWav(inFile.files[0], 'upload');
   }
   else alert(Translations["Please choose a file!"]);
 }
 
 function setQueryTime() {
-  var result = prompt('請輸入查詢長度的秒數: (5~20)', querySecs);
+  var result = prompt(Translations["Please enter the query length in seconds:"] + '(5-20)', querySecs);
   var secs = parseInt(result);
   if (secs >= 5 && secs <= 20) querySecs = secs;
   else if (result != '' && result != null) {
-    alert("輸入必須是 5 到 20 之間");
+    alert(Translations["Input must be between 5 and 20"]);
   }
 }
 

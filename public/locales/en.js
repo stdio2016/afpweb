@@ -15,4 +15,10 @@ var Translations = {
     "Query too short": "Query too short! Please record at least 5 seconds",
     "Your browser does not support recording": "Your browser does not support audio recording",
     "Requires HTTPS to record": "This page requires a secure HTTPS connection to search using a microphone",
+    "Your browser does not allow UserMedia": "Your browser does not allow UserMedia",
+    "You do not allow the browser to use the microphone": "You do not allow the browser to use the microphone\n(You can refresh and try again)",
+    "Your device does not appear to have a microphone": "Your device does not appear to have a microphone, or your browser does not support microphones",
+    "An error occured:": "An error occured: ",
+    "Please enter the query length in seconds:": "Please enter the query length in seconds: ",
+    "Input must be between 5 and 20": "Input must be between 5 and 20",
 };
