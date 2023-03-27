@@ -31,8 +31,7 @@ html(lang=locale)
     main
       block content
     center
-      | Your language is #{locale}.
-      | 
+      | #{__("Language:")}
       a(href onclick="javascript:changeLang('zh-tw')") 繁體中文
       | 
       a(href onclick="javascript:changeLang('en')") English
