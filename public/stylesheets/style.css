@@ -145,6 +145,7 @@ input.wide, textarea.wide {
 
 textarea {
   height: 8em;
+  font-size: 16px;
 }
 
 /*
