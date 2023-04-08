@@ -56,6 +56,7 @@
 	"Preview": "Preview",
 	"Save": "Save",
 	"Warning! add song": "Warning! If you add a song, your IP address will be publicly visible in this song's revision history.",
+	"Warning! edit song": "Warning! If you save the update, your IP address will be publicly recorded in the revision history of this song.",
 	"Edit song": "Edit song",
 	"Revisions of song %s": "Revisions of song %s",
 	"This is the current version of the song %s": "This is the current version of the song “%s”",

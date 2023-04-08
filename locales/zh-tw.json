@@ -56,6 +56,7 @@
 	"Preview": "預覽",
 	"Save": "儲存",
 	"Warning! add song": "警告！如果您新增歌曲，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。",
+	"Warning! edit song": "警告！如果您儲存更新，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。",
 	"Edit song": "編輯歌曲",
 	"Revisions of song %s": "歌曲 %s 的修訂歷史",
 	"This is the current version of the song %s": "這是歌曲「%s」的最新版本",

@@ -34,9 +34,9 @@ block content
   if song
     h1 #{__("Edit song")} #{song.name}
     section.warning
-      | 警告！如果您儲存更新，您的IP位址將會公開紀錄在這首歌曲的
-      a(href=PREFIX+'/songList/history?songID='+song._id) 修訂歷史
-      | 中。
+      | #{__("Warning! edit song")}
+      |
+      a(href=PREFIX+'/songList/history?songID='+song._id target='_blank')= __("View history")
     form(method='POST')
       p= __("Song name") + __(":")
         input(name='name' value=song.name required)
