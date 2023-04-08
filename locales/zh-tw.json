@@ -13,7 +13,7 @@
 	"Recently added:": "最近新增：",
 	"Jianpu search help": "只要輸入簡譜的數字 1~7 就可以找到歌曲。如小星星的簡譜是「1155665- 4433221-」，則可以搜尋：<a href='%s'>11556654433221</a>。",
 	"Webmaster reminder:": "站長小提醒：",
-	"may not be able to find song": "我想這個網站可能也找不到歌，因為目前我的網站也才100多首歌而已。",
+	"may not be able to find song": "我想這個網站可能也找不到歌，因為目前我的網站也才 %s 多首歌而已。",
 	"Webmaster reminder 2:": "站長小提醒2：",
 	"Jianpu search assumes movable Do": "目前的搜尋系統假設輸入為首調唱名(因為這是簡譜的傳統)，如果您有絕對音感，請先把簡譜轉成C大調或a小調，再輸入簡譜。",
 	"Warning! save jianpu queries": "警告！使用本服務，表示您同意將您的查詢字串公開作為簡譜搜尋的資料集。我們不會公開您的IP位址。",
