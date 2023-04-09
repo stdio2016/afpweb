@@ -27,7 +27,7 @@ block content
     if song.jianpu
       p
         | #{__("Jianpu") + __(":")}
-      div#jianpuOut.to-jianpu(style='border: 1px solid black;')= song.jianpu
+      div#jianpuOut.to-jianpu(style='border: 1px solid black;' data-songid=song.id)= song.jianpu
       audio#keepAudioCtx(loop)
         source(src="../sounds/blank.mp3", type="audio/mpeg")
     else

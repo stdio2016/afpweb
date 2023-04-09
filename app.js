@@ -105,6 +105,9 @@ app.use('/qbsh', qbshRouter);
 app.use('/pastQueries', pastQueriesRouter);
 app.use('/songList', songListRouter);
 app.use('/TODO', todoRouter);
+app.use('/youplayed', function (req, res, next) {
+  res.status(200).send('OK');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

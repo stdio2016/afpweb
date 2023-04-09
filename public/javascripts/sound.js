@@ -20,7 +20,7 @@ function unlock(){
   actx.resume();
   // iOS 16 Safari fix stuck AudioContext
   // see https://stackoverflow.com/questions/69502340/ios-15-web-audio-playback-stops-working-in-safari-after-locking-screen-for-a-fe
-  if (support.isIOS16) {
+  if (support.isIOS16 && location.pathname.endsWith('/edit')) {
     var audioElt = document.getElementById('keepAudioCtx');
     if (audioElt instanceof HTMLAudioElement && audioElt.paused) {
       audioElt.play();

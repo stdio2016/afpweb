@@ -417,7 +417,7 @@ function renderJianpu(hack) {
 	var player = null;
 	play.onclick = function () {
 		if (player != null) player.stop();
-		player = playJianpu(t);
+		player = playJianpu(t, hack.dataset.songid);
 	};
 	stop.onclick = function () {
 		if (player != null) player.stop();

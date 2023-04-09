@@ -40,7 +40,7 @@ addEventListener('hashchange', setKey);
 function play() {
   playJianpu(je);
 }
-function playJianpu(je) {
+function playJianpu(je, songid) {
   actx.resume();
   var part = new MMLPart(0);
   var tempos = [{position: 0, bpm: bpm}];
@@ -88,6 +88,11 @@ function playJianpu(je) {
   var player = new MMLPlayer(part);
   player.view = view;
   player.play();
+  if (songid) {
+    var xhr = new XMLHttpRequest;
+    xhr.open('GET', '/youplayed/' + songid);
+    xhr.send();
+  }
   return player;
 }
 function debounce(func) {
