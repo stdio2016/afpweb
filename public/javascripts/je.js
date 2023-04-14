@@ -246,7 +246,7 @@ function parseBar (ctx) {
 }
 
 function parseJianpu(txt, from, to) {
-	var ctx = {text: txt, i: 0, score: [], lyrics: []};
+	var ctx = {text: txt, i: 0, score: [], lyrics: [], bpm: 120};
 	var meas = [];
 	var sco = [meas];
 	var nodeN = 0;
@@ -257,6 +257,9 @@ function parseJianpu(txt, from, to) {
 		if (lines[i].startsWith('L:')) {
 			ctx.i = 2;
 			parseLyrics(ctx);
+		} else if (lines[i].startsWith('ｂｐｍ')) {
+			var bpm = parseFloat(lines[i].slice(3).normalize('NFKC'));
+			if (bpm >= 20 && bpm <= 500) ctx.bpm = bpm;
 		} else {
 			ctx.i = 0;
 			parseJianpuLine(ctx);
@@ -285,6 +288,7 @@ function parseJianpu(txt, from, to) {
 
 function parseJianpuLine(ctx) {
 	var meas = [];
+	meas.bpm = ctx.bpm;
 	var sco = [meas];
 	var prevI = 0;
 	while (ctx.i < ctx.text.length) {
@@ -297,6 +301,7 @@ function parseJianpuLine(ctx) {
 			meas.src = ctx.text.substring(prevI, ctx.i);
 			prevI = ctx.i;
 			meas = [];
+			meas.bpm = ctx.bpm;
 			sco.push(meas);
 		}
 		else if (item) {

@@ -9,7 +9,7 @@ addEventListener('load', function () {
   })
 });
 
-var key=0, bpm=120, qbshfrom=-1, qbshto=-1;
+var key=0, bpm=0, qbshfrom=-1, qbshto=-1;
 function setKey() {
   var dict = {};
   if (location.hash) {
@@ -44,10 +44,17 @@ function playJianpu(je, songid) {
   actx.resume();
   var part = new MMLPart(0);
   var tempos = [{position: 0, bpm: bpm}];
+  if (bpm == 0) {
+    tempos = [];
+  }
   var oldPitch = 'rest';
   var view = {notes:[]};
+  var beat = 0;
   for (var i = 0; i < je.length; i++) {
     var me = je[i];
+    if (bpm == 0) {
+      tempos.push({position: beat, bpm: je[i].bpm});
+    }
     for (var j = 0; j < me.length; j++) {
       if (me[j] instanceof Note) {
         var du = 4 * 2**me[j].duration.type / me[j].duration.mul;
@@ -80,6 +87,7 @@ function playJianpu(je, songid) {
           part.notes[part.notes.length-1].tieAfter = true;
         part.addNote(note);
         oldPitch = pitch;
+        beat += 1 / du;
       }
     }
   }
