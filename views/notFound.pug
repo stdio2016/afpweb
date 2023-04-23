@@ -1,12 +1,10 @@
 extends layout
 
 block title
-  title 找不到網頁 - 簡譜空間
+  title #{__("Page not found")} - #{__("Jianpu Space")}
 
 block content
-  h1 找不到網頁
-  p 這裡似乎不是您該來的地方喔
+  h1 #{__("Page not found")}
+  p #{__("This doesn't seem like the place for you")}
   p 
-    | 您可以按
-    a(href=PREFIX+'/') 這裡
-    | ，回到首頁
+    a(href=PREFIX+'/') #{__("You can click here to return to the home page")}

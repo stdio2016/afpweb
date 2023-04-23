@@ -1,12 +1,10 @@
 extends layout
 
 block title
-  title 你無權查看 - 簡譜空間
+  title #{__("Forbidden")} - #{__("Jianpu Space")}
 
 block content
-  h1 你無權查看
-  p 這裡似乎不是你該來的地方喔
+  h1 #{__("Forbidden")}
+  p #{__("This doesn't seem like the place for you")}
   p 
-    | 您可以按
-    a(href=PREFIX+'/') 這裡
-    | ，回到首頁
+    a(href=PREFIX+'/') #{__("You can click here to return to the home page")}

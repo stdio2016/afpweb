@@ -84,5 +84,9 @@
 	"Here is the latest version of this song.": "Here is the latest version of this song.",
 	"This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.": "This song has multiple vocal parts, which our website does not currently support, so the sheet music may not be complete.",
 	"Note name": "Note name",
-	"Language:": "Language: "
+	"Language:": "Language: ",
+	"Page not found": "Page not found",
+	"This doesn't seem like the place for you": "This doesn't seem like the place for you.",
+	"You can click here to return to the home page": "You can click here to return to the home page.",
+	"Forbidden": "Forbidden"
 }

@@ -84,5 +84,9 @@
 	"Here is the latest version of this song.": "歌曲的最新版本在這裡。",
 	"This song has multiple vocal parts, which our website does not currently support. Sheet music may be incomplete.": "這首歌有多個人聲聲部，我們的網站目前不支援，因此樂譜可能不完整。",
 	"Note name": "音名",
-	"Language:": "語言："
+	"Language:": "語言：",
+	"Page not found": "找不到網頁",
+	"This doesn't seem like the place for you": "這裡似乎不是您該來的地方喔",
+	"You can click here to return to the home page": "您可以按這裡，回到首頁",
+	"Forbidden": "您無權查看"
 }
