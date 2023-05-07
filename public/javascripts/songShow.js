@@ -9,7 +9,7 @@ addEventListener('load', function () {
   })
 });
 
-var key=0, bpm=0, qbshfrom=-1, qbshto=-1;
+var key=null, bpm=0, qbshfrom=-1, qbshto=-1;
 function setKey() {
   var dict = {};
   if (location.hash) {
@@ -44,6 +44,14 @@ function playJianpu(je, songid) {
   actx.resume();
   var part = new MMLPart(0);
   var tempos = [{position: 0, bpm: bpm}];
+  var myKey = 0;
+  if (je.key == null) {
+    // music sheet has no preset key
+    myKey = key;
+  } else {
+    myKey = key == null ? je.key : key;
+  }
+  var tmpKey = 0;
   if (bpm == 0) {
     tempos = [];
   }
@@ -57,6 +65,7 @@ function playJianpu(je, songid) {
     }
     for (var j = 0; j < me.length; j++) {
       if (me[j] instanceof Note) {
+        if (me[j].transpose) tmpKey += me[j].transpose;
         var du = 4 * 2**me[j].duration.type / me[j].duration.mul;
         var pitch;
         var tied = false;
@@ -72,7 +81,7 @@ function playJianpu(je, songid) {
             if (acc == '♯♯') pitch += 2;
             if (acc == '♭') pitch -= 1;
             if (acc == '♭♭') pitch -= 2;
-            pitch += key;
+            pitch += myKey + tmpKey;
           }
           else if (pitch == '-') {
             pitch = oldPitch;

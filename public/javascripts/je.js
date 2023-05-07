@@ -245,8 +245,38 @@ function parseBar (ctx) {
 	return null;
 }
 
+function parseKey(ctx) {
+	var ch = ctx.text.slice(ctx.i);
+	var match = ch.match(/\/key\(([A-Ga-g])([#b]?)([0-9]?)\)/);
+	if (match) {
+		var key = match[1].toUpperCase();
+		var octave = 4;
+		if (match[3]) {
+			octave = parseInt(match[3]);
+		} else {
+			if (/[GAB]/i.test(key)) {
+				octave = 3;
+			}
+		}
+		var p = 0;
+		switch (key) {
+			case 'C': p = 0; break;
+			case 'D': p = 2; break;
+			case 'E': p = 4; break;
+			case 'F': p = 5; break;
+			case 'G': p = 7; break;
+			case 'A': p = 9; break;
+			case 'B': p = 11; break;
+		}
+		if (match[2] == '#') p++;
+		if (match[2] == 'b') p--;
+		ctx.key = p + (octave - 4) * 12;
+		ctx.i += match[0].length - 1;
+	}
+}
+
 function parseJianpu(txt, from, to) {
-	var ctx = {text: txt, i: 0, score: [], lyrics: [], bpm: 120};
+	var ctx = {text: txt, i: 0, score: [], lyrics: [], bpm: 120, key: null};
 	var meas = [];
 	var sco = [meas];
 	var nodeN = 0;
@@ -276,6 +306,15 @@ function parseJianpu(txt, from, to) {
 					toMeas = i+1;
 				}
 				item.lyrics = ctx.lyrics[nodeN] || '';
+				var keyChange = item.lyrics.match(/\(([升降+-])(\d+)key\)/);
+				if (keyChange) {
+					var transpose = parseInt(keyChange[2]);
+					if (keyChange[1] == '升' || keyChange[1] == '+') {
+						item.transpose = transpose;
+					} else {
+						item.transpose = -transpose;
+					}
+				}
 				nodeN++;
 			}
 		}
@@ -283,6 +322,7 @@ function parseJianpu(txt, from, to) {
 	if (from != null) {
 		sco = sco.slice(Math.max(fromMeas - 2, 0), toMeas + 1);
 	}
+	sco.key = ctx.key;
 	return sco;
 }
 
@@ -295,6 +335,7 @@ function parseJianpuLine(ctx) {
 		var item;
 		item = parseNote(ctx);
 		if (!item) item = parseBar(ctx);
+		if (!item) parseKey(ctx);
 
 		if (item instanceof Bar) {
 			meas.push(item);

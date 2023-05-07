@@ -12,6 +12,18 @@ function jianpu_to_pitch(jianpu) {
         .join('\n');
     for (var i = 0; i < jianpu.length; i++) {
         let ch = jianpu[i]
+        if (ch == '/') {
+            do {
+                i++
+                ch = jianpu[i]
+            } while (/[A-Za-z0-9]/.test(ch)) ;
+            if (ch == '(') {
+                do {
+                    i++
+                    ch = jianpu[i]
+                } while (ch && ch != ')' && ch != '\n') ;
+            }
+        }
         if ('1' <= ch && ch <= '7') {
             let pitch = pitch_steps[ch.charCodeAt(0) - 49]
             if (i > 0) {
