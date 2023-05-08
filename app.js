@@ -111,7 +111,7 @@ app.use('/youplayed', function (req, res, next) {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  if (req.url.endsWith('.php')) {
+  if (req.path.endsWith('.php')) {
     res.status(403).render('forbidden');
     return;
   }
