@@ -461,9 +461,10 @@ function renderJianpu(hack) {
 		img.height.baseVal.value = 38+maxH;
 	}
 	var player = null;
+	hack.je = t;
 	play.onclick = function () {
 		if (player != null) player.stop();
-		player = playJianpu(t, hack.dataset.songid);
+		player = playJianpu(hack.je, hack.dataset.songid);
 	};
 	stop.onclick = function () {
 		if (player != null) player.stop();
@@ -471,7 +472,10 @@ function renderJianpu(hack) {
 	};
 	hack.play = play.onclick;
 	hack.stop = stop.onclick;
-	return t;
+	// fix memory leak on Safari
+	svgs = [];
+	meas = img = title = render = t = null;
+	play = stop = null;
 }
 
 if (typeof module !== 'undefined') {

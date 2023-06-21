@@ -67,8 +67,12 @@ block content
       jianpuOut.innerText = document.forms[0].jianpu.value;
       document.forms[0].jianpu.oninput = debounce(function () {
         jianpuOut.style.height = '100vh'; // to prevent screen jumping
+        if (jianpuOut.stop) {
+          jianpuOut.stop();
+          jianpuOut.je = null;
+        }
+        jianpuOut.innerHTML = '';
         jianpuOut.innerText = document.forms[0].jianpu.value;
-        if (jianpuOut.stop) jianpuOut.stop();
         renderJianpu(jianpuOut);
         jianpuOut.style.height = '';
       });
