@@ -13,9 +13,9 @@ function createSVGText(text, attr) {
 }
 
 var baseSvg = null;
-var textWidthCache = {};
+var textWidthCache = Object.create(null);
 function getTextWidth(text, fontSize) {
-	if (text in textWidthCache) {
+	if (textWidthCache[text]) {
 		return textWidthCache[text];
 	}
 	if (baseSvg == null) {
