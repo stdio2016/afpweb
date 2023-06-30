@@ -450,15 +450,19 @@ function renderJianpu(hack) {
 	for (var i = 0; i < t.length; i++) {
 		var meas = t[i];
 		var img = svgs[i];
+		var title = img.querySelector('title');
+		var lrc = '';
 		var x = 0;
 		for (var j = 0; j < meas.length; j++) {
 			if (meas[j] instanceof Note && meas[j].lyrics) {
 				var elt = meas[j].renderLyrics(x, maxH+32);
 				img.appendChild(elt);
+				lrc += ' ' + meas[j].lyrics;
 			}
 			x += meas[j].getWidth();
 		}
 		img.height.baseVal.value = 38+maxH;
+		title.textContent += lrc;
 	}
 	var player = null;
 	hack.je = t;

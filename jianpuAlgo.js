@@ -8,7 +8,7 @@ function jianpu_to_pitch(jianpu) {
     let du = 0
     // remove lyrics line
     jianpu = jianpu.split('\n')
-        .filter(line => !line.startsWith('L:'))
+        .filter(line => !line.startsWith('L:') && !line.startsWith('ｂｐｍ'))
         .join('\n');
     for (var i = 0; i < jianpu.length; i++) {
         let ch = jianpu[i]
