@@ -6,12 +6,12 @@ block title
     title #{__("Song")} #{song.name} - #{__("Jianpu Space")}
 
 block scripts
-  script(src='../javascripts/je.js')
-  script(src='../javascripts/MMLNote.js')
-  script(src='../javascripts/MMLPart.js')
-  script(src='../javascripts/MMLPlayer.js')
-  script(src='../javascripts/sound.js')
-  script(src='../javascripts/songShow.js')
+  script(src=`${PREFIX}/javascripts/je.js`)
+  script(src=`${PREFIX}/javascripts/MMLNote.js`)
+  script(src=`${PREFIX}/javascripts/MMLPart.js`)
+  script(src=`${PREFIX}/javascripts/MMLPlayer.js`)
+  script(src=`${PREFIX}/javascripts/sound.js`)
+  script(src=`${PREFIX}/javascripts/songShow.js`)
 
 block content
   if song
@@ -29,10 +29,10 @@ block content
         | #{__("Jianpu") + __(":")}
       div#jianpuOut.to-jianpu(style='border: 1px solid black;' data-songid=song.id)= song.jianpu
       audio#keepAudioCtx(loop)
-        source(src="../sounds/blank.mp3", type="audio/mpeg")
+        source(src=`${PREFIX}/sounds/blank.mp3`, type="audio/mpeg")
     else
       p
-        a(href=PREFIX+'/songList/'+song.id+'/edit') #{__("No jianpu")}
+        a(href=PREFIXLANG+'/songList/'+song.id+'/edit') #{__("No jianpu")}
     p #{__("Last modified") + __(":")}
       span.date #{+song.modify_time}
     script.
@@ -43,4 +43,4 @@ block content
     h1 #{__("Song not found")}
     p #{__("Maybe the song has been deleted")}
     p 
-      a(href=PREFIX+'/songList') #{__("search other songs")}
+      a(href=PREFIXLANG+'/songList') #{__("search other songs")}

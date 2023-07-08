@@ -22,14 +22,14 @@ block scripts
 block content
   h1 #{__("Jianpu search")}
   p
-    | !{__("Jianpu search help", PREFIX+'/jianpu/search?jianpu=11556654433221')}
+    | !{__("Jianpu search help", PREFIXLANG+'/jianpu/search?jianpu=11556654433221')}
   p #{__("Webmaster reminder:") + __("may not be able to find song", 200)}
   p #{__("Webmaster reminder 2:") + __("Jianpu search assumes movable Do")}
   section.warning
     | #{__("Warning! save jianpu queries")}
     br
-    a(href=PREFIX+'/pastQueries') #{__("The collected information is placed here")}
-  form(method='GET' action=PREFIX+'/jianpu/search' onsubmit='return validateSearch()')
+    a(href=PREFIXLANG+'/pastQueries') #{__("The collected information is placed here")}
+  form(method='GET' action=PREFIXLANG+'/jianpu/search' onsubmit='return validateSearch()')
     label(for='jianpu') #{__("Jianpu")+__(":")}
     input#jianpu(name='jianpu' pattern='[0-9]*' type='tel' required)
     button.button.blue(type='submit') #{__("Search")}

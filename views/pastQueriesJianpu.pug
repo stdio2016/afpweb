@@ -6,12 +6,12 @@ block title
   title #{__("Past query")} - #{__("Jianpu Space")}
 
 block scripts
-  script(src='../javascripts/je.js')
-  script(src='../javascripts/MMLNote.js')
-  script(src='../javascripts/MMLPart.js')
-  script(src='../javascripts/MMLPlayer.js')
-  script(src='../javascripts/sound.js')
-  script(src='../javascripts/songShow.js')
+  script(src=`${PREFIX}/javascripts/je.js`)
+  script(src=`${PREFIX}/javascripts/MMLNote.js`)
+  script(src=`${PREFIX}/javascripts/MMLPart.js`)
+  script(src=`${PREFIX}/javascripts/MMLPlayer.js`)
+  script(src=`${PREFIX}/javascripts/sound.js`)
+  script(src=`${PREFIX}/javascripts/songShow.js`)
 
 block content
   h1 #{__("Past query")}
@@ -19,11 +19,11 @@ block content
   ol
     for i in result
       li
-        a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
+        a(href=PREFIXLANG+'/songList/'+i.song.id)= i.song.name
         if i.song.singer
           | #{__(",") + __("Singer") + __(":")}
           span #{i.song.singer}
         | #{__(",") + __("Similarity") + __(":")}#{i.score.toFixed(2)}
         div.to-jianpu(data-from=i.from data-to=i.to)= i.song.jianpu
   audio#keepAudioCtx(loop)
-    source(src="../sounds/blank.mp3", type="audio/mpeg")
+    source(src=PREFIX+"/sounds/blank.mp3", type="audio/mpeg")

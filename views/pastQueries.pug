@@ -18,7 +18,7 @@ block content
         for i in queries
           tr
             td
-              a(href=PREFIX+'/pastQueries/'+i._id) #{i.query_time.valueOf()}
+              a(href=PREFIXLANG+'/pastQueries/'+i._id) #{i.query_time.valueOf()}
             td= i.method
             td= i.top_song || __("No result")
   script.

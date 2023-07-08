@@ -5,12 +5,12 @@ block title
   title #{__("Add song")} - #{__("Jianpu Space")}
 
 block scripts
-  script(src='../javascripts/je.js')
-  script(src='../javascripts/MMLNote.js')
-  script(src='../javascripts/MMLPart.js')
-  script(src='../javascripts/MMLPlayer.js')
-  script(src='../javascripts/sound.js')
-  script(src='../javascripts/songShow.js')
+  script(src=`${PREFIX}/javascripts/je.js`)
+  script(src=`${PREFIX}/javascripts/MMLNote.js`)
+  script(src=`${PREFIX}/javascripts/MMLPart.js`)
+  script(src=`${PREFIX}/javascripts/MMLPlayer.js`)
+  script(src=`${PREFIX}/javascripts/sound.js`)
+  script(src=`${PREFIX}/javascripts/songShow.js`)
   script.
     // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position/34278578
     function insert(ch) {
@@ -55,7 +55,7 @@ block content
       )
     p= __("Preview") + __(":")
     div#jianpuOut.to-jianpu(style='border: 1px solid black;')
-    audio#keepAudioCtx(loop src="../sounds/blank.mp3")
+    audio#keepAudioCtx(loop src=PREFIX+"/sounds/blank.mp3")
     button.button.blue(type=submit)= __("Save")
   script.
     jianpuOut.innerText = document.forms[0].jianpu.value;

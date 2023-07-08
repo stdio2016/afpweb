@@ -1,43 +1,40 @@
 doctype html
 - PREFIX=''
+- PREFIXLANG=PREFIX
+if optLocale
+  - PREFIXLANG=PREFIX+'/'+locale
 html(lang=locale)
   head
     meta(charset='utf-8')
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     meta(name="format-detection" content="telephone=no")
     block title
-    link(rel="shortcut icon" href=PREFIX+"/favicon.ico" type="image/png")
-    link(rel='stylesheet', href=PREFIX+'/stylesheets/style.css')
+    link(rel="shortcut icon" href=`${PREFIX}/favicon.ico` type="image/png")
+    link(rel='stylesheet', href=`${PREFIX}/stylesheets/style.css`)
     block scripts
-    script(src=PREFIX+'/locales/'+locale+'.js')
+    script(src=`${PREFIX}/locales/${locale}.js`)
   body
     nav.navigation.cyan-bg
       span#banner #{__("Jianpu Space")}
       span.split
       ul.menu
         li(class=(place=='main' ? 'selected' : ''))
-          a(href=PREFIX+'/') #{__("Home")}
+          a(href=`${PREFIXLANG}/`) #{__("Home")}
         li(class=(place=='jianpu' ? 'selected' : ''))
-          a(href=PREFIX+'/jianpu') #{__("Jianpu search")}
+          a(href=`${PREFIXLANG}/jianpu`) #{__("Jianpu search")}
         li(class=(place=='qbsh' ? 'selected' : ''))
-          a(href=PREFIX+'/qbsh') #{__("Humming search")}
+          a(href=`${PREFIXLANG}/qbsh`) #{__("Humming search")}
         li(class=(place=='pastQueries' ? 'selected' : ''))
-          a(href=PREFIX+'/pastQueries') #{__("Past queries")}
+          a(href=`${PREFIXLANG}/pastQueries`) #{__("Past queries")}
         li(class=(place=='songList' ? 'selected' : ''))
-          a(href=PREFIX+'/songList') #{__("Song list")}
+          a(href=`${PREFIXLANG}/songList`) #{__("Song list")}
         li(class=(place=='TODO' ? 'selected' : ''))
-          a(href=PREFIX+'/TODO') #{__("To-do list")}
+          a(href=`${PREFIXLANG}/TODO`) #{__("To-do list")}
       span.split-right
     main
       block content
     center
-      | #{__("Language:")}
-      a(href onclick="javascript:changeLang('zh-tw')") 繁體中文
+      | 🌎#{__("Language:")}
+      a(href=`${PREFIX}/zh-tw${pagelink}`) 繁體中文
       | 
-      a(href onclick="javascript:changeLang('en')") English
-    script.
-      function changeLang(lang) {
-        event.preventDefault();
-        document.cookie = 'locale=' + lang + '; Path=/';
-        location.reload();
-      }
+      a(href=`${PREFIX}/en${pagelink}`) English

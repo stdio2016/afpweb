@@ -12,7 +12,7 @@ block content
     ul
       for rev in revisions
         li
-          a(href=PREFIX+'/songList/history?songID='+song.id+'&rev='+rev.rev)
+          a(href=PREFIXLANG+'/songList/history?songID='+song.id+'&rev='+rev.rev)
             span.date #{+rev.modify_time}
           |  
           -

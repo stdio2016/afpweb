@@ -62,16 +62,25 @@ app.use(fileUpload({
   tempFileDir : '/tmp/'
 }));
 
-// remove trailing slash
 app.use((req, res, next) => {
-  var path = req.path;
+  // locale detection
+  res.locals.optLocale = '';
+  var part = req.url.match(/^\/(zh-tw|en)(\/.*)/);
+  if (part && ['en', 'zh-tw'].includes(part[1])) {
+    res.setLocale(part[1]);
+    req.url = part[2];
+    res.locals.optLocale = part[1];
+  }
+  // remove trailing slash
+  var reqpath = req.path;
   if (req.path.length > 1 && req.path.endsWith('/')) {
     var query = req.url.substring(req.path.length);
-    for (var i = path.length-1; i > 0; i--) {
-      if (path[i] != '/') break;
+    for (var i = reqpath.length-1; i > 0; i--) {
+      if (reqpath[i] != '/') break;
     }
     return res.redirect(req.path.slice(0, i+1) + query);
   }
+  res.locals.pagelink = req.url;
   // bot detection
   var ua = req.headers['user-agent'] || '';
   if (/[Bb]ot\b|CensysInspect/.test(ua)) {
@@ -89,7 +98,7 @@ app.use((req, res, next) => {
     // TODO: better hit counter
     dbPromise.then(db => {
       db.collection('hitcount').updateOne(
-        {_id: path},
+        {_id: reqpath},
         {$inc: {views: 1}},
         {upsert: true},
       );

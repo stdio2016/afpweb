@@ -6,7 +6,7 @@ block title
 
 block content
   h1 #{__("To-do list")}
-  form(action=PREFIX+'/TODO/add' method='GET')
+  form(action=PREFIXLANG+'/TODO/add' method='GET')
     button.button.cyan #{__("Add")}
   for item in todos
     section
@@ -16,7 +16,7 @@ block content
       div #{__("Date modified:")}
         span.date= +item.modifyDate
       div #{__("Status:")}#{item.status}
-      form(action=PREFIX+'/TODO/edit' method='GET')
+      form(action=PREFIXLANG+'/TODO/edit' method='GET')
         input(type="hidden" name="id" value=item._id)
         button.button.cyan #{__("Edit")}
       p(style={'white-space':'pre-wrap'})= item.description

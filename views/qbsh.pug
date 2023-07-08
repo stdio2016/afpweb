@@ -5,7 +5,7 @@ block title
   title #{__("Humming search")} - #{__("Jianpu Space")}
 
 block scripts
-  script(src='javascripts/libflac.min.wasm.js')
+  script(src=PREFIX+'/javascripts/libflac.min.wasm.js')
 
 block content
   h1 #{__("Humming search")}
@@ -14,7 +14,7 @@ block content
   section.warning
     | #{__("Warning! save qbsh queries")}
     br
-    a(href=PREFIX+'/pastQueries') #{__("The collected information is placed here")}
+    a(href=PREFIXLANG+'/pastQueries') #{__("The collected information is placed here")}
   div.main-controls
     canvas.visualizer(height="120" width='600')
     div
@@ -34,7 +34,7 @@ block content
   div
     = __("Your uploaded recording:")
     audio#yourRecording(controls)
-      source(src="../sounds/blank.mp3", type="audio/mpeg")
+      source(src=PREFIX+"/sounds/blank.mp3", type="audio/mpeg")
   div.query-results
     table
       thead
@@ -48,7 +48,7 @@ block content
     ol
       li
         = __("Perhaps this site has not included this song.") + __("If you know the song")
-        a(href=PREFIX+'/songList/add')= __("add jianpu for this song")
+        a(href=PREFIXLANG+'/songList/add')= __("add jianpu for this song")
         = __(", to benefit other singers.")
       li #{__("Maybe out of tune")}
   div#sopResult(style='display:none;')
@@ -56,7 +56,7 @@ block content
     ol
       li
         = __("If you know the song")
-        a(href=PREFIX+'/songList/add')= __("add jianpu for this song")
+        a(href=PREFIXLANG+'/songList/add')= __("add jianpu for this song")
         = __(", to benefit other singers.")
       li #{__("Maybe out of tune")}
-  script(type="text/javascript" src="javascripts/record.js")
+  script(type="text/javascript" src=PREFIX+"/javascripts/record.js")

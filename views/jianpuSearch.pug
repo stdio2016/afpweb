@@ -6,12 +6,12 @@ block title
   title #{__("Jianpu search result")} - #{__("Jianpu Space")}
 
 block scripts
-  script(src='../javascripts/je.js')
-  script(src='../javascripts/songShow.js')
-  script(src='../javascripts/MMLNote.js')
-  script(src='../javascripts/MMLPart.js')
-  script(src='../javascripts/MMLPlayer.js')
-  script(src='../javascripts/sound.js')
+  script(src=`${PREFIX}/javascripts/je.js`)
+  script(src=`${PREFIX}/javascripts/MMLNote.js`)
+  script(src=`${PREFIX}/javascripts/MMLPart.js`)
+  script(src=`${PREFIX}/javascripts/MMLPlayer.js`)
+  script(src=`${PREFIX}/javascripts/sound.js`)
+  script(src=`${PREFIX}/javascripts/songShow.js`)
   script.
     function validateSearch() {
       var q = document.forms[0].jianpu.value;
@@ -31,7 +31,7 @@ block content
   section.warning
     | #{__("Warning! save jianpu queries")}
     br
-    a(href=PREFIX+'/pastQueries') #{__("The collected information is placed here")}
+    a(href=PREFIXLANG+'/pastQueries') #{__("The collected information is placed here")}
   form(method='GET' action='search' onsubmit='return validateSearch()')
     label(for='jianpu') #{__("Jianpu")+__(":")}
     input#jianpu(name='jianpu' pattern='[0-9]*' type='tel' required value=query)
@@ -43,7 +43,7 @@ block content
   ol
     for i in result
       li
-        a(href=PREFIX+'/songList/'+i.song.id)= i.song.name
+        a(href=PREFIXLANG+'/songList/'+i.song.id)= i.song.name
         if i.song.singer
           | #{__(",") + __("Singer") + __(":")}
           span #{i.song.singer}
@@ -53,12 +53,12 @@ block content
     h2 #{__("No results")}
     p
       | #{__("Perhaps this site has not included this song.") + __("If you know the song")}
-      a(href=PREFIX+'/songList/add') #{__("add jianpu for this song")}
+      a(href=PREFIXLANG+'/songList/add') #{__("add jianpu for this song")}
       | #{__(", to benefit other singers.")}
   else
     p
       | #{__("Don't see the song you're looking for?") + __("If you know the song")}
-      a(href=PREFIX+'/songList/add') #{__("add jianpu for this song")}
+      a(href=PREFIXLANG+'/songList/add') #{__("add jianpu for this song")}
       | #{__(", to benefit other singers.")}
   audio#keepAudioCtx(loop)
-    source(src="../sounds/blank.mp3", type="audio/mpeg")
+    source(src=PREFIXLANG+"/sounds/blank.mp3", type="audio/mpeg")

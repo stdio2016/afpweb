@@ -8,12 +8,12 @@ block title
     title #{__("Edit song")} #{song.name} - #{__("Jianpu Space")}
 
 block scripts
-  script(src='../../javascripts/je.js')
-  script(src='../../javascripts/MMLNote.js')
-  script(src='../../javascripts/MMLPart.js')
-  script(src='../../javascripts/MMLPlayer.js')
-  script(src='../../javascripts/sound.js')
-  script(src='../../javascripts/songShow.js')
+  script(src=`${PREFIX}/javascripts/je.js`)
+  script(src=`${PREFIX}/javascripts/MMLNote.js`)
+  script(src=`${PREFIX}/javascripts/MMLPart.js`)
+  script(src=`${PREFIX}/javascripts/MMLPlayer.js`)
+  script(src=`${PREFIX}/javascripts/sound.js`)
+  script(src=`${PREFIX}/javascripts/songShow.js`)
   script.
     // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position/34278578
     function insert(ch) {
@@ -36,7 +36,7 @@ block content
     section.warning
       | #{__("Warning! edit song")}
       |
-      a(href=PREFIX+'/songList/history?songID='+song._id target='_blank')= __("View history")
+      a(href=PREFIXLANG+'/songList/history?songID='+song._id target='_blank')= __("View history")
     form(method='POST')
       p= __("Song name") + __(":")
         input(name='name' value=song.name required)
@@ -61,7 +61,7 @@ block content
         )= song.jianpu
       p= __("Preview") + __(":")
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')
-      audio#keepAudioCtx(loop src="../../sounds/blank.mp3")
+      audio#keepAudioCtx(loop src=PREFIX+"/sounds/blank.mp3")
       button.button.blue(type=submit)= __("Save")
     script.
       jianpuOut.innerText = document.forms[0].jianpu.value;
@@ -81,5 +81,5 @@ block content
     p 可能是這首歌曲被刪除了，或者是您輸入錯網址了。
     p 
       | 您可以按
-      a(href=PREFIX+'/songList') 這裡
+      a(href=PREFIXLANG+'/songList') 這裡
       | ，尋找其他歌曲
