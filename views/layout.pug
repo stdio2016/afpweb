@@ -11,6 +11,9 @@ html(lang=locale)
     block title
     link(rel="shortcut icon" href=`${PREFIX}/favicon.ico` type="image/png")
     link(rel='stylesheet', href=`${PREFIX}/stylesheets/style.css`)
+    link(rel="alternate" hreflang="en" href=`https://jianpu.space/en${pagelink}`)
+    link(rel="alternate" hreflang="zh-tw" href=`https://jianpu.space/zh-tw${pagelink}`)
+    link(rel="alternate" hreflang="x-default" href=`https://jianpu.space${pagelink}`)
     block scripts
     script(src=`${PREFIX}/locales/${locale}.js`)
   body
