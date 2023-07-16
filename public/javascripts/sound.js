@@ -1,17 +1,41 @@
-var actx = new (window.AudioContext || window.webkitAudioContext)();
-var master = actx.createGain();
-master.gain.value = 1;
-master.connect(actx.destination);
+/**
+ * @type {AudioContext}
+ */
+var actx;
+/**
+ * @type {GainNode}
+ */
+var master;
+/**
+ * @type {GainNode}
+ */
+var stoppedSound;
+function initAudioContext() {
+  window.actx = new (window.AudioContext || window.webkitAudioContext)();
+  window.master = actx.createGain();
+  window.master.gain.value = 1;
+  window.master.connect(actx.destination);
 
-var stoppedSound = actx.createGain();
-stoppedSound.gain.value = 1e-5;
-stoppedSound.connect(actx.destination);
+  window.stoppedSound = actx.createGain();
+  window.stoppedSound.gain.value = 1e-5;
+  window.stoppedSound.connect(actx.destination);
 
-var support = {isChrome: true, isSafari: false, isIOS16: false};
+  soundBank.fakePno = {sample: genFakePiano(), center: 69, loopStart: 2, loopEnd: 2.25};
+  window.fakePno = soundBank.fakePno;
+}
+
+window.addEventListener('load', initAudioContext);
+
+// "Chrome" means Blink-based browser
+// "Safari" means WebKit-based browser that is not Blink-based, such as Safari, and every browser on the iPhone
+// "iOS" means any of Apple's mobile operation systems
+// "Safari 16" means macOS Safari 16, and WebKit on iOS 16
+var support = {isChrome: true, isSafari: false, isIOS: false, isSafari16: false};
 if (!/AppleWebKit\/537\.36/.test(navigator.userAgent)) support.isChrome = false;
 if (/AppleWebKit/.test(navigator.userAgent) && !support.isChrome) support.isSafari = true;
+if (support.isSafari && /iPhone|iPad/.test(navigator.userAgent)) support.isIOS = true;
 if (support.isSafari && /Version\/16\.\d|CPU (iPhone )?OS 16_\d/.test(navigator.userAgent)) {
-  support.isIOS16 = true;
+  support.isSafari16 = true;
 }
 
 // for iOS only
@@ -29,6 +53,20 @@ function unlock(){
 }
 window.addEventListener('touchend', unlock, false);
 window.addEventListener('click', unlock, false);
+if (support.isIOS) {
+  // seems the only way to handle broken audio context
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      actx.suspend();
+    } else {
+      if (actx.state === 'suspended' || actx.state === 'interrupted') {
+        actx.resume();
+      } else {
+        alert('Safari audio is broken. Please refresh');
+      }
+    }
+  });
+}
 
 // provide instrument sounds
 var soundBank = {};
@@ -73,12 +111,10 @@ function loadSmp(where, instr, prop){
   req.send();
 }
 
-soundBank.fakePno = {sample: genFakePiano(), center: 69, loopStart: 2, loopEnd: 2.25};
-window.fakePno = soundBank.fakePno;
-
 // iOS Safari bug from iOS 15, the AudioContext may stuck even though it is in "running" state
 var lastTime = -1;
 setInterval(function detectAudioContextFailure() {
+  if (!actx) return;
   if (actx.state === 'running') {
     if (actx.currentTime == lastTime) {
       onAudioContextFail();
