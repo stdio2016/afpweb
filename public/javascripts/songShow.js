@@ -96,7 +96,7 @@ function playJianpu(je, songid) {
           part.notes[part.notes.length-1].tieAfter = true;
         part.addNote(note);
         oldPitch = pitch;
-        beat += 1 / du;
+        beat += 1 / du * (2 - Math.pow(0.5, note.dots));
       }
     }
   }
