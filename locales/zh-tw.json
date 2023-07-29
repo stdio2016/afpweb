@@ -67,7 +67,7 @@
 	"Record": "錄音",
 	"Cancel": "取消",
 	"Upload": "上傳",
-	"Maybe out of tune": "也許您哼歌的時候走音了，您可以再嘗試個幾次。",
+	"Maybe out of tune": "由於音高辨識演算法的缺陷，當旋律中有短暫的低音時，經常會無法偵測到，如果是這樣，您可以將節奏放慢一點",
 	"Your uploaded recording:": "您上傳的錄音：",
 	"Upload a humming song": "上傳哼唱",
 	"Humming search howto": "請對著電腦的麥克風，哼出旋律10秒。請確保錄音環境是安靜的，本程式只支援沒有任何伴奏的哼唱聲音。",

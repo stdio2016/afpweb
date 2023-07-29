@@ -67,7 +67,7 @@
 	"Record": "Record",
 	"Cancel": "Cancel",
 	"Upload": "Upload",
-	"Maybe out of tune": "Maybe you're out of tune when you're humming. You can try a few more times.",
+	"Maybe out of tune": "Due to a flaw in the pitch detection algorithm, when there is a brief low pitch in the melody, it is often not detected. If this is the case, you can slow down the tempo a bit.",
 	"Your uploaded recording:": "Your uploaded recording: ",
 	"Upload a humming song": "Upload a humming song",
 	"Humming search howto": "Please hum the melody into the microphone of the computer for 10 seconds. Please make sure the recording environment is quiet, since this program only supports humming without any accompaniment.",
