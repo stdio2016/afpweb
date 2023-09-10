@@ -33,7 +33,6 @@ i18n.configure({
   fallbacks: {
     'zh-*': 'zh-tw',
   },
-  cookie: 'locale',
   directory: path.join(__dirname, 'locales'),
 });
 
