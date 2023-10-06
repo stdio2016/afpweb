@@ -71,6 +71,7 @@ function match_score(song, query, song_dur) {
     let bt1 = new Int32Array(ns+1)
     let bt2 = new Int32Array(ns+1)
     const avg = song_dur.reduce((p, v) => p+v, 0) / ns
+    // Try to match begin of music phrase
     for (var i = 1; i < ns; i++)
         dp1[i] = Math.max(1.2 - song_dur[i-1] / avg, 0) * 2
     for (var i = 0; i <= ns; i++)
@@ -93,8 +94,9 @@ function match_score(song, query, song_dur) {
         [dp1, dp2] = [dp2, dp1];
         [bt1, bt2] = [bt2, bt1]
     }
-    for (var i = 0; i < ns; i++)
-        dp1[i+1] += Math.max(1.2 - song_dur[i] / avg, 0) * 2
+    // No need to match end of music phrase
+    //for (var i = 0; i < ns; i++)
+    //    dp1[i+1] += Math.max(1.2 - song_dur[i] / avg, 0) * 2
     let best = dp1.reduce((p, v) => Math.min(p, v), 999999)
     let from = 0, to = 0;
     for (var i = 0; i <= ns; i++) {
