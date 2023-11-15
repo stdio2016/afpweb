@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset='utf-8'>
+  <title>書籤</title>
+  <style>
+    .lst {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .itm {
+      min-height: 70px;
+      font-size: 40px;
+      text-align: center;
+      border-bottom: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+<table class="lst">
+<tr>
+<td class="itm">
+名稱：<input name="name"><br>
+網址：<input name="url"><br>
+<button onclick="add()" type="button">新增</button>
+</td>
+</tr>
+</table>
+<script>
+function addLnk(name, url) {
+  var table = document.querySelector('table');
+  var row = table.insertRow(table.rows.length-1);
+  var cell = row.insertCell(0);
+  cell.className = 'itm';
+  var hash = 20231025;
+  for (var i = 0; i < name.length; i++) {
+    hash = hash * 33 + name.charCodeAt(i) + i | 0;
+  }
+  var color = [];
+  for (var i = 0; i < 3; i++) color.push((hash>>i*4+3&15)*4+192);
+  cell.style.backgroundColor = 'rgb(' + color + ')';
+  var a = document.createElement('a');
+  a.textContent = name;
+  a.href = url;
+  cell.appendChild(a);
+}
+function add() {
+  var name=document.querySelector("input[name=name]").value;
+  if (!name) return;
+  var url=document.querySelector("input[name=url]").value;
+  if (!url) return;
+  addLnk(name, url);
+  lnks.push({name, url});
+  localStorage.boo_bookmarks = JSON.stringify(lnks);
+  document.querySelector("input[name=name]").value = '';
+  document.querySelector("input[name=url]").value = '';
+}
+
+var lnks;
+try {
+  lnks = JSON.parse(localStorage.boo_bookmarks);
+} catch (err) {
+  lnks = [];
+}
+lnks.forEach(x => {
+  addLnk(x.name, x.url);
+});
+</script>
+</body>
+</html>
