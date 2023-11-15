@@ -30,9 +30,13 @@ router.get('/search', function(req, res, next) {
     var s = result[i].song;
     result[i].song = {name: s.name, id: s.id, singer: s.singer, jianpu: s.jianpu};
   }
+  var songName = result.length > 0 ? result[0].song.name : null;
+  if (req.query.demo == 1) {
+    songName = '<DEMO> ' + songName;
+  }
   addPastQuery(
     'jianpu',
-    result.length > 0 ? result[0].song.name : null,
+    songName,
     req.query.jianpu,
     result,
   );
