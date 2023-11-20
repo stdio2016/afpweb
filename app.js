@@ -89,10 +89,6 @@ app.use((req, res, next) => {
   } else {
     res.locals.bot = true;
   }
-  // no cookie for bots
-  if (res.locals.bot) {
-    req.session.destroy();
-  }
   if (req.method == 'GET' && !res.locals.bot) {
     // TODO: better hit counter
     dbPromise.then(db => {
