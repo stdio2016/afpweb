@@ -76,19 +76,21 @@ function genFakePiano(){
   var buff = actx.createBuffer(1, len + 44100 * 110 / 440, 44100);
   var dat = buff.getChannelData(0);
   var k = 440 / 44100 * Math.PI * 2;
+  var amp = 1;
   for(var t = 0; t < len; t++){
     var sum = 0;
     for(var n = 1; n < 40; n++){
       sum += Math.sin(k * n * t) / n * Math.exp(-(n - 1) * 0 - t*n/len);
     }
-    dat[t] = sum * Math.exp(-t / (44100 * 0.5)) * 0.25;
+    amp = 1 / (1+t/44100)**2;
+    dat[t] = sum * amp * 0.25;
   }
   for (var t = 0; t < 44100 * 110 / 440; t++){
     var sum = 0;
     for(var n = 1; n < 40; n++){
       sum += Math.sin(k * n * t) / n * Math.exp(-(n - 1) * 0 - n);
     }
-    dat[len + t] = sum * Math.exp(-len / (44100 * 0.5)) * 0.25;
+    dat[len + t] = sum * amp * 0.25;
   }
   return buff;
 }
