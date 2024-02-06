@@ -11,7 +11,7 @@
 	"Currently there are %s songs": "目前共有 %s 首歌曲",
 	"Warning! We will store searches": "警告！我們將會儲存您在這個網頁所做的搜尋，作為研究用途。",
 	"Recently added:": "最近新增：",
-	"Jianpu search help": "只要輸入簡譜的數字 1~7 就可以找到歌曲。如小星星的簡譜是「1155665- 4433221-」，則可以搜尋：<a href='%s'>11556654433221</a>。",
+	"Jianpu search help": "只要輸入簡譜的數字 1~7 就可以找到歌曲。如小星星的簡譜是「1155665- 4433221-」，則可以搜尋：<a href='%s'>115566504433221</a>。可以在歌詞停頓的地方或者休止符輸入0",
 	"Webmaster reminder:": "站長小提醒：",
 	"may not be able to find song": "我想這個網站可能也找不到歌，因為目前我的網站也才 %s 多首歌而已。",
 	"Webmaster reminder 2:": "站長小提醒2：",

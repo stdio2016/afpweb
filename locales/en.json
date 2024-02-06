@@ -11,7 +11,7 @@
 	"Currently there are %s songs": "Currently there are %s songs.",
 	"Warning! We will store searches": "Warning! We will store searches you make on this site for research purposes.",
 	"Recently added:": "Recently added:",
-	"Jianpu search help": "Just enter the notes using numbered musical notation 1-7 to search a song. For example, the numbered musical notation of Twinkle Twinkle Little Star is “1155665- 4433221-”, so you can search: <a href='%s'>11556654433221</a>.",
+	"Jianpu search help": "Just enter the notes using numbered musical notation 1-7 to search a song. For example, the numbered musical notation of Twinkle Twinkle Little Star is “1155665- 4433221-”, so you can search: <a href='%s'>115566504433221</a>. You can type 0 where the phrase pauses or at a rest note.",
 	"Webmaster reminder:": "Webmaster reminder: ",
 	"may not be able to find song": "I think this website may not be able to find the song you are looking for, because my website currently only has about %s songs.",
 	"Webmaster reminder 2:": "Webmaster reminder 2: ",
