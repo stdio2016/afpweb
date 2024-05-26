@@ -17,6 +17,7 @@ function initDB() {
                 jianpu: row.jianpu,
                 creation_time: row.creation_time,
                 modify_time: row.modify_time,
+                rev: row.rev,
             };
             if (row.jianpu) {
                 let {pitch, duration} = jianpu_to_pitch(row.jianpu);

@@ -28,7 +28,7 @@ router.get('/search', function(req, res, next) {
   result.splice(100); // get top 100
   for (var i = 0; i < result.length; i++) {
     var s = result[i].song;
-    result[i].song = {name: s.name, id: s.id, singer: s.singer, jianpu: s.jianpu};
+    result[i].song = {name: s.name, id: s.id, singer: s.singer, jianpu: s.jianpu, rev: s.rev};
   }
   var songName = result.length > 0 ? result[0].song.name : null;
   if (req.query.demo == 1) {

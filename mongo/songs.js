@@ -123,6 +123,7 @@ async function updateSong(id, song, user) {
     rev.modify_time = result.value.modify_time;
     rev.song_id = id;
     rev.rev = result.value.rev;
+    song.rev = result.value.rev;
     rev.compare = compareVersion(song, oldVer);
     await revTable.insertOne(rev);
     return {
