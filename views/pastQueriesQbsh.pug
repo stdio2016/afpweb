@@ -15,10 +15,10 @@ block content
     audio(controls=true)
       source(src=PREFIX+'/savedQueries/'+query+'.wav', type="audio/wav")
   if result && result.pitch
-    p #{__("Pitch sequence:")}
+    details
+      summary #{__("Pitch sequence:")}
       span#pitchSeq [#{result.pitch.join(', ')}]
-      br
-      button.button.blue(onclick='playPitch()') #{__("Play pitch")}
+    button.button.blue(onclick='playPitch()') #{__("Play pitch")}
     audio#keepAudioCtx(loop src=PREFIX+"/sounds/blank.mp3")
   if result && result.songs
     ol

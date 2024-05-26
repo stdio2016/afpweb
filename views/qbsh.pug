@@ -6,6 +6,7 @@ block title
 
 block scripts
   script(src=PREFIX+'/javascripts/libflac.min.wasm.js')
+  script(src=PREFIX+"/javascripts/pastQueriesQbsh.js")
 
 block content
   h1 #{__("Humming search")}
@@ -31,10 +32,12 @@ block content
     div.progress-bg
       div.progress-bar(style='width:0%')
     div#progressMessage(style='height:1em;')
-  div
+  p
     = __("Your uploaded recording:")
-    audio#yourRecording(controls)
+    audio#yourRecording(controls style='vertical-align:middle;')
       source(src=PREFIX+"/sounds/blank.mp3", type="audio/mpeg")
+    |  
+    button.button.blue(onclick='playPitch()') #{__("Play pitch")}
   div.query-results
     table
       thead

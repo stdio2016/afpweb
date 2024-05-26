@@ -1,5 +1,6 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx = new AudioContext();
+var actx = audioCtx; // other parts of my program use actx as AudioContext
 var audioStream = null;
 var audioStreamNode = null;
 // to workaround Safari recording glitch, I set bigger buffer
@@ -15,6 +16,10 @@ var wavFile = null;
 var waitId = '';
 var queryResult;
 var yourRecording = document.getElementById('yourRecording');
+
+// just for play pitch feature
+var master = audioCtx.createGain();
+master.connect(audioCtx.destination);
 
 var isHttps = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
@@ -42,7 +47,7 @@ function startup() {
   btnRecord.onclick = startRecord;
   btnStop.disabled = true;
   btnSearch.disabled = true;
-  showResultByUrlHash();
+  onHashChange();
 }
 
 function tryToGetRecorder() {
@@ -344,6 +349,8 @@ function showResult(json) {
     noResult.style.display = 'none';
     sopResult.style.display = 'block';
   }
+  // just for play pitch feature
+  window.pitchSeq = { innerText: JSON.stringify(json.pitch) };
 }
 
 Flac.on('ready', function(event){
@@ -367,11 +374,25 @@ function setQueryTime() {
   }
 }
 
-function showResultByUrlHash() {
+function onHashChange() {
   var hash = location.hash;
-  var match = hash.match(/#queryid=(\w+)/);
-  if (match) {
-    waitId = match[1];
+  if (hash[0] === '#') {
+    var parts = hash.substring(1).split('&');
+    for (var part of parts) {
+      var [paramName, paramValue] = part.split('=', 2);
+      if (paramName === 'queryid' && /^\w+$/.test(paramValue)) {
+        showResultByUrlHash(paramValue);
+      }
+      if (paramName === 'length') {
+        var secs = parseInt(paramValue, 10);
+        if (secs >= 5 && secs <= 20) querySecs = secs;
+      }
+    }
+  }
+}
+
+function showResultByUrlHash(waitId) {
+  if (/^\w+$/.test(waitId)) {
     var xhr = new XMLHttpRequest();
     yourRecording.src = '../savedQueries/' + waitId + '.flac';
     xhr.open('GET', 'qbsh/result/' + waitId);
@@ -388,4 +409,4 @@ function showResultByUrlHash() {
   }
 }
 
-addEventListener('hashchange', showResultByUrlHash);
+addEventListener('hashchange', onHashChange);
