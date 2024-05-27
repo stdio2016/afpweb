@@ -14,6 +14,7 @@ block content
   div #{__("Query audio:")}
     audio(controls=true)
       source(src=PREFIX+'/savedQueries/'+query+'.wav', type="audio/wav")
+  div #{__("Time")}#{__(":")}#{queryTime.toLocaleString()}
   if result && result.pitch
     details
       summary #{__("Pitch sequence:")}

@@ -15,7 +15,10 @@ block scripts
 
 block content
   h1 #{__("Past query")}
-  p #{__("Jianpu")+__(":")}#{query}
+  p 
+    | #{__("Jianpu")+__(":")}#{query}
+    br
+    | #{__("Time")}#{__(":")}#{queryTime.toLocaleString()}
   ol
     for i in result
       li

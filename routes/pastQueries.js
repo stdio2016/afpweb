@@ -21,10 +21,11 @@ router.get('/:queryID', function(req, res, next) {
     }
     const row = queries;
     const method = row.method;
+    const queryTime = row.query_time;
     if (method == 'jianpu')
-      res.render('pastQueriesJianpu', { query: row.query, result: row.details });
+      res.render('pastQueriesJianpu', { query: row.query, queryTime, result: row.details });
     else if (method == 'qbsh')
-      res.render('pastQueriesQbsh', { query: row.query, result: row.details });
+      res.render('pastQueriesQbsh', { query: row.query, queryTime, result: row.details });
     else {
       res.render('error', {error: new Error('history corrupt!')});
     }
