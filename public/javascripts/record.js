@@ -350,7 +350,7 @@ function showResult(json) {
     sopResult.style.display = 'block';
   }
   // just for play pitch feature
-  window.pitchSeq = { innerText: JSON.stringify(json.pitch) };
+  window.pitchSeq = { textContent: JSON.stringify(json.pitch) };
 }
 
 Flac.on('ready', function(event){
