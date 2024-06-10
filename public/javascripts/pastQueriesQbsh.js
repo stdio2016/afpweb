@@ -9,7 +9,7 @@ function playPitch() {
     ga.gain.value = 0.3;
     osc.connect(ga);
     ga.connect(master);
-    var c = pitchSeq.innerText;
+    var c = pitchSeq.textContent;
     try {
         c = JSON.parse(c);
     } catch (x) {
