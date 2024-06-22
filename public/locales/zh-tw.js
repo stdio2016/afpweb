@@ -21,4 +21,6 @@ var Translations = {
     "An error occured:": "發生錯誤：",
     "Please enter the query length in seconds:": "請輸入查詢長度的秒數：",
     "Input must be between 5 and 20": "輸入必須是 5 到 20 之間",
+    "Cannot analyze pitch. Maybe it is silent or full of noise.": "無法分析音高，也許錄音太小聲或者充滿了噪音",
+    "Invalid audio file": "音訊檔無效",
 };

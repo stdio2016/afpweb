@@ -283,7 +283,11 @@ function waitResult(id, startTime) {
           ended();
         }
         else if (queryResult.progress == 'error') {
-          alert(Translations["Server error! Reason:"] + queryResult.reason);
+          var translateReason = Translations[queryResult.reason];
+          if (!translateReason) {
+            translateReason = queryResult.reason;
+          }
+          alert(Translations["Server error! Reason:"] + translateReason);
           ended();
         }
         else {

@@ -21,4 +21,6 @@ var Translations = {
     "An error occured:": "An error occured: ",
     "Please enter the query length in seconds:": "Please enter the query length in seconds: ",
     "Input must be between 5 and 20": "Input must be between 5 and 20",
+    "Cannot analyze pitch. Maybe it is silent or full of noise.": "Unable to analyze pitch, maybe the recording is too quiet or full of noise.",
+    "Invalid audio file": "Invalid audio file",
 };
