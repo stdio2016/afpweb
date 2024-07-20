@@ -27,7 +27,10 @@ block content
         li
           - var range='';
           - if (i.From!=null && i.To!=null) range=`#qbshfrom=${i.From}&qbshto=${i.To}`;
-          a(href=PREFIXLANG+'/songList/'+i.file+range)= i.name
+          if i.file
+            a(href=PREFIXLANG+'/songList/'+i.file+range)= i.name
+          else
+            span= i.name
           if i.singer
             | #{__(",") + __("Singer") + __(":")}
             span #{i.singer}
