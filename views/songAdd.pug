@@ -32,13 +32,17 @@ block content
   section.warning
     | #{__("Warning! add song")}
   form(method='POST')
-    p= __("Song name") + __(":")
-      input(name='name' required)
-    p= __("Singer") + __(":")
-      input(name='singer')
-    p= __("Language") + __(":")
-      input(name='language')
-    p= __("Jianpu") + __(":")
+    p
+      label(for='name')= __("Song name") + __(":")
+      input#name(name='name' required)
+    p
+      label(for='singer')= __("Singer") + __(":")
+      input#singer(name='singer')
+    p
+      label(for='language')= __("Language") + __(":")
+      input#language(name='language')
+    p
+      label(for='jianpu')= __("Jianpu") + __(":")
       br
       button(type='button' onclick='insert("#")') #
       button(type='button' onclick='insert("\'")') '
@@ -48,7 +52,7 @@ block content
       button(type='button' onclick='insert("=")') =
       button(type='button' onclick='insert(".")') .
       button(type='button' onclick='insert("|")') |
-      textarea(
+      textarea#jianpu(
         name='jianpu'
         autocorrect='off'
         style='width:100%'

@@ -38,13 +38,17 @@ block content
       |
       a(href=PREFIXLANG+'/songList/history?songID='+song._id target='_blank')= __("View history")
     form(method='POST')
-      p= __("Song name") + __(":")
-        input(name='name' value=song.name required)
-      p= __("Singer") + __(":")
-        input(name='singer' value=(song.singer || ''))
-      p= __("Language") + __(":")
-        input(name='language' value=(song.language || ''))
-      p= __("Jianpu") + __(":")
+      p
+        label(for='name')= __("Song name") + __(":")
+        input#name(name='name' value=song.name required)
+      p
+        label(for='singer')= __("Singer") + __(":")
+        input#singer(name='singer' value=(song.singer || ''))
+      p
+        label(for='language')= __("Language") + __(":")
+        input#language(name='language' value=(song.language || ''))
+      p
+        label(for='jianpu')= __("Jianpu") + __(":")
         br
         button(type='button' onclick='insert("#")') #
         button(type='button' onclick='insert("\'")') '
@@ -54,7 +58,7 @@ block content
         button(type='button' onclick='insert("=")') =
         button(type='button' onclick='insert(".")') .
         button(type='button' onclick='insert("|")') |
-        textarea(
+        textarea#jianpu(
           name='jianpu'
           autocorrect='off'
           style='width:100%'
