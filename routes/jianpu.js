@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next) {
-  const jianpu = jianpu_to_pitch(req.query.jianpu).pitch;
+  var jianpuText = '' + req.query.jianpu;
+  const jianpu = jianpu_to_pitch(jianpuText).pitch;
   const result = [];
   const max = jianpu.length * 2;
   for (var i in jianpuDB) {
