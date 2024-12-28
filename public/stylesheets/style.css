@@ -311,10 +311,23 @@ text {
 }
 .warning {
   background-color: lightgoldenrodyellow;
+  color: black;
 }
 .less {
   color: darkred;
 }
 .add {
   color: green;
+}
+@media (prefers-color-scheme: dark) {
+  .matched text { fill: red; }
+  .matched circle { fill: red; }
+  text { fill: white; }
+  line { stroke: white; }
+  circle { fill: white; }
+  path { fill: white; }
+  .playing .play-mark {
+    fill: #395576;
+  }
+  .less { color: red; }
 }
