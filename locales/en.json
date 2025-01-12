@@ -70,7 +70,7 @@
 	"Maybe out of tune": "Due to a flaw in the pitch detection algorithm, when there is a brief low pitch in the melody, it is often not detected. If this is the case, you can slow down the tempo a bit.",
 	"Your uploaded recording:": "Your uploaded recording: ",
 	"Upload a humming song": "Upload a humming song",
-	"Humming search howto": "Please hum the melody into the microphone of the computer for 10 seconds. Please make sure the recording environment is quiet, since this program only supports humming without any accompaniment.",
+	"Humming search howto": "Please hum the melody into the microphone of the computer for 10 seconds. Please make sure the recording environment is quiet, since this program only supports humming without any accompaniment. Do not whistle, as our system cannot recognize pitch from whistling.",
 	"Warning! save qbsh queries": "Warning! By using this service, you agree to make your recording publicly available as a Query By Singing/Humming dataset. We will not disclose your IP address.",
 	"Time": "Time",
 	"Method": "Method",
