@@ -35,12 +35,14 @@ router.get('/search', function(req, res, next) {
   if (req.query.demo == 1) {
     songName = '<DEMO> ' + songName;
   }
-  addPastQuery(
-    'jianpu',
-    songName,
-    req.query.jianpu,
-    result,
-  );
+  if (req.query.jianpu) {
+    addPastQuery(
+      'jianpu',
+      songName,
+      req.query.jianpu,
+      result,
+    );
+  }
   res.render('jianpuSearch', { place: 'jianpu', query: req.query.jianpu, result: result });
 });
 
