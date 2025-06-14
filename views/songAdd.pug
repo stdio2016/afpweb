@@ -100,3 +100,10 @@ block content
       renderJianpu(jianpuOut);
       jianpuOut.style.height = '';
     });
+      document.forms[0].onsubmit = function (event) {
+        var code = document.forms[0].jianpu.value;
+        if (code && !/^(?!L:).*[1-7]/m.test(code)) {
+          alert('Please type a valid jianpu');
+          event.preventDefault();
+        }
+      };
