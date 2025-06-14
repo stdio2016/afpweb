@@ -55,7 +55,7 @@
 	"Add song": "新增歌曲",
 	"Preview": "預覽",
 	"Save": "儲存",
-	"Warning! add song": "警告！如果您新增歌曲，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。",
+	"Warning! add song": "警告！如果您新增歌曲，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。不要再把藝人名稱寫到歌名去了，我還要一直去刪資料，做站主做得好累😩",
 	"Warning! edit song": "警告！如果您儲存更新，您的IP位址將會公開紀錄在這首歌曲的修訂歷史中。這裡不是你惡搞或者重新填詞的地方，只有在發現歌曲資料有錯的時候才可以進行編輯，如你要重新填詞，請移駕其他網站，如 jianpu.info (這不是站主的網站)",
 	"Edit song": "編輯歌曲",
 	"Revisions of song %s": "歌曲 %s 的修訂歷史",
@@ -88,5 +88,6 @@
 	"Page not found": "找不到網頁",
 	"This doesn't seem like the place for you": "這裡似乎不是您該來的地方喔",
 	"You can click here to return to the home page": "您可以按這裡，回到首頁",
-	"Forbidden": "您無權查看"
+	"Forbidden": "您無權查看",
+	"Source Code: ": "原始碼："
 }

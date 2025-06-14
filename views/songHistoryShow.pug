@@ -35,6 +35,8 @@ block content
     if oldSong.jianpu
       p= __("Jianpu")+__(":")
       div#jianpuOut.to-jianpu(style='border: 1px solid black;')= oldSong.jianpu
+      p= __("Source Code: ")
+      pre= oldSong.jianpu
       audio#keepAudioCtx(loop)
         source(src=PREFIX+"/sounds/blank.mp3", type="audio/mpeg")
     else

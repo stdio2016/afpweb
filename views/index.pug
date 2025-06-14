@@ -22,3 +22,6 @@ block content
         | #{song.creation_time.toLocaleDateString()}
         |
         a(href='songList/'+song._id) #{song.name}
+        if song.singer
+          span(style='margin-left: 1em;')
+          | #{__("Singer")+__(":")+song.singer}
