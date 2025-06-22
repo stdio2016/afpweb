@@ -23,4 +23,5 @@ var Translations = {
     "Input must be between 5 and 20": "Input must be between 5 and 20",
     "Cannot analyze pitch. Maybe it is silent or full of noise.": "Unable to analyze pitch, maybe the recording is too quiet or full of noise.",
     "Invalid audio file": "Invalid audio file",
+    "Please type a valid jianpu": "Please type a valid jianpu",
 };

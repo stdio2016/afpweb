@@ -108,9 +108,14 @@ block content
       });
       document.forms[0].onsubmit = function (event) {
         var code = document.forms[0].jianpu.value;
-        if (code && !/^(?!L:).*[1-7]/m.test(code)) {
-          alert('Please type a valid jianpu');
-          event.preventDefault();
+        if (code) {
+          var hasNotes = /^(?!L:).*[1-7]/m.test(code);
+          var keyWrong = code.includes('/key(') && (/(?<!^)\/key\(/.test(code) || !/\/key\([A-G][b#]?[0-9]?\)/.test(code));
+          var hasBarline = /\|/.test(code);
+          if (!hasNotes || keyWrong || !hasBarline) {
+            alert(Translations['Please type a valid jianpu']);
+            event.preventDefault();
+          }
         }
       };
   else

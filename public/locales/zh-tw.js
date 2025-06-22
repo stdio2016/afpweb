@@ -23,4 +23,5 @@ var Translations = {
     "Input must be between 5 and 20": "輸入必須是 5 到 20 之間",
     "Cannot analyze pitch. Maybe it is silent or full of noise.": "無法分析音高，也許錄音太小聲或者充滿了噪音",
     "Invalid audio file": "音訊檔無效",
+    "Please type a valid jianpu": "簡譜格式錯誤，請重新輸入",
 };
