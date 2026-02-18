@@ -75,9 +75,13 @@ router.get('/history', async function (req, res, next) {
 router.get('/:songID', function(req, res, next) {
   let songID = req.params.songID;
   getSong(songID).then(result => {
-    if (result)
+    if (result) {
+      if (result.redirect) {
+        res.redirect(result.redirect);
+        return ;
+      }
       res.render('songShow', { song: result });
-    else {
+    } else {
       songNotFound(res);
     }
   }).catch(err => {

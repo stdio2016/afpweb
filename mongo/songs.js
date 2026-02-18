@@ -33,7 +33,9 @@ function compareVersion(curSong, oldSong) {
 
 async function listAllSongs() {
     var table = (await db).collection('songs');
-    var cur = table.find({}, {projection:{_id:1, name:1, singer:1, language:1}});
+    var cur = table.find({
+        redirect: null,
+    }, {projection:{_id:1, name:1, singer:1, language:1}});
     cur.batchSize(1000);
     var ans = await cur.toArray();
     ans.sort((a, b) => {
@@ -133,13 +135,17 @@ async function updateSong(id, song, user) {
 
 async function getNumberOfSongs() {
     var table = (await db).collection('songs');
-    var cnt = await table.countDocuments();
+    var cnt = await table.countDocuments({
+        redirect: null,
+    });
     return cnt;
 }
 
 async function getAllRecentSongs(fromTime) {
     var table = (await db).collection('songs');
-    var query = {};
+    var query = {
+        redirect: null,
+    };
     if (fromTime) {
         query.modify_time = {
             $gt: new Date(fromTime - 30000)
@@ -176,7 +182,8 @@ async function getSongRevision(songID, rev) {
 
 async function getRecentlyAddedSongs() {
     var table = (await db).collection('songs');
-    var cur = table.find({}).sort({ creation_time: -1 })
+    var cur = table.find({ redirect: null })
+        .sort({ creation_time: -1 })
         .project({_id:1, name:1, singer:1, language:1, creation_time:1});
     cur.batchSize(20).limit(20);
     var ans = await cur.toArray();
