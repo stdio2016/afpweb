@@ -16,7 +16,7 @@ function jianpu_to_pitch(jianpu) {
             do {
                 i++
                 ch = jianpu[i]
-            } while (/[A-Za-z0-9]/.test(ch)) ;
+            } while (ch && /^[A-Za-z0-9]$/.test(ch)) ;
             if (ch == '(') {
                 do {
                     i++
@@ -60,6 +60,21 @@ function jianpu_to_pitch(jianpu) {
     du += 0.5**du_type * (2 - 0.5**du_dots) * (du_mul+1)
     dur.push(du);
     return {pitch: code, duration: dur.slice(1)}
+}
+
+/**
+ * convert query (like 533422) to pitch array
+ * @param {string} query 
+ */
+function jianpu_query_to_pitch(query) {
+    var jianpu = query + '';
+    var out = [];
+    for (var i = 0; i < jianpu.length; i++) {
+        if (jianpu[i] >= '1' && jianpu[i] <= '7') {
+            out.push(jianpu[i] - 1);
+        }
+    }
+    return out;
 }
 
 function match_score(song, query, song_dur) {
@@ -109,4 +124,4 @@ function match_score(song, query, song_dur) {
     return [best, from, to];
 }
 
-module.exports = {jianpu_to_pitch, match_score};
+module.exports = {jianpu_to_pitch, match_score, jianpu_query_to_pitch};

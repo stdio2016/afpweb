@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const {jianpu_to_pitch, match_score} = require('../jianpuAlgo');
+const {jianpu_query_to_pitch, match_score} = require('../jianpuAlgo');
 
 const {jianpuDB} = require('../connectDB');
 const { addPastQuery } = require('../mongo/pastQueries');
@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/search', function(req, res, next) {
   var jianpuText = '' + req.query.jianpu;
-  const jianpu = jianpu_to_pitch(jianpuText).pitch;
+  const jianpu = jianpu_query_to_pitch(jianpuText);
   const result = [];
   const max = jianpu.length * 2;
   for (var i in jianpuDB) {
