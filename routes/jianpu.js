@@ -4,7 +4,7 @@ var router = express.Router();
 const {jianpu_query_to_pitch, match_score} = require('../jianpuAlgo');
 
 const {jianpuDB} = require('../connectDB');
-const { addPastQuery } = require('../mongo/pastQueries');
+const { addPastQuery, addSuspiciousQuery } = require('../mongo/pastQueries');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -36,12 +36,21 @@ router.get('/search', function(req, res, next) {
     songName = '<DEMO> ' + songName;
   }
   if (req.query.jianpu) {
-    addPastQuery(
-      'jianpu',
-      songName,
-      req.query.jianpu,
-      result,
-    );
+    if (/[1-7]/.test(jianpuText)) {
+      addPastQuery(
+        'jianpu',
+        songName,
+        req.query.jianpu,
+        result,
+      );
+    } else {
+      addSuspiciousQuery(
+        'jianpu',
+        req.query.jianpu,
+        req.ip,
+        req.headers,
+      );
+    }
   }
   res.render('jianpuSearch', { place: 'jianpu', query: req.query.jianpu, result: result });
 });

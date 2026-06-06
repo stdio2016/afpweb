@@ -14,6 +14,18 @@ async function addPastQuery(method, top_song, query, details) {
     });
 }
 
+async function addSuspiciousQuery(method, query, ip, headers) {
+    var table = (await db).collection('suspicious_query');
+    return await table.insertOne({
+        query_time: new Date(),
+        method,
+        query,
+        ip,
+        headers,
+        deleted: 0,
+    });
+}
+
 async function updatePastQuery(id, top_song, query, details) {
     var table = (await db).collection('past_queries');
     return await table.updateOne({
@@ -53,6 +65,7 @@ async function listPastQueries() {
 }
 
 module.exports.addPastQuery = addPastQuery;
+module.exports.addSuspiciousQuery = addSuspiciousQuery;
 module.exports.updatePastQuery = updatePastQuery;
 module.exports.getPastQuery = getPastQuery;
 module.exports.listPastQueries = listPastQueries;
