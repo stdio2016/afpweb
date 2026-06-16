@@ -53,8 +53,13 @@ async function getPastQuery(id) {
 
 async function listPastQueries() {
     var table = (await db).collection('past_queries');
+    var cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 30);
     return await table.find({
         deleted: 0,
+        query_time: {
+            $gt: cutoff,
+        }
     }, {
         projection: {
             query_time: 1,
