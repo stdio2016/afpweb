@@ -36,19 +36,19 @@ router.get('/search', function(req, res, next) {
     songName = '<DEMO> ' + songName;
   }
   if (req.query.jianpu) {
-    if (/[1-7]/.test(jianpuText)) {
-      addPastQuery(
-        'jianpu',
-        songName,
-        req.query.jianpu,
-        result,
-      );
-    } else {
+    if (/[^0-7 #]/.test(jianpuText)) {
       addSuspiciousQuery(
         'jianpu',
         req.query.jianpu,
         req.ip,
         req.headers,
+      );
+    } else {
+      addPastQuery(
+        'jianpu',
+        songName,
+        req.query.jianpu,
+        result,
       );
     }
   }
